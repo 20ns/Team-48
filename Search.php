@@ -13,6 +13,7 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET['meal'])) {
     $searchTerm = $_GET['meal'];
 
+    
     $sql = "SELECT * FROM dishes WHERE name LIKE ? OR ingredients LIKE ?";
     $stmt = $conn->prepare($sql);
 
