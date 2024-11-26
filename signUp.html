@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">   
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<!-- Gave it the same classes as the log in page to make it easier on the css -->
 <body>
-    <h1>Sign Up</h1>
-    <form action="signUp.php" method="POST">
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Sign Up</button>
+  <div class="login-container">
+    <h1 class="login-title">Sign Up</h1>
+    <form class="login-form" action="signUp.php" method="POST">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="login-button">Sign Up</button>
     </form>
+  </div>
 </body>
 </html>
