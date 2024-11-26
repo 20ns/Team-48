@@ -141,5 +141,65 @@ body {
 }
 
 .login-button:hover {
-  background-color: var(--black);
+  background-color: var(--smoky-black-3);
+}
+
+/* Basket container styling */
+.basket-container {
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--white);
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-24);
+  text-align: center;
+}
+
+.basket-title {
+  font-size: var(--fontSize-title-1);
+  margin-bottom: 20px;
+}
+
+/* Basket item styling */
+.basket-items {
+  margin-bottom: 30px;
+}
+
+.basket-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: var(--white-alpha-20);
+  border-radius: var(--radius-24);
+}
+
+.item-name, .item-quantity, .item-price {
+  font-size: var(--fontSize-body-2);
+}
+
+
+.basket-total {
+  font-size: var(--fontSize-body-2);
+  font-weight: var(--weight-bold);
+  margin-bottom: 20px;
+}
+
+/* Checkout button styling */
+.checkout-button {
+  background-color: var(--gold-crayola);
+  color: var(--smoky-black-2);
+  padding: 15px 30px;
+  border: none;
+  border-radius: var(--radius-24);
+  font-size: var(--fontSize-body-2);
+  cursor: pointer;
+  transition: background-color var(--transition-1);
+  margin-top: 30px;
+}
+
+.checkout-button:hover {
+  background-color: var(--smoky-black-2);
+  color: var(--white);
 }
