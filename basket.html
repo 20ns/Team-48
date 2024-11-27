@@ -5,34 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basket - Peri Palace</title>
     <link rel="stylesheet" href="style.css">
+    <script src="basket.js" async></script>
 </head>
 <body>
     <div class="basket-container">
         <h1 class="basket-title">Your Basket</h1>
         
+        <!-- !!!Temporarily added style tag to quantity to make them white because
+         I changed the class, probably needs changing in style sheet. -->
         
         <div class="basket-items">
             <div class="basket-item">
                 <!-- Just placeholders to see how it'll look -->
                 <p class="item-name">Grilled Chicken</p>
-                <p class="item-quantity">Quantity: 2</p>
-                <p class="item-price">Price: £12.99</p>
+                <!-- Temporarily editing this to not include the quantity and price labels
+                 because I'm struggling to get data from them, will make the labels a different
+                 row class later. - O.L -->
+                 <input class="cart-quantity-input" style="color:white" type="number" value="2">
+                <span class="item-price">£12.99</span>
+                <button class="btn btn-danger" type="button">REMOVE</button>
             </div>
 
             <div class="basket-item">
                 <p class="item-name">Peri Fries</p>
-                <p class="item-quantity">Quantity: 1 </p>
-                <p class="item-price">Price: £4.99</p>
+                <input class="cart-quantity-input"  style="color:white" type="number" value="1">
+                <span class="item-price">£4.99</span>
+                <button class="btn btn-danger" type="button">REMOVE</button>
             </div>
         </div>
 
         <!-- Another placeholder -->
         <div class="basket-total">
-            <p>Total: £30.97</p>
+            <p class = 'total'>Total: £30.97</p>
         </div>
 
         <!-- Links to the not yet created checkout page -->
-        <button class="checkout-button" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+        <button class="checkout-button"  onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
     </div>
 </body>
 </html>
