@@ -2053,7 +2053,8 @@
   /**
    * responsive for larger than 1400px screen
    */
-<<<<<<< HEAD
+   
+head {
   --radius-24: 24px;
   --radius-circle: 50%;
 
@@ -2211,7 +2212,7 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-=======
+
   
   @media (min-width: 1400px) {
   
@@ -2281,4 +2282,4 @@ body {
     }
   
   }
->>>>>>> 06197ba21d25360f1080b0f4e9a5ffae1558922d
+
