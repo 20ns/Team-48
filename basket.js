@@ -7,12 +7,12 @@ function updateCartTotal() {
         var item = items[i]
         var priceElement = item.getElementsByClassName('item-price')[0]
         var quantityElement = item.getElementsByClassName('cart-quantity-input')[0]
-        var price = parseFloat(priceElement.innerText.replace('£', ''))
+        var price = parseFloat(priceElement.innerText.replace('Price: £', ''))
         var quantity = parseInt(quantityElement.value, 10)
 
         // Note to self, gonna have to mess around with this one, keeps adding twice the price x
         //Error taking initial input I imagine x
-        total += total + (price * quantity)
+        total = total + (price * quantity)
 
         //Nevermind, fixed that near insantly. += instead of =.
 
@@ -60,4 +60,3 @@ function quantityChange(event) {
     }
     updateCartTotal()
 }
-
