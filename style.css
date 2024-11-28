@@ -204,3 +204,32 @@ body {
   color: var(--white);
 }
 
+/* Remove button styling */
+.btn-danger {
+  background-color: var(--quick-silver);
+  color: var(--smoky-black-1);
+  border: none;
+  padding: 10px;
+  border-radius: var(--radius-24);
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: var(--davys-grey);
+  color: var(--white);
+}
+
+/* Quantity input field styling */
+.cart-quantity-input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid var(--quick-silver);
+  border-radius: var(--radius-24);
+  margin: 0 10px;
+}
+
+.basket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
