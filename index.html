@@ -9,9 +9,6 @@
   <!-- 
     - primary meta tags
   -->
-
-
-
   <title>Peri Palace - Discover Delicious Food</title>
   <meta name="title" content="Peri Palace - Sensational Flavours">
   <meta name="description" content="Peri Palace offers delicious peri-peri dishes, grilled to perfection. Discover the taste of sensational flavours!">
@@ -22,12 +19,18 @@
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_basket">
 
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 
-  <link rel="stylesheet" href="style.css">
-
-  
+  <!-- 
+    - preload images
+  -->
   <link rel="preload" as="image" href="./assets/images/BEEFhome.jpg">
   <link rel="preload" as="image" href="./assets/images/FLAVOUR.jpg">
   <link rel="preload" as="image" href="./assets/images/chefNoodles.jpg">
@@ -37,16 +40,20 @@
 
 <body id="top">
 
-<div class="preload" data-preaload>
+  <!-- 
+    - #PRELOADER
+  -->
+
+  <div class="preload" data-preaload>
     <div class="circle"></div>
     <p class="text">Peri Palace</p>
   </div>
 
+  <!-- 
+    - #TOP BAR
+  -->
 
-
-
-
-<div class="topbar">
+  <div class="topbar">
     <div class="container">
 
       <address class="topbar-item">
@@ -59,9 +66,7 @@
         </span>
       </address>
 
-
-      
-   <div class="separator"></div>
+      <div class="separator"></div>
 
       <div class="topbar-item item-2">
         <div class="icon">
@@ -168,13 +173,13 @@
             Corporate Street, Stratford Rd, <br>
             Liverpool 8976, UK
           </address>
-
+    
           <p class="body-4 navbar-text">Open: 11 am - 11pm</p>
 
           <a href="mailto:Peri-booking@palace.com" class="body-4 sidebar-link">Peri-booking@palace.com</a>
 
           <div class="separator"></div>
-
+          
           <p class="contact-label">Booking Request</p>
 
           <a href="tel:+29056745321" class="body-1 contact-number hover-underline">
@@ -183,6 +188,32 @@
         </div>
 
       </nav>
+
+      <!-- Added a search bar in the header --> 
+      <form class="search-container" onsubmit="return false;">
+        <div class="search">
+          <span class="searc-icon material-symbols-outlined"></span>
+          <input class="search-input" type="search" placeholder="Search menu...">
+        </div>
+      </form>
+
+       <!-- Basket -->
+       <div class="basket-container">
+        <a href="basket.html" class="basket-link">
+          <span class="basket-icon material-symbols-outlined">shopping_basket</span>
+        </a>
+      </div>
+
+      <!---<div class="menu">
+      <div class="menu-item" data-name="Greek Salad">Greek Salad</div>
+      <div class="menu-item" data-name="Lasagne">Lasagne</div>
+      <div class="menu-item" data-name="Butternut Pumpkin">Butternut Pumpkin</div>
+      <div class="menu-item" data-name="Tokusen Wagyu">Tokusen Wagyu</div>
+      <div class="menu-item" data-name="Olivias Rellenas">Oloivias Renellas</div>
+      <div class="menu-item" data-name="Opu Fish">Opu Fish</div>
+      <div class="menu-item" data-name="Lobster Tortellini">Lobster Tortellini</div>
+    </div> -->
+  
 
       <a href="#" class="btn btn-secondary">
         <span class="text text-1">Book Your Table</span>
@@ -205,16 +236,14 @@
     <article>
 
       <!-- 
-        - #HERO SECTION
+        - #HERO
       -->
 
-
-
-
       <section class="hero text-center" aria-label="home" id="home">
-<ul class="hero-slider" data-hero-slider>
 
- <li class="slider-item active" data-hero-slider-item>
+        <ul class="hero-slider" data-hero-slider>
+
+          <li class="slider-item active" data-hero-slider-item>
 
          
             
@@ -266,9 +295,7 @@
 
           </li>
 
-  
-
-   <li class="slider-item" data-hero-slider-item>
+          <li class="slider-item" data-hero-slider-item>
 
             <div class="slider-bg">
               <img src="./assets/images/chefNoodles.jpg" width="1880" height="950" alt="" class="img-cover">
@@ -312,7 +339,7 @@
       </section>
 
       <!-- 
-        - #SERVICE SECTION
+        - #SERVICE
       -->
 
       <section class="section service bg-black-10 text-center" aria-label="service">
@@ -354,7 +381,7 @@
             <li>
               <div class="service-card">
 
-        <a href="#" class="has-before hover:shine">
+                <a href="#" class="has-before hover:shine">
                   <figure class="card-banner img-holder" style="--width: 285; --height: 336;">
                     <img src="./assets/images/service-2.jpg" width="285" height="336" loading="lazy" alt="Appetizers" class="img-cover">
                   </figure>
@@ -368,12 +395,9 @@
 
                   <a href="#" class="btn-text hover-underline label-2">View Menu</a>
 
+                </div>
 
-                  
-
-      </div>
-
-            </div>
+              </div>
             </li>
 
             <li>
@@ -393,9 +417,9 @@
 
                   <a href="#" class="btn-text hover-underline label-2">View Menu</a>
 
-     </div>
+                </div>
 
-    </div>
+              </div>
             </li>
 
           </ul>
@@ -419,6 +443,7 @@
 
             <h2 class="headline-1 section-title">Where Bold Flavors Ignite Tradition</h2>
             
+            
 
             <p class="section-text">
 
@@ -438,7 +463,6 @@
               <span class="text text-2" aria-hidden="true">Read More</span>
             </a>
 
-            
           </div>
 
           <figure class="about-banner">
@@ -447,10 +471,9 @@
               class="w-100" data-parallax-item data-parallax-speed="1">
 
             
-          
-            
             <div class="abs-img abs-img-1 has-before" data-parallax-item data-parallax-speed="1.75">
-                
+              
+              
               
    <img src="./assets/images/boat.jpg" width="285" height="285" loading="lazy" alt="" class="w-100">
             </div>
@@ -467,7 +490,7 @@
       </section>
 
       <!-- 
-        - #MAINS
+        - #SPECIAL DISH
       -->
 
       <section class="special-dish text-center" aria-labelledby="dish-label">
@@ -481,12 +504,11 @@
 
             <img src="./assets/images/badge-1.png" width="28" height="41" loading="lazy" alt="badge" class="abs-img">
 
-       <p class="section-subtitle label-2">Special Dish</p>
- <h2 class="headline-1 section-title">Lobster Tortellini</h2>
+            <p class="section-subtitle label-2">Special Dish</p>
 
-         
-            
-  <p class="section-text">
+            <h2 class="headline-1 section-title">Lobster Tortellini</h2>
+
+            <p class="section-text">
               Lorem Ipsum is simply dummy text of the printingand typesetting industry lorem Ipsum has been the
               industrys standard dummy text ever since the when an unknown printer took a galley of type.
             </p>
@@ -500,21 +522,20 @@
             <a href="#" class="btn btn-primary">
               <span class="text text-1">View All Menu</span>
 
-  
-<span class="text text-2" aria-hidden="true">View All Menu</span>
+              <span class="text text-2" aria-hidden="true">View All Menu</span>
             </a>
 
-    </div>
+          </div>
         </div>
 
         <img src="./assets/images/shape-4.png" width="179" height="359" loading="lazy" alt="" class="shape shape-1">
-   <img src="./assets/images/shape-9.png" width="351" height="462" loading="lazy" alt="" class="shape shape-2">
 
-     
+        <img src="./assets/images/shape-9.png" width="351" height="462" loading="lazy" alt="" class="shape shape-2">
+
       </section>
 
       <!-- 
-        - #BOWLS SIDES
+        - #MENU
       -->
 
       <section class="section menu" aria-label="menu-label" id="menu">
@@ -582,7 +603,6 @@
 
             <li>
               <div class="menu-card hover:card">
-                
 
                 <figure class="card-banner img-holder" style="--width: 100; --height: 100;">
                   <img src="./assets/images/menu-3.png" width="100" height="100" loading="lazy" alt="Butternut Pumpkin" class="img-cover">
@@ -595,8 +615,7 @@
                       <a href="#" class="card-title">Butternut Pumpkin</a>
                     </h3>
 
-                
-        <span class="span title-2">$10.00</span>
+                    <span class="span title-2">$10.00</span>
                   </div>
 
                   <p class="card-text label-1">
@@ -631,12 +650,9 @@
                     Vegetables, cheeses, ground meats, tomato sauce, seasonings and spices.
                   </p>
 
-                  
-    </div>
+                </div>
 
-         
-              
-    </div>
+              </div>
             </li>
 
             <li>
@@ -665,19 +681,18 @@
               </div>
             </li>
 
-            <li>     <div class="menu-card hover:card">
+            <li>
+              <div class="menu-card hover:card">
 
-          <figure class="card-banner img-holder" style="--width: 100; --height: 100;">
-       <img src="./assets/images/menu-6.png" width="100" height="100" loading="lazy" alt="Opu Fish" class="img-cover">
+                <figure class="card-banner img-holder" style="--width: 100; --height: 100;">
+                  <img src="./assets/images/menu-6.png" width="100" height="100" loading="lazy" alt="Opu Fish" class="img-cover">
                 </figure>
 
-        
-        <div>
+                <div>
 
-        
-    <div class="title-wrapper">
-      <h3 class="title-3">
-          <a href="#" class="card-title">Opu Fish</a>
+                  <div class="title-wrapper">
+                    <h3 class="title-3">
+                      <a href="#" class="card-title">Opu Fish</a>
                     </h3>
 
                     <span class="span title-2">$49.00</span>
@@ -704,24 +719,23 @@
             <span class="text text-2" aria-hidden="true">View All Menu</span>
           </a>
 
-          
-   <img src="./assets/images/shape-5.png" width="921" height="1036" loading="lazy" alt="shape" class="shape shape-2 move-anim">
+          <img src="./assets/images/shape-5.png" width="921" height="1036" loading="lazy" alt="shape" class="shape shape-2 move-anim">
           <img src="./assets/images/shape-6.png" width="343" height="345" loading="lazy" alt="shape" class="shape shape-3 move-anim">
 
         </div>
       </section>
 
       <!-- 
-        - #REVIEW
+        - #TESTIMONIALS
       -->
 
-      <section class="section testi text-center has-bg-image" style="background-image: url('./assets/images/oldfriends.jpg')" aria-label="testimonials">
+      <section class="section testi text-center has-bg-image" style="background-image: url('./assets/images/testimonial-bg.jpg')" aria-label="testimonials">
         <div class="container">
 
           <div class="quote">”</div>
 
           <p class="headline-2 testi-text">
-            I wanted to thank you for inviting me to that incredible birthday dinner the other night. The food and service was impeccable from start to finish. It made the celebration truly unforgettable! I’ll definitely be back with friends and family to experience it all over again!
+            I wanted to thank you for inviting me to that incredible birthday dinner the other night. The food was amazing, and the service was impeccable from start to finish. It made the celebration truly unforgettable! I’ll definitely be back with friends and family to experience it all over again. Peri Palace is a real gem!
           </p>
 
           <div class="wrapper">
@@ -731,9 +745,9 @@
           </div>
 
           <div class="profile">
-            <img src="./assets/images/WOMAN.jpg" width="100" height="100" loading="lazy" alt="Helena Garfield" class="img">
+            <img src="./assets/images/testi-avatar.jpg" width="100" height="100" loading="lazy" alt="James Mathews" class="img">
 
-            <p class="label-2 profile-name">Helena Garfield</p>
+            <p class="label-2 profile-name">James Mathews</p>
           </div>
 
         </div>
@@ -743,16 +757,14 @@
         - #RESERVATION
       -->
 
-   
-      
       <section class="reservation">
         <div class="container">
+
           <div class="form reservation-form bg-black-10">
 
             <form action="" class="form-left">
 
-  
-    <h2 class="headline-1 text-center">Online Reservations</h2>
+              <h2 class="headline-1 text-center">Online Reservations</h2>
 
               <p class="form-text text-center">
                 Booking request <a href="tel:+29056745321" class="link">+2 905 674 5321</a>
@@ -866,15 +878,15 @@
       </section>
 
       <!-- 
-        - #DESSERTS
+        - #FEATURES
       -->
 
       <section class="section features text-center" aria-label="features">
         <div class="container">
 
-          <p class="section-subtitle label-2">WE'RE NOT DONE YET!</p>
+          <p class="section-subtitle label-2">Why Choose Us</p>
 
-          <h2 class="headline-1 section-title">CHOSE YOUR TREAT TO END THE FEAST</h2>
+          <h2 class="headline-1 section-title">Our Strength</h2>
 
           <ul class="grid-list">
 
@@ -882,12 +894,12 @@
               <div class="feature-card">
 
                 <div class="card-icon">
-                  <img src="./assets/images/ice-cream.jpg" width="200" height="100" loading="lazy" alt="icon">
+                  <img src="./assets/images/features-icon-1.png" width="100" height="80" loading="lazy" alt="icon">
                 </div>
 
-       <h3 class="title-2 card-title">Brownie-Cream Explosion</h3>
+                <h3 class="title-2 card-title">Hygienic Food</h3>
 
- <p class="label-1 card-text">OUR BEST SELLER! Enjoy our gooey chocolate brownie, topped with creamy vanilla ice-cream!</p>
+                <p class="label-1 card-text">Lorem Ipsum is simply dummy printing and typesetting.</p>
 
               </div>
             </li>
@@ -896,26 +908,12 @@
               <div class="feature-card">
 
                 <div class="card-icon">
-                  <img src="./assets/images/mousse.jpg" width="200" height="100" loading="lazy" alt="icon">
+                  <img src="./assets/images/features-icon-2.png" width="100" height="80" loading="lazy" alt="icon">
                 </div>
 
-                <h3 class="title-2 card-title">Chocolate Mousse Mountain</h3>
+                <h3 class="title-2 card-title">Fresh Environment</h3>
 
-                <p class="label-1 card-text">Satisfy your sweet craving with our creamy mousse, topped with fresh sweet blueberries!</p>
-
-              </div>
-            </li>
-
-    <li class="feature-item">
-  <div class="feature-card">
-   <div class="card-icon">
-        
-     <img src="./assets/images/cookie.jpg" width="200" height="100" loading="lazy" alt="icon">
-             </div>
-
-                <h3 class="title-2 card-title">Cookie Dough Delight</h3>
-
-                <p class="label-1 card-text">You won't get enough of our soft cookie dough, still warm with a melting scoop of ice-cream of your choice!</p>
+                <p class="label-1 card-text">Lorem Ipsum is simply dummy printing and typesetting.</p>
 
               </div>
             </li>
@@ -924,12 +922,26 @@
               <div class="feature-card">
 
                 <div class="card-icon">
-                  <img src="./assets/images/pearCake.jpg" width="200" height="100" loading="lazy" alt="icon">
+                  <img src="./assets/images/features-icon-3.png" width="100" height="80" loading="lazy" alt="icon">
                 </div>
 
-                <h3 class="title-2 card-title">Pear-fection Cake </h3>
+                <h3 class="title-2 card-title">Skilled Chefs</h3>
 
-                <p class="label-1 card-text">Our Pearfection Cake; a dessert that's irresistibly delightful in every bite</p>
+                <p class="label-1 card-text">Lorem Ipsum is simply dummy printing and typesetting.</p>
+
+              </div>
+            </li>
+
+            <li class="feature-item">
+              <div class="feature-card">
+
+                <div class="card-icon">
+                  <img src="./assets/images/features-icon-4.png" width="100" height="80" loading="lazy" alt="icon">
+                </div>
+
+                <h3 class="title-2 card-title">Event & Party</h3>
+
+                <p class="label-1 card-text">Lorem Ipsum is simply dummy printing and typesetting.</p>
 
               </div>
             </li>
@@ -944,32 +956,34 @@
       </section>
 
       <!-- 
-        - #DRINKS
+        - #EVENT
       -->
 
       <section class="section event bg-black-10" aria-label="event">
         <div class="container">
 
-          <p class="section-subtitle label-2 text-center">Discover our Drinks</p>
+          <p class="section-subtitle label-2 text-center">Recent Updates</p>
 
-          <h2 class="section-title headline-1 text-center">Sip the Flavor, Savor the Fun – Mocktails & More at Peri Palace!</h2>
+          <h2 class="section-title headline-1 text-center">Upcoming Event</h2>
 
-  <ul class="grid-list">
-    <li>
-  <div class="event-card has-before hover:shine">
+          <ul class="grid-list">
 
-   
-    <div class="card-banner img-holder" style="--width: 350; --height: 450;">
-    <img src="./assets/images/event-1.jpg" width="350" height="450" loading="lazy" alt="Flavour so good you’ll try to eat with your eyes." class="img-cover">
- <time class="publish-date label-2" datetime="2022-09-15">15/09/2022</time>
-           </div>
+            <li>
+              <div class="event-card has-before hover:shine">
+
+                <div class="card-banner img-holder" style="--width: 350; --height: 450;">
+                  <img src="./assets/images/event-1.jpg" width="350" height="450" loading="lazy" alt="Flavour so good you’ll try to eat with your eyes." class="img-cover">
+
+                  <time class="publish-date label-2" datetime="2022-09-15">15/09/2022</time>
+                </div>
 
                 <div class="card-content">
                   <p class="card-subtitle label-2 text-center">Food, Flavour</p>
-   <h3 class="card-title title-2 text-center">
-           Flavour so good you’ll try to eat with your eyes.
-            </h3>
-         </div>
+
+                  <h3 class="card-title title-2 text-center">
+                    Flavour so good you’ll try to eat with your eyes.
+                  </h3>
+                </div>
 
               </div>
             </li>
@@ -1029,19 +1043,18 @@
   </main>
 
   <!-- 
-    - #FOOTER SECTION
+    - #FOOTER
   -->
 
   <footer class="footer section has-bg-image text-center"
     style="background-image: url('./assets/images/newBackSpice.jpg')">
     <div class="container">
 
+      <div class="footer-top grid-list">
 
-      
-  <div class="footer-top grid-list">
- <div class="footer-brand has-before has-after">
+        <div class="footer-brand has-before has-after">
 
-    <a href="#" class="logo">
+          <a href="#" class="logo">
             <img src="./assets/images/logoWhite.png" width="160" height="50" loading="lazy" alt="Peri Palace home">
           </a>
 
@@ -1147,7 +1160,7 @@
   </footer>
 
   <!-- 
-    - #RETURN BACK TO TOP
+    - #BACK TO TOP
   -->
 
   <a href="#top" class="back-top-btn active" aria-label="back to top" data-back-top-btn>
@@ -1165,6 +1178,7 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-</body>
+  
+
 
 </html>
