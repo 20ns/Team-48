@@ -4,38 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basket - Peri Palace</title>
+    <!-- Link to the shared stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <!-- Link to the JavaScript functionality -->
     <script defer src="basket.js"></script>
 </head>
 <body>
-    <div class="basket-container">
-        <h1 class="basket-title">Your Basket</h1>
-        
-        
-        <div class="basket-items">
-            <div class="basket-item">
-                <!-- Just placeholders to see how it'll look -->
-                <p class="item-name">Grilled Chicken</p>
-                <input type="number" class="cart-quantity-input" value="2"> <!-- quantity input -->
-                <p class="item-price">Price: £12.99</p>
-                <button class="btn-danger">Remove</button> <!-- remove button -->
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- Logo linking back to the home page -->
+            <a href="index.html" class="logo">Peri Palace</a>
+    
+            <!-- Navigation menu (positioned at top-right) -->
+            <nav class="navbar" style="position: absolute; top: 10px; right: 20px;">
+                <ul class="navbar-list" style="display: flex; gap: 20px; list-style: none; padding: 0; margin: 0;">
+                    <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
+                    <li class="navbar-item"><a href="menu.html" class="navbar-link">Menu</a></li>
+                    <li class="navbar-item"><a href="basket.html" class="navbar-link active">Basket</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main basket section -->
+    <section class="basket-section">
+        <div class="container basket-container">
+            <!-- Title for the basket section -->
+            <h1 class="basket-title">Your Basket</h1>
+            
+            <!-- Container for all basket items -->
+            <div class="basket-items">
+                <!-- First basket item -->
+                <div class="basket-item">
+                    <p class="item-name">Grilled Chicken</p>
+                    <!-- Input field for adjusting quantity -->
+                    <input type="number" class="cart-quantity-input" value="2">
+                    <p class="item-price">Price: £12.99</p>
+                    <!-- Button to remove the item -->
+                    <button class="btn-danger">Remove</button>
+                </div>
+
+                <!-- Second basket item -->
+                <div class="basket-item">
+                    <p class="item-name">Peri Fries</p>
+                    <!-- Input field for adjusting quantity -->
+                    <input type="number" class="cart-quantity-input" value="1">
+                    <p class="item-price">Price: £4.99</p>
+                    <!-- Button to remove the item -->
+                    <button class="btn-danger">Remove</button>
+                </div>
             </div>
 
-            <div class="basket-item">
-                <p class="item-name">Peri Fries</p>
-                <input type="number" class="cart-quantity-input" value="1"> <!-- quantity input --> 
-                <p class="item-price">Price: £4.99</p>
-                <button class="btn-danger">Remove</button> <!-- remove button -->
+            <!-- Total amount displayed -->
+            <div class="basket-total">
+                <p class="total">Total: £30.97</p>
             </div>
-        </div>
 
-       
-        <div class="basket-total">
-            <p class="total">Total: £30.97</p> <!-- Corrected class name to "total" -->
+            <!-- Button to proceed to the checkout page -->
+            <button class="checkout-button" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
         </div>
+    </section>
 
-        <!-- Links to the not yet created checkout page -->
-        <button class="checkout-button" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
-    </div>
+    <!-- Footer section -->
+    <footer style="background-color: #f8f8f8; color: black; text-align: center; padding: 10px 0; font-family: Arial, sans-serif; font-size: 0.9em; position: fixed; bottom: 0; left: 0; width: 100%;">
+        <p>&copy; 2024 Peri Palace. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
