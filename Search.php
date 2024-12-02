@@ -12,7 +12,6 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET['meal'])) {
     $searchTerm = $_GET['meal'];
-
     
     $sql = "SELECT * FROM dishes WHERE name LIKE ? OR ingredients LIKE ?";
     $stmt = $conn->prepare($sql);
@@ -34,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET['meal'])) {
 
         $stmt->close();
     } else {
-        error_log("Error preparing sql query: " . $conn->error);
         echo "<p>Oops! Something went wrong. Please try again later.</p>";
     }
 } else {
