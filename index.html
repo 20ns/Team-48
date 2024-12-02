@@ -190,12 +190,15 @@
       </nav>
 
       <!-- Added a search bar in the header --> 
-      <form class="search-container" onsubmit="return false;">
-        <div class="search">
-          <span class="searc-icon material-symbols-outlined"></span>
-          <input class="search-input" type="search" placeholder="Search menu...">
-        </div>
-      </form>
+      
+     <form action="search.php" method="get">
+  <div class="search">
+    <span class="search-icon material-symbols-outlined">search</span>
+    <input class="search-input" type="search" name="meal" placeholder="Search menu..." required>
+  </div>
+  <button type="submit">Search</button>
+</form>
+
 
        <!-- Basket -->
        <div class="basket-container">
