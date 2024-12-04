@@ -2109,3 +2109,30 @@
     }
   
   }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  
+  .search-input {
+    width: 200px;
+    padding: 8px 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    font-size: 16px;
+    color: #ffffff;
+    outline: none;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .search-input:focus {
+    width: 300px;
+    border-color: #ff5722;
+  }
+  
+  .search-input::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
