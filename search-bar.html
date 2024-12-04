@@ -1,0 +1,43 @@
+<div class="search-container">
+  <input type="text" id="menuSearch" placeholder="Search menu..." onkeyup="searchMenu()">
+</div>
+<style>
+  .search-container {
+    /* Add these three lines for centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Keep your existing styles */
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Rest of your styles remain the same */
+  .search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 5px;
+    outline: none;
+    transition: box-shadow 0.3s;
+  }
+
+  .search-input:hover,
+  .search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  .search-input::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+</style>
