@@ -2081,14 +2081,15 @@ body {
 
 
 .login-container {
-  background: var(--gold-crayola); 
+  background-color: var(--quick-silver); 
   padding: 40px;
-  border-radius: var(--radius-24);
-  box-shadow: var(--shadow-1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 520px; 
   text-align: center;
 }
+
 
 .login-title {
   font-size: 2rem;

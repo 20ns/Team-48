@@ -1,219 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Basket - Peri Palace</title>
+
+  <!-- Reuse the same font links and styles from main page -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .header {
-      width: 100%;
-      position: sticky;
-      top: 0;
-      background-color: #fff;
-      z-index: 1000;
-    }
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_basket">
 
-    .header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      margin: 0;
-    }
-    
-    /* .navbar-list {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    } */
-
-    main {
-      flex: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      margin-bottom: 60px;
-    }
-
-    .basket-section .container {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .basket-items {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .basket-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    .cart-quantity-input {
-      width: 60px;
-      text-align: center;
-    }
-
-    .total {
-      margin: 2rem 0;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-    }
-
-    footer {
-      background-color: #f8f8f8;
-      color: black;
-      text-align: center;
-      padding: 10px 0;
-      font-family: Arial, sans-serif;
-      font-size: 0.9em;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-    }
-  </style>
+  <!-- Link to your existing CSS -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body id="top" class="loaded">
+
+  <!-- Reuse your header structure -->
   <header class="header" data-header>
     <div class="container">
       <a href="index.html" class="logo">
         <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
       </a>
+
       <nav class="navbar" data-navbar>
         <button class="close-btn" aria-label="close menu" data-nav-toggler>
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
+
+        <a href="index.html" class="logo">
+          <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
+        </a>
+
         <ul class="navbar-list">
-          <li><a href="index.html" class="navbar-link">Home</a></li>
-          <li><a href="index.html#menu" class="navbar-link">Menus</a></li>
-          <li><a href="index.html#about" class="navbar-link">About Us</a></li>
+          <li class="navbar-item">
+            <a href="index.html" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">Home</span>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="index.html#menu" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">Menus</span>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="index.html#about" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">About Us</span>
+            </a>
+          </li>
         </ul>
       </nav>
+
+      <a href="#" class="btn btn-secondary">
+        <span class="text text-1">Book A Table</span>
+        <span class="text text-2" aria-hidden="true">Book A Table</span>
+      </a>
+
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </button>
+
     </div>
   </header>
+
   <main>
     <article>
-      <section class="basket-section">
+      <!-- Basket Content Section -->
+      <section class="section basket-section" aria-label="basket">
         <div class="container">
-          <h1>Your Basket</h1>
-          <div class="basket-items">
-            <div class="basket-item">
-              <span class="item-name">Example Item</span>
-              <span class="item-price">Price: £10.00</span>
-              <input type="number" class="cart-quantity-input" value="1">
-              <button class="btn-danger">Remove</button>
-            </div>
-          </div>
-          <h2 class="total">Total: £0.00</h2>
-          <a href="checkout.html" class="btn btn-primary">Checkout</a>
+          <h1 class="headline-1 section-title">Your Basket</h1>
+          <p class="section-subtitle">Your basket is currently empty</p>
+          
+          <a href="index.html#menu" class="btn btn-primary">
+            <span class="text text-1">Return to Menu</span>
+            <span class="text text-2" aria-hidden="true">Return to Menu</span>
+          </a>
         </div>
       </section>
     </article>
   </main>
 
-  <footer>
-    <p>&copy; 2024 Peri Palace. All Rights Reserved.</p>
+  <!-- Footer -->
+  <footer class="footer section has-bg-image text-center">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2024 Peri Palace. All Rights Reserved
+        </p>
+      </div>
+    </div>
   </footer>
 
-  <script>
-    function updateCartTotal() {
-      var cartItemContainer = document.getElementsByClassName('basket-items')[0];
-      var items = cartItemContainer.getElementsByClassName('basket-item');
-      var total = 0;
+  <!-- Back to top button -->
+  <a href="#top" class="back-top-btn active" aria-label="back to top" data-back-top-btn>
+    <ion-icon name="chevron-up" aria-hidden="true"></ion-icon>
+  </a>
 
-      for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        var priceElement = item.getElementsByClassName('item-price')[0];
-        var quantityElement = item.getElementsByClassName('cart-quantity-input')[0];
-        var price = parseFloat(priceElement.innerText.replace('Price: £', ''));
-        var quantity = parseInt(quantityElement.value, 10);
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-        total += price * quantity;
-      }
-
-      total = Math.round(total * 100) / 100;
-      document.getElementsByClassName('total')[0].innerText = 'Total: £' + total;
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', ready);
-    } else {
-      ready();
-    }
-
-    function ready() {
-      var removeCartItemButtons = document.getElementsByClassName('btn-danger');
-      for (var i = 0; i < removeCartItemButtons.length; i++) {
-        var button = removeCartItemButtons[i];
-        button.addEventListener('click', removeItem);
-      }
-
-      var quantityInputs = document.getElementsByClassName('cart-quantity-input');
-      for (var i = 0; i < quantityInputs.length; i++) {
-        var input = quantityInputs[i];
-        input.addEventListener('change', quantityChange);
-      }
-
-      updateCartTotal();
-    }
-
-    function removeItem(event) {
-      var buttonClicked = event.target;
-      buttonClicked.parentElement.remove();
-      updateCartTotal();
-    }
-
-    function quantityChange(event) {
-      var input = event.target;
-      if (isNaN(input.value) || input.value <= 0) {
-        input.value = 1;
-      }
-      updateCartTotal();
-    }
-  </script>
 </body>
 </html>
