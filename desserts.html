@@ -117,7 +117,15 @@
                       A delicate meringue topped with creamy decadence and dusted with rich cocoa for a sweet, refined treat.
                     </p>
                     <span class="price">£10</span>
-                    <button class="btn btn-primary">Add To Cart</button>
+                  
+                    <form method="POST" action="addtocart.php">
+                      <input type="hidden" name="id" value=501> <!-- Product ID -->
+                      <input type="hidden" name="name" value="Cocoa-Dusted Cloud Meringue"> <!-- Product Name -->
+                      <input type="hidden" name="price" value=10.00> <!-- Product Price -->
+                      <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
+                  
+                      <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+                  </form>
                   </div>
                 </div>
               </li>
@@ -134,7 +142,14 @@
                   Enjoy our warm, gooey chocolate chip cookie dough topped with ice cream and drizzled with smooth caramel sauce.
                 </p>
                 <span class="price">£12</span>
-                <button class="btn btn-primary">Add To Cart</button>
+                <form method="POST" action="addtocart.php">
+                  <input type="hidden" name="id" value=502> <!-- Product ID -->
+                  <input type="hidden" name="name" value="Cookie Dough Delight"> <!-- Product Name -->
+                  <input type="hidden" name="price" value=12.00> <!-- Product Price -->
+                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
+              
+                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+              </form>
               </div>
             </div>
           </li>
@@ -151,7 +166,14 @@
                   OUR BEST SELLER! Feast on our gooey chocolate brownie, topped with creamy vanilla ice-cream!
                 </p>
                 <span class="price">£14</span>
-                <button class="btn btn-primary">Add To Cart</button>
+                <form method="POST" action="addtocart.php">
+                  <input type="hidden" name="id" value=503> <!-- Product ID -->
+                  <input type="hidden" name="name" value="Brownie Cream Explosion"> <!-- Product Name -->
+                  <input type="hidden" name="price" value=14.00> <!-- Product Price -->
+                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
+              
+                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+              </form>
               </div>
             </div>
           </li>
@@ -168,7 +190,14 @@
                   Indulge in our rich and velvety dark chocolate mousse, dusted with cocoa and topped with fresh berries – a delicate symphony of bittersweet elegance.
                 </p>
                 <span class="price">£10</span>
-                <button class="btn btn-primary">Add To Cart</button>
+                <form method="POST" action="addtocart.php">
+                  <input type="hidden" name="id" value=504> <!-- Product ID -->
+                  <input type="hidden" name="name" value="Chocolate Mousse Mountain"> <!-- Product Name -->
+                  <input type="hidden" name="price" value=10.00> <!-- Product Price -->
+                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
+              
+                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+              </form>
               </div>
             </div>
           </li>
@@ -185,7 +214,14 @@
                   Our Pearfection Cake; a dessert that's irresistibly delightful in every bite!
                 </p>
                 <span class="price">£12</span>
-                <button class="btn btn-primary">Add To Cart</button>
+                <form method="POST" action="addtocart.php">
+                  <input type="hidden" name="id" value=505> <!-- Product ID -->
+                  <input type="hidden" name="name" value="Pear-fection Cake"> <!-- Product Name -->
+                  <input type="hidden" name="price" value=12.00> <!-- Product Price -->
+                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
+              
+                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+              </form>
               </div>
             </div>
           </li>
