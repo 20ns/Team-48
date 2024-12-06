@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Peri Palace</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <style>
+    .checkout-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .checkout-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--white-alpha-10);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
+      text-align: left;
+    }
+    .checkout-title {
+      margin-bottom: 30px;
+      color: var(--smoky-black);
+      text-align: center;
+      font-family: var(--ff-forum);
+    }
+    .order-summary {
+      background: var(--black-alpha-15);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .order-summary h2 {
+      font-family: var(--ff-forum);
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .order-summary ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px 0;
+      color: var(--white);
+      font-family: var(--ff-dm-sans);
+    }
+    .order-summary .total {
+      font-weight: bold;
+      color: var(--gold-crayola);
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-size: var(--fontSize-label-1);
+      font-family: var(--ff-dm-sans);
+      color: var(--white);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      background: var(--smoky-black-2);
+      border: none;
+      border-radius: 4px;
+      color: var(--white);
+      font-size: var(--fontSize-label-1);
+      font-family: var(--ff-dm-sans);
+    }
+    .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--gold-crayola);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: var(--fontSize-label-2);
+      color: var(--black);
+      font-weight: var(--fw-700);
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+    .checkout-btn:hover {
+      background: #c19a2f;
+    }
+    .not-logged-in {
+      text-align: center;
+      font-family: var(--ff-dm-sans);
+      color: var(--white);
+      margin-top: 20px;
+    }
+    .not-logged-in a {
+      color: var(--gold-crayola);
+      text-decoration: underline;
+      font-weight: var(--fw-700);
+    }
+  </style>
+</head>
+<body id="top" class="loaded">
+
+  <!-- Header (same style as other pages) -->
+  <header class="header" data-header>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
+      </a>
+      <nav class="navbar" data-navbar>
+        <button class="close-btn" aria-label="close menu" data-nav-toggler>
+          <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+        </button>
+        <a href="index.html" class="logo">
+          <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
+        </a>
+        <ul class="navbar-list">
+          <li class="navbar-item"><a href="index.html" class="navbar-link hover-underline"><div class="separator"></div><span class="span">Home</span></a></li>
+          <li class="navbar-item"><a href="index.html#menu" class="navbar-link hover-underline"><div class="separator"></div><span class="span">Menus</span></a></li>
+          <li class="navbar-item"><a href="index.html#about" class="navbar-link hover-underline"><div class="separator"></div><span class="span">About Us</span></a></li>
+        </ul>
+      </nav>
+      <a href="#" class="btn btn-secondary">
+        <span class="text text-1">Book A Table</span>
+        <span class="text text-2" aria-hidden="true">Book A Table</span>
+      </a>
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+        <span class="line line-1"></span><span class="line line-2"></span><span class="line line-3"></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <section class="section checkout-section" aria-label="checkout">
+        <div class="container checkout-container">
+          <h1 class="checkout-title">Checkout</h1>
+
+        
+          <div class="order-summary">
+            <h2>Your Order</h2>
+            <ul>
+              <li>Item 1 - £19.99</li>
+              <li>Item 2 - £9.99</li>
+            </ul>
+            <p class="total">Total: £29.98</p>
+          </div>
+
+          <form action="paymentconfirmed.html" method="POST">
+            <h2 style="font-size: var(--fontSize-title-3); color: var(--white); margin-bottom:10px;">Billing & Shipping</h2>
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="post">Post Code</label>
+            <input type="text" id="post" name="post" required>
+
+            <h2 style="font-size: var(--fontSize-title-3); color: var(--white); margin-top:20px; margin-bottom:10px;">Payment Details</h2>
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
+
+            <label for="expiry">Expiry (MM/YY)</label>
+            <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+
+            <label for="cvc">CVC</label>
+            <input type="text" id="cvc" name="cvc" placeholder="XXX" required>
+
+            <button type="submit" class="checkout-btn">Place Order</button>
+          </form>
+
+          <!-- If the user is not logged in then this is the code that's gonna show, only include once you guys have finished the log-in system, but i've commented it for now:
+          <p class="not-logged-in">
+            You must be logged in to proceed to checkout.<br><br>
+            <a href="logIn.html">Log In</a> or <a href="signUp.html">Create an Account</a>
+          </p>
+          -->
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer section has-bg-image text-center">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2024 Peri Palace. All Rights Reserved
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>
