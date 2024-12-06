@@ -1083,6 +1083,19 @@ padding: 150px; /* Optional: gives some spacing inside */
   padding-block-end: 340px;
   position: static;
 }
+.testi .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.review {
+  max-width: 300px;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  border-radius: 5px;
+}
 
 .testi .quote {
   font-size: 7rem;
