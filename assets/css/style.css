@@ -1085,56 +1085,56 @@ padding: 150px; /* Optional: gives some spacing inside */
 }
 .testi .container {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  gap: 30px;
 }
 
 .review {
-  max-width: 250px;
-  background: rgba(0,0,0,0.6);
-  padding: 15px;
-  border-radius: 5px;
+  max-width: 320px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
 }
-
-.review .headline-2.test-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  font-family: var(--fontFamily-dm_sans);
 
 .testi .quote {
-  font-size: 2rem;
-  font-family: var(--fontFamily-forum);
+  font-size: 2.2rem;
   line-height: 1;
+  margin-bottom: 15px;
 }
 
-.testi .wrapper {
+.review .headline-2.testi-text {
+  font-size: 1.9rem;
+  line-height: 1.7;
+  font-family: var(--fontFamily-dm_sans);
+  margin-bottom: 20px;
+}
+
+
+.profile {
   display: flex;
-  justify-content: center;
-  gap: 2px;
-  margin-block: 40px 50px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
-
-.testi .separator { animation: rotate360 15s linear infinite; }
 
 .profile .img {
-  margin-inline: auto;
-  border-radius: var(--radius-circle);
-  margin-block-end: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
 }
 
-.testi .profile-name {
-  font-size:0.9rem;
-  margin-top: 10px;
+.profile-name {
+  font-size: 2rem;
+  font-weight: bold;
   color: var(--gold-crayola);
-  font-weight: var(--weight-bold);
   text-transform: uppercase;
-  letter-spacing: normal;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
 }
-
-
-
-
 
 /*-----------------------------------*\
   #RESERVATION
