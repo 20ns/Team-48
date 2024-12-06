@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Confirmed - Peri Palace</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <style>
+    .confirmation-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .confirmation-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--white-alpha-10);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .confirmation-title {
+      margin-bottom: 30px;
+      color: var(--smoky-black);
+      font-family: var(--ff-forum);
+    }
+
+    .confirmation-message {
+      font-family: var(--ff-dm-sans);
+      color: var(--white);
+      font-size: var(--fontSize-body-2);
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body id="top" class="loaded">
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
+      </a>
+     
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <section class="section confirmation-section" aria-label="payment-confirmed">
+        <div class="container confirmation-container">
+          <h1 class="confirmation-title">Payment Confirmed</h1>
+          <p class="confirmation-message">
+            Thank you for your purchase! Your payment has been successfully processed. 
+          </p>
+          <a href="index.html" class="btn btn-secondary">
+            <span class="text text-1">Return Home</span>
+            <span class="text text-2" aria-hidden="true">Return Home</span>
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="footer section has-bg-image text-center">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2024 Peri Palace. All Rights Reserved
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
