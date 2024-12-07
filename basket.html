@@ -74,21 +74,55 @@
   </header>
 
   <main>
-    <article>
-      <!-- Basket Content Section -->
-      <section class="section basket-section" aria-label="basket">
-        <div class="container">
-          <h1 class="headline-1 section-title">Your Basket</h1>
-          <p class="section-subtitle">Your basket is currently empty</p>
-          
-          <a href="index.html#menu" class="btn btn-primary">
-            <span class="text text-1">Return to Menu</span>
-            <span class="text text-2" aria-hidden="true">Return to Menu</span>
-          </a>
-        </div>
-      </section>
-    </article>
-  </main>
+    <main>
+      <article>
+        <section class="section basket-section" aria-label="basket">
+          <div class="container">
+            <h1 class="headline-1 section-title">Your Basket</h1>
+  
+            <table class="basket-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                  <th>Update Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mediterranean Chickpea Rice Bowl</td>
+                  <td>£14.00</td>
+                  <td>1</td>
+                  <td>£14.00</td>
+                  <td><a href="#" class="btn btn-small">Remove</a></td>
+                  <td class="update-column"><a href="#" class="btn btn-small">Update</a></td>
+                </tr>
+                <tr>
+                  <td>Hearty Veggie Bowl</td>
+                  <td>£12.00</td>
+                  <td>1</td>
+                  <td>£12.00</td>
+                  <td><a href="#" class="btn btn-small">Remove</a></td>
+                  <td class="update-column"><a href="#" class="btn btn-small">Update</a></td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <div class="basket-total">Total: £26.00</div>
+  
+            <div class="return-btn-container">
+              <a href="index.html#menu" class="btn btn-primary">
+                <span class="text text-1">Return to Menu</span>
+                <span class="text text-2" aria-hidden="true">Return to Menu</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
 
   <!-- Footer -->
   <footer class="footer section has-bg-image text-center">
@@ -101,8 +135,13 @@
     </div>
   </footer>
 
+  <!-- Back to top button -->
+  <a href="#top" class="back-top-btn active" aria-label="back to top" data-back-top-btn>
+    <ion-icon name="chevron-up" aria-hidden="true"></ion-icon>
+  </a>
+
   <!-- Scripts -->
-  <script src="script.js"></script>
+  <script src="./assets/js/script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 

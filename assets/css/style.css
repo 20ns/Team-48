@@ -2155,3 +2155,55 @@ textarea.input-field {
   color: #aaa;
   font-style: italic;
 }
+
+    /* Added spacing and alignment styles */
+    .basket-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      color: white;
+    }
+
+    .basket-table th,
+    .basket-table td {
+      text-align: center;
+      padding: 10px 15px; /* Increase padding for column spacing */
+      border-bottom: 1px solid #ddd;
+    }
+
+    .basket-table th {
+      color: white;
+      font-weight: bold;
+    }
+
+    .basket-table td {
+      font-size: 1rem;
+    }
+
+    .basket-table td:nth-child(1) {
+      text-align: left; /* Align the 'Item' column to the left for better readability */
+    }
+
+    .basket-table td:nth-child(2),
+    .basket-table td:nth-child(3),
+    .basket-table td:nth-child(4),
+    .basket-table td:nth-child(5),
+    .basket-table td:nth-child(6) {
+      text-align: center; /* Center-align numeric and action columns */
+    }
+
+    .basket-table .update-column {
+      color: white; /* Update quantity values to white */
+    }
+
+    .basket-total {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .return-btn-container {
+      margin-top: 30px; /* Add more spacing below the total */
+      text-align: center;
+    }
