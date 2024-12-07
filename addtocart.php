@@ -21,8 +21,14 @@ if(isset($_POST["addtocart"])) {
 
   if (mysqli_stmt_execute($stmt)) {
     echo "Item added to cart successfully.";
-    
-    header("Location: basket.html");
+    // Right now I just made the add to cart redirect you to the basket after you add something.
+    // In the future if you want to implement it going back to the right page, each category of item starts with a different number on the id
+    // Main = 1
+    // Starters = 2
+    // Drinks = 3
+    // Sides = 4
+    // Desserts = 5
+    header("Location: basket.php");
     exit();
   } else {
     echo "Error: " . mysqli_error($conn);
