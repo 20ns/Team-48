@@ -2218,6 +2218,40 @@ body {
   align-items: center;
 }
 
+/* Checkout Page Styles */
+.order-reference {
+  font-family: var(--ff-dm-sans);
+  color: var(--gold-crayola);
+  margin-bottom: 20px;
+}
+
+.return-home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--gold-crayola);
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.return-home-btn:hover {
+  background: #c19a2f;
+}
+
+.confirmation-container {
+  text-align: center; 
+}
+
+.tick-icon {
+  color: var(--gold-crayola);
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+
   
   @media (min-width: 1400px) {
   
