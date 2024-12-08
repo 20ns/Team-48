@@ -4,28 +4,24 @@ $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
 $dbname = "cs2team48_db";
 
-// Create a connection to the database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Process form submission
+// form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if all required fields are filled
     if (!empty($_POST['name']) && !empty($_POST['phone']) && !empty($_POST['email']) && !empty($_POST['password'])) {
-        // Sanitize user inputs
         $name = trim($_POST['name']);
         $phone = trim($_POST['phone']);
         $email = trim($_POST['email']);
         $password = $_POST['password'];
 
-        // Hash the password
+        // hashing pass for security
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-        // Check if email already exists in the database
+        // to check for duplicates
         $sql = "SELECT * FROM users WHERE email = ?";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
@@ -39,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             echo "Email already in use. Please try a different email.";
         } else {
-            // Insert the new user into the database
+            // sql line to add the new user to the database
             $sql = "INSERT INTO users (name, phone_number, email, password) VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             if ($stmt === false) {
@@ -54,13 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        // Close the statement
         $stmt->close();
     } else {
         echo "Please fill in all fields.";
     }
 }
 
-// Close the database connection
 $conn->close();
 ?>

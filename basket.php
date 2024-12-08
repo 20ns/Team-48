@@ -14,7 +14,6 @@ if ($conn->connect_error) {
 if (isset($_GET['remove_item_id'])) {
   $item_id = $_GET['remove_item_id'];
 
-  // SQL query to delete the item
   $delete_sql = "DELETE FROM items WHERE id = $item_id";
   if ($conn->query($delete_sql) === TRUE) {
     // echo "Item removed successfully";
@@ -28,7 +27,6 @@ if (isset($_POST['update_item_id']) && isset($_POST['new_quantity'])) {
   $item_id = $_POST['update_item_id'];
   $new_quantity = $_POST['new_quantity'];
 
-  // SQL query to update the item quantity
   $update_sql = "UPDATE items SET quantity = $new_quantity WHERE id = $item_id";
   if ($conn->query($update_sql) === TRUE) {
     // echo "Item quantity updated successfully";
@@ -39,7 +37,7 @@ if (isset($_POST['update_item_id']) && isset($_POST['new_quantity'])) {
 
 $sql = "SELECT id, name, price, quantity FROM items";
 $result = $conn->query($sql);
-$total_cart = 0; // Variable to store the total cart value
+$total_cart = 0;
 ?>
 
 <!DOCTYPE html>
