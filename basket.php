@@ -56,99 +56,56 @@ $total_cart = 0; // Variable to store the total cart value
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_basket">
 
-  <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 
   <style>
-    body {
-      font-family: 'DM Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-    }
 
-    .basket-section {
-      padding: 20px;
-    }
+.basket-section {
+  padding: 20px;
+  background-color: var(--eerie-black-1);
+  color: var(--white);
+}
 
-    .basket-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 1rem;
-      text-align: left;
-      background-color: #fff;
-    }
+.basket-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+  font-size: 1rem;
+  text-align: left;
+  background-color: var(--smoky-black-2);
+  box-shadow: 0 2px 5px var(--black-alpha-15);
+  border-radius: var(--radius-24);
+}
 
-    .basket-table th,
-    .basket-table td {
-      padding: 15px;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
+.basket-table th {
+  background-color: var(--smoky-black-3);
+  color: var(--gold-crayola); 
+  font-weight: var(--weight-bold);
+  padding: 18px 25px;
+  text-align: center;
+}
 
-    .basket-table th {
-      background-color: #343a40;
-      color: white;
-      font-weight: bold;
-    }
+.basket-table td {
+  padding: 18px 25px;
+  border: 1px solid var(--eerie-black-2);
+  text-align: center;
+  color: var(--quick-silver); 
+}
 
-    .basket-table td:first-child {
-      text-align: left;
-    }
+.basket-table td:first-child {
+  text-align: left;
+  color: var(--white); 
+}
 
-    .btn-small {
-      display: inline-block;
-      padding: 5px 10px;
-      background-color: #dc3545;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.9rem;
-    }
-
-    .btn-small:hover {
-      background-color: #c82333;
-    }
-
-    .update-btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .update-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .basket-total {
-      text-align: right;
-      font-size: 1.2rem;
-      margin-top: 20px;
-    }
-
-    .return-btn-container {
-      margin-top: 30px;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      background-color: #28a745;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    .btn-primary:hover {
-      background-color: #218838;
-    }
+.basket-table input[type="number"] {
+  width: 70px;
+  padding: 6px;
+  border: 1px solid var(--quick-silver); 
+  border-radius: var(--radius-24);
+  text-align: center;
+  background-color: var(--eerie-black-2);
+  color: var(--white);
+}
   </style>
 </head>
 
