@@ -17,9 +17,9 @@ if (isset($_GET['remove_item_id'])) {
   // SQL query to delete the item
   $delete_sql = "DELETE FROM items WHERE id = $item_id";
   if ($conn->query($delete_sql) === TRUE) {
-    echo "Item removed successfully";
+    // echo "Item removed successfully";
   } else {
-    echo "Error: " . $conn->error;
+    // echo "Error: " . $conn->error;
   }
 }
 
@@ -31,9 +31,9 @@ if (isset($_POST['update_item_id']) && isset($_POST['new_quantity'])) {
   // SQL query to update the item quantity
   $update_sql = "UPDATE items SET quantity = $new_quantity WHERE id = $item_id";
   if ($conn->query($update_sql) === TRUE) {
-    echo "Item quantity updated successfully";
+    // echo "Item quantity updated successfully";
   } else {
-    echo "Error: " . $conn->error;
+    // echo "Error: " . $conn->error;
   }
 }
 
@@ -59,7 +59,23 @@ $total_cart = 0; // Variable to store the total cart value
   <link rel="stylesheet" href="./assets/css/style.css">
 
   <style>
+.update-btn {
+  background-color: var(--gold-crayola); 
+  color: var(--smoky-black-1); 
+  border: none;
+  border-radius: var(--radius-24); 
+  padding: 8px 16px; 
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: var(--weight-bold);
+  transition: background-color var(--transition-1), color var(--transition-1), transform var(--transition-1); /* Smooth transitions */
+}
 
+.update-btn:hover {
+  background-color: var(--smoky-black-2);
+  color: var(--white); 
+  transform: scale(1.05); 
+}
 .basket-section {
   padding: 20px;
   background-color: var(--eerie-black-1);
@@ -99,6 +115,8 @@ $total_cart = 0; // Variable to store the total cart value
 
 .basket-table input[type="number"] {
   width: 70px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   padding: 6px;
   border: 1px solid var(--quick-silver); 
   border-radius: var(--radius-24);
@@ -106,6 +124,7 @@ $total_cart = 0; // Variable to store the total cart value
   background-color: var(--eerie-black-2);
   color: var(--white);
 }
+
   </style>
 </head>
 
@@ -173,17 +192,18 @@ $total_cart = 0; // Variable to store the total cart value
           if ($result->num_rows > 0) {
             echo '<table class="basket-table">';
             echo '<thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th><th>Update Quantity</th></tr></thead><tbody>';
-            while($row = $result->fetch_assoc()) {
+            $total_cart = 0;
+            while ($row = $result->fetch_assoc()) {
               $total = $row['price'] * $row['quantity'];
-              $total_cart += $total; // Add to cart total
+              $total_cart += $total;
 
-              $formatted_total = "£" . number_format($total, 2); // Format total as currency with two decimal places
+              $formatted_total = "£" . number_format($total, 2);
 
               echo "<tr>
                       <td>" . $row["name"] . "</td>
-                      <td>£" . number_format($row["price"], 2) . "</td> <!-- Format price with pound sign -->
+                      <td>£" . number_format($row["price"], 2) . "</td>
                       <td>" . $row["quantity"] . "</td>
-                      <td>" . $formatted_total . "</td> <!-- Display formatted total -->
+                      <td>" . $formatted_total . "</td>
                       <td><a href='?remove_item_id=" . $row["id"] . "' class='remove-btn'>Remove</a></td>
                       <td>
                         <form action='' method='POST'>
@@ -196,7 +216,6 @@ $total_cart = 0; // Variable to store the total cart value
             }
             echo '</tbody></table>';
 
-            // Display the total cart amount
             echo '<p class="total-cart">Total: £' . number_format($total_cart, 2) . '</p>';
           } else {
             echo "<p>Your basket is empty.</p>";
@@ -204,8 +223,7 @@ $total_cart = 0; // Variable to store the total cart value
 
           $conn->close();
           ?>
-          
-          
+
           <a href="index.html#menu" class="btn btn-primary">
             <span class="text text-1">Return to Menu</span>
             <span class="text text-2" aria-hidden="true">Return to Menu</span>
