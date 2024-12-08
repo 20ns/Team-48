@@ -133,6 +133,7 @@ $total_cart = 0; // Variable to store the total cart value
     .return-btn-container {
       margin-top: 30px;
       text-align: center;
+      margin-bottom: 30px;
     }
 
     .btn-primary {
@@ -251,6 +252,10 @@ $total_cart = 0; // Variable to store the total cart value
           <a href="index.html#menu" class="btn btn-primary">
             <span class="text text-1">Return to Menu</span>
             <span class="text text-2" aria-hidden="true">Return to Menu</span>
+          </a>
+          <a href="Checkout.html" class="btn btn-primary">
+            <span class="text text-1">Proceed to checkout</span>
+            <span class="text text-2" aria-hidden="true">Proceed to checkout</span>
           </a>
         </div>
       </section>
