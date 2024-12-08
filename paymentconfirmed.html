@@ -116,15 +116,15 @@
     <article>
       <section class="section confirmation-section" aria-label="payment-confirmed">
         <div class="container confirmation-container">
-          <h1 class="confirmation-title">Payment Confirmed</h1>
-          <p class="confirmation-message">
-            Thank you for your purchase! Your payment has been successfully processed. 
-          </p>
-          <a href="index.html" class="btn btn-secondary">
-            <span class="text text-1">Return Home</span>
-            <span class="text text-2" aria-hidden="true">Return Home</span>
-          </a>
-        </div>
+         <h1 class="confirmation-title">Payment Confirmed</h1>
+<ion-icon name="checkmark-circle-outline" style="font-size:48px; color:var(--gold-crayola); margin-bottom:20px;"></ion-icon>
+<p class="confirmation-message">
+  Thank you for your purchase! Your payment has been successfully processed.
+</p>
+<p class="order-reference">Order Reference: <span id="orderRef"></span></p>
+<a href="index.html" class="btn-centered">Return Home
+</a>
+      </div>
       </section>
     </article>
   </main>
@@ -140,5 +140,17 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const orderRef = document.getElementById('orderRef');
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 8; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    orderRef.textContent = code;
+  });
+</script>
+
 </body>
 </html>
