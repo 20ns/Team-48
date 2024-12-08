@@ -168,3 +168,29 @@ window.addEventListener("mousemove", function (event) {
   }
 
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const cardNumberInput = document.getElementById('cardNumber');
+  const expiryInput = document.getElementById('expiry');
+  const cvcInput = document.getElementById('cvc');
+
+  if (cardNumberInput && expiryInput && cvcInput) {
+    cardNumberInput.addEventListener('input', function() {
+      let value = this.value.replace(/\D/g, '');
+      value = value.slice(0, 16);
+      this.value = value.match(/.{1,4}/g)?.join(' ') || '';
+    });
+
+    expiryInput.addEventListener('blur', function() {
+      const pattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+      if (!pattern.test(this.value)) {
+        alert('Please enter a valid expiry date in MM/YY format');
+        this.focus();
+      }
+    });
+
+    cvcInput.addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 3);
+    });
+  }
+});
