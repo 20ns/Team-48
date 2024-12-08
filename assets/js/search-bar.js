@@ -1,4 +1,4 @@
-// Ensure the DOM is fully loaded before executing the script
+// make sure that DOM is loaded so that the search bar can function
 window.addEventListener('DOMContentLoaded', () => {
   fetch('./search-bar.html')
     .then(response => response.text())
@@ -7,12 +7,12 @@ window.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => console.error('Error loading search bar:', error));
 
-  // Attach search functionality
+  // Connect to the search bar
   const searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('input', searchMenu);
 });
 
-// Search functionality
+// search bar actual code
 function searchMenu() {
   const searchTerm = document.getElementById('searchInput').value.toLowerCase();
   const menuItems = document.querySelectorAll('.main-item');
