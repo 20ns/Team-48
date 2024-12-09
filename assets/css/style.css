@@ -702,14 +702,14 @@ main {
   margin-block-end: 60px;
 }
 
-.nav-list {
+.navbar-list {
   border-block-end: 1px solid var(--white-alpha-20);
   margin-block-end: 100px;
 }
 
 .navbar-item { border-block-start: 1px solid var(--white-alpha-20); }
 
-.nav-link {
+.navbar-link {
   position: relative;
   font-size: var(--fontSize-label-2);
   text-transform: uppercase;
@@ -717,16 +717,16 @@ main {
   max-width: unset;
 }
 
-.nav-link::after { display: none; }
+.navbar-link::after { display: none; }
 
-.nav-link .span { transition: var(--transition-1); }
+.navbar-link .span { transition: var(--transition-1); }
 
-.nav-link:is(:hover, :focus-visible, .active) .span {
+.navbar-link:is(:hover, :focus-visible, .active) .span {
   color: hsl(0, 0%, 85%);
   transform: translateX(20px);
 }
 
-.nav-link .separator {
+.navbar-link .separator {
   position: absolute;
   top: 50%;
   left: 0;
@@ -735,7 +735,7 @@ main {
   transition: var(--transition-1);
 }
 
-.nav-link:is(:hover, :focus-visible, .active) .separator { opacity: 1; }
+.navbar-link:is(:hover, :focus-visible, .active) .separator { opacity: 1; }
 
 .navbar-title { margin-block-end: 15px; }
 
@@ -1563,7 +1563,7 @@ textarea.input-field {
     * HEADER
     */
 
-  .nav-list { margin-inline: 30px; }
+  .navbar-list { margin-inline: 30px; }
 
 
 
@@ -1862,19 +1862,19 @@ textarea.input-field {
     */
 
   .nav-open-btn,
-  .navbar > *:not(.nav-list),
+  .navbar > *:not(.navbar-list),
   .header .overlay { display: none; }
 
   .header .container { max-width: unset; }
 
   .navbar,
   .navbar.active,
-  .nav-list { all: unset; }
+  .navbar-list { all: unset; }
 
   .navbar,
   .navbar.active { margin-inline: auto 20px; }
 
-  .nav-list {
+  .navbar-list {
     display: flex;
     gap: 30px;
   }
@@ -1883,18 +1883,18 @@ textarea.input-field {
 
   .navbar .separator { display: none; }
 
-  .nav-link:is(:hover, :focus-visible, .active) .span {
+  .navbar-link:is(:hover, :focus-visible, .active) .span {
     transform: unset;
   }
 
-  .nav-link {
+  .navbar-link {
     font-weight: var(--weight-bold);
     letter-spacing: var(--letterSpacing-1);
   }
 
-  .nav-link::after { display: block; }
+  .navbar-link::after { display: block; }
 
-  .nav-link.active::after {
+  .navbar-link.active::after {
     transform: scaleX(1);
     opacity: 1;
   }
