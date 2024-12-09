@@ -24,6 +24,7 @@ const addEventOnElements = function (elements, eventType, callback) {
 
 
 
+
 /**
  * NAVBAR
  */
@@ -193,4 +194,22 @@ document.addEventListener("DOMContentLoaded", function() {
       this.value = this.value.replace(/\D/g, '').slice(0, 3);
     });
   }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+  
+    if (contactForm && formMessage) {
+      contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        formMessage.textContent = 'Message sent successfully!';
+        formMessage.style.color = 'green'; // Optional: styling for visibility
+        contactForm.reset();
+      });
+    }
+  });
+  
 });
+
+
