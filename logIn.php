@@ -6,6 +6,11 @@ session_start(); // Start the session at the very beginning
 
 $error_message = "";
 
+//$servername = "localhost"; 
+//$username = "root";
+//$password = "";
+//$dbname = "cs2team48_db"; 
+
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -62,8 +67,13 @@ $conn->close();
   <link rel="stylesheet" href="./assets/css/style.css">
 
   <style>
+<<<<<<< HEAD
     /* Login Specific Styles */
     .login-section {
+=======
+     /* Login Specific Styles */
+     .login-section {
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
       padding: 60px 0;
       text-align: center;
     }
@@ -147,12 +157,22 @@ $conn->close();
       color: var(--smoky-black);
       text-decoration: underline;
     }
+<<<<<<< HEAD
 
     .error-message {
         color: red;
         margin-top: 10px;
     }
   </style>
+=======
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+
+
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
 </head>
 
 <body id="top" class="loaded">
@@ -168,6 +188,7 @@ $conn->close();
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
 
+<<<<<<< HEAD
         <a href="index.html" class="logo">
           <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
         </a>
@@ -201,6 +222,15 @@ $conn->close();
         <span class="text text-2" aria-hidden="true">Book A Table</span>
       </a>
 
+=======
+        <ul class="navbar-list">
+          <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
+          <li class="navbar-item"><a href="index.html#menu" class="navbar-link">Menus</a></li>
+          <li class="navbar-item"><a href="index.html#about" class="navbar-link">About Us</a></li>
+        </ul>
+      </nav>
+
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
       <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
         <span class="line line-1"></span>
         <span class="line line-2"></span>
@@ -216,11 +246,15 @@ $conn->close();
           <div class="login-container">
             <h1 class="headline-1 login-title">Log In</h1>
 
+<<<<<<< HEAD
             <?php if (!empty($error_message)): ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
 
             <form class="login-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+=======
+            <form class="login-form" action="" method="POST">
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
               <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -231,8 +265,20 @@ $conn->close();
               </div>
               <button type="submit" class="login-button">Login</button>
             </form>
+<<<<<<< HEAD
             <div class="signup-section">
               <p><a href="signUp.html"> Don't have an account? Create one here</a></p>
+=======
+
+            <?php if (!empty($error_message)) : ?>
+              <div class="error-message">
+                <?php echo htmlspecialchars($error_message); ?>
+              </div>
+            <?php endif; ?>
+
+            <div class="signup-section">
+              <p><a href="signUp.html">Don't have an account? Create one here</a></p>
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
             </div>
           </div>
         </div>
@@ -243,6 +289,7 @@ $conn->close();
   <!-- Footer -->
   <footer class="footer section has-bg-image text-center">
     <div class="container">
+<<<<<<< HEAD
       <div class="footer-bottom">
         <p class="copyright">
           © 2024 Peri Palace. All Rights Reserved
@@ -250,6 +297,12 @@ $conn->close();
       </div>
     </div>
   </footer>
+=======
+      <p class="copyright">&copy; 2024 Peri Palace. All Rights Reserved</p>
+    </div>
+  </footer>
+
+>>>>>>> bc5f2fae031af6700d64c5b62b3f704255777c7f
   <!-- Scripts -->
   <script src="script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
