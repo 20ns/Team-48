@@ -6,11 +6,6 @@ session_start(); // Start the session at the very beginning
 
 $error_message = "";
 
-//$servername = "localhost"; 
-//$username = "root";
-//$password = "";
-//$dbname = "cs2team48_db"; 
-
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -158,13 +153,6 @@ $conn->close();
         margin-top: 10px;
     }
   </style>
-    .error-message {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
-
-
 </head>
 
 <body id="top" class="loaded">
@@ -180,12 +168,38 @@ $conn->close();
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
 
+        <a href="index.html" class="logo">
+          <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
+        </a>
+
         <ul class="navbar-list">
-          <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
-          <li class="navbar-item"><a href="index.html#menu" class="navbar-link">Menus</a></li>
-          <li class="navbar-item"><a href="index.html#about" class="navbar-link">About Us</a></li>
+          <li class="navbar-item">
+            <a href="index.html" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">Home</span>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="index.html#menu" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">Menus</span>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="index.html#about" class="navbar-link hover-underline">
+              <div class="separator"></div>
+              <span class="span">About Us</span>
+            </a>
+          </li>
         </ul>
       </nav>
+
+      <a href="#" class="btn btn-secondary">
+        <span class="text text-1">Book A Table</span>
+        <span class="text text-2" aria-hidden="true">Book A Table</span>
+      </a>
 
       <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
         <span class="line line-1"></span>
@@ -202,7 +216,11 @@ $conn->close();
           <div class="login-container">
             <h1 class="headline-1 login-title">Log In</h1>
 
-            <form class="login-form" action="" method="POST">
+            <?php if (!empty($error_message)): ?>
+                <div class="error-message"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+
+            <form class="login-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
               <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -215,15 +233,6 @@ $conn->close();
             </form>
             <div class="signup-section">
               <p><a href="signUp.html"> Don't have an account? Create one here</a></p>
-
-            <?php if (!empty($error_message)) : ?>
-              <div class="error-message">
-                <?php echo htmlspecialchars($error_message); ?>
-              </div>
-            <?php endif; ?>
-
-            <div class="signup-section">
-              <p><a href="signUp.html">Don't have an account? Create one here</a></p>
             </div>
           </div>
         </div>
@@ -241,10 +250,6 @@ $conn->close();
       </div>
     </div>
   </footer>
-      <p class="copyright">&copy; 2024 Peri Palace. All Rights Reserved</p>
-    </div>
-  </footer>
-
   <!-- Scripts -->
   <script src="script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
