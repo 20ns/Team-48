@@ -2,47 +2,50 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-session_start(); // Start the session at the very beginning
+session_start();
+
+require_once 'connection.php';
 
 $error_message = "";
 
-$servername = "localhost";
-$username = "cs2team48";
-$password = "9ZReO56gOBkKTcr";
-$dbname = "cs2team48_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
+    if (isset($conn)) { 
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($hashedPassword);
-        $stmt->fetch();
+        $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
 
-        if (password_verify($password, $hashedPassword)) {
-            
-            $_SESSION["email"] = $email;
-            header("Location: index.html");
-            exit();
+        if ($stmt === false) {
+            $error_message = "Error preparing statement: " . $conn->error;
         } else {
-            $error_message = "Incorrect password";
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                $stmt->bind_result($hashedPassword);
+                $stmt->fetch();
+
+                if (password_verify($password, $hashedPassword)) {
+                    $_SESSION["email"] = $email;
+                    header("Location: index.html");
+                    exit();
+                } else {
+                    $error_message = "Incorrect password";
+                }
+            } else {
+                $error_message = "There is no account with this email, please create an account.";
+            }
+            $stmt->close();
         }
-        $stmt->close();
     } else {
-        $error_message = "There is no account with this email, please create an account.";
+        $error_message = "Database connection problem."; // Display user friendly message.
     }
 }
-$conn->close();
+if (isset($conn)){
+   $conn->close();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
