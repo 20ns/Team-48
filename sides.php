@@ -149,6 +149,11 @@ $result = $conn->query($sql);
               
                   <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
               </form>
+              <form method="POST" action="removefrommenu.php">
+                <input type="hidden" name="name" value="'. $row["name"] . '"> <!-- Product Name -->
+                <input type="hidden" name="url" value="sides.php">
+                <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
+              </form>
               </div>
             </div>
           </li>';
