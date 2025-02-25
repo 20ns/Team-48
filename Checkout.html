@@ -136,15 +136,15 @@
         
           <div class="order-summary">
             <h2>Your Order</h2>
-            <ul>
-              <li>Item 1 - £19.99</li>
-              <li>Item 2 - £9.99</li>
-            </ul>
-            <p class="total">Total: £29.98</p>
+            <ul id="orderList">
+  <!-- Items will be dynamically added here -->
+</ul>
+<p class="total" id="totalAmount">Total: £0.00</p>
+
           </div>
 
-          <form action="paymentconfirmed.html" method="POST">
-            <h2 style="font-size: var(--fontSize-title-3); color: var(--white); margin-bottom:10px;">Billing & Shipping</h2>
+          <form id="checkoutForm" action="paymentconfirmed.html" method="POST">
+           <h2 style="font-size: var(--fontSize-title-3); color: var(--white); margin-bottom:10px;">Billing & Shipping</h2>
             <label for="fullName">Full Name</label>
             <input type="text" id="fullName" name="fullName" required>
 
@@ -193,9 +193,102 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="script.js"></script>
+  <script src="checkout.js"></script> 
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkoutForm = document.getElementById('checkoutForm');
+
+    checkoutForm.addEventListener('submit', function(event) {
+      
+      if (!validateCheckoutForm()) {
+        event.preventDefault();
+      }
+    });
+
+    function validateCheckoutForm() {
+      
+      const fullName = document.getElementById('fullName').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const post = document.getElementById('post').value.trim();
+
+      const cardNumberRaw = document.getElementById('cardNumber').value.trim();
+     
+      const cardNumber = cardNumberRaw.replace(/\s+/g, '');
+
+      const expiry = document.getElementById('expiry').value.trim();
+      const cvc = document.getElementById('cvc').value.trim();
+
+      // This validation is for Name
+      if (!fullName) {
+        alert('Please enter your full name.');
+        return false;
+      }
+
+      // This checks Address
+      if (!address) {
+        alert('Please enter your address.');
+        return false;
+      }
+
+      // This one checks City is present
+      if (!city) {
+        alert('Please enter your city.');
+        return false;
+      }
+
+      // same for Post Code
+      if (!post) {
+        alert('Please enter your post code.');
+        return false;
+      }
+
+      // Card Number must contain 16 digits 
+      if (!/^\d{16}$/.test(cardNumber)) {
+        alert('Please enter a valid 16-digit card number (no spaces).');
+        return false;
+      }
+
+      // Expiry (MM/YY) 
+      if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+        alert('Please enter a valid expiry date in MM/YY format.');
+        return false;
+      } else {
+        // I added an Additional check to make sure expiry is in date
+        const [mm, yy] = expiry.split('/');
+        const expMonth = parseInt(mm, 10);
+        const expYear = parseInt(yy, 10);
+
+        const currentYear = new Date().getFullYear() % 100; 
+        const currentMonth = new Date().getMonth() + 1;
+
+        // Makes sure its a real month
+        if (expMonth < 1 || expMonth > 12) {
+          alert('Expiry month must be between 01 and 12.');
+          return false;
+        }
+
+        
+        if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+          alert('This card appears to be expired.');
+          return false;
+        }
+      }
+
+      //CVC: 3 digits
+      if (!/^\d{3}$/.test(cvc)) {
+        alert('Please enter a valid 3-digit CVC.');
+        return false;
+      }
+
+     
+      return true;
+    }
+  });
+</script>
 
 </body>
 </html>
