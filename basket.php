@@ -186,6 +186,8 @@ $total_cart = 0;
       <section class="section basket-section" aria-label="basket">
         <div class="container">
           <h1 class="headline-1 section-title">Your Basket</h1>
+
+          <div class="basket-items">
           <?php
           if ($result->num_rows > 0) {
             echo '<table class="basket-table">';
@@ -197,15 +199,15 @@ $total_cart = 0;
 
               $formatted_total = "£" . number_format($total, 2);
 
-              echo "<tr>
-                      <td>" . $row["name"] . "</td>
-                      <td>£" . number_format($row["price"], 2) . "</td>
+              echo "<tr class='basket-item'>
+                      <td class='item-name'> . $row["name"] . "</td>
+                      <td class='item-price'>Price: £" . number_format($row["price"], 2) . "</td>
                       <td>" . $row["quantity"] . "</td>
                       <td>" . $formatted_total . "</td>
-                      <td><a href='?remove_item_id=" . $row["id"] . "' class='remove-btn'>Remove</a></td>
+                      <a href='?remove_item_id=" . $row["id"] . "' class='remove-btn btn-danger'>Remove</a>
                       <td>
                         <form action='' method='POST'>
-                          <input type='number' name='new_quantity' value='" . $row["quantity"] . "' min='1' required>
+                         <input type='number' name='new_quantity' value='" . $row["quantity"] . "' min='1' class='cart-quantity-input' required>
                           <input type='hidden' name='update_item_id' value='" . $row["id"] . "'>
                           <button type='submit' class='update-btn'>Update</button>
                         </form>
@@ -214,19 +216,20 @@ $total_cart = 0;
             }
             echo '</tbody></table>';
 
-            echo '<p class="total-cart">Total: £' . number_format($total_cart, 2) . '</p>';
+            echo '<p class="total">Total: £' . number_format($total_cart, 2) . '</p>';
           } else {
             echo "<p>Your basket is empty.</p>";
           }
 
           $conn->close();
           ?>
+</div>
 
           <a href="index.html#menu" class="btn btn-primary">
             <span class="text text-1">Return to Menu</span>
             <span class="text text-2" aria-hidden="true">Return to Menu</span>
           </a>
-          <a href="Checkout.html" class="btn btn-primary">
+          <a href="checkout.html" class="btn btn-primary">
             <span class="text text-1">Proceed to checkout</span>
             <span class="text text-2" aria-hidden="true">Proceed to checkout</span>
           </a>

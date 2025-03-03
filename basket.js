@@ -1,7 +1,14 @@
+document.addEventListener('DOMContentLoaded', function() {
+
 function updateCartTotal() {
     var cartItemContainer = document.getElementsByClassName('basket-items')[0]
+
+    if (!cartItemContainer) return;
+    
     var items = cartItemContainer.getElementsByClassName('basket-item')
     var total = 0
+   
+    var basketItems = [];
 
     for (var i = 0; i < items.length; i++) {
         var item = items[i]
@@ -16,18 +23,26 @@ function updateCartTotal() {
 
         //Nevermind, fixed that near insantly. += instead of =.
 
+        basketItems.push({
+                name: item.getElementsByClassName('item-name')[0].innerText,
+                price: price,
+                quantity: quantity,
+                total: price * quantity
+            });
+        
+
 }
 total = Math.round(total * 100) / 100 // rounds to 2 decimals
-document.getElementsByClassName('total')[0].innerText = 'Total: £' + total
+var totalElements = document.getElementsByClassName('total');
+if (totalElements.length > 0) {
+    totalElements[0].innerText = 'Total: £' + total;
 }
 
+localStorage.setItem('basketItems', JSON.stringify(basketItems));
 
-if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
-}
-else {
-    ready()
-}
+
+
+
 function ready(){
     var removeCartItemButtons = document.getElementsByClassName('btn-danger')
     for (var i = 0; i < removeCartItemButtons.length; i++) {
@@ -60,3 +75,11 @@ function quantityChange(event) {
     }
     updateCartTotal()
 }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ready);
+    } else {
+        ready();
+    }
+  
+    });

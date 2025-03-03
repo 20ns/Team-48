@@ -198,69 +198,155 @@
         <ul class="grid-list menu-categories">
             <li class="category-item">
                 <div class="service-card">
-                    <a href="./starters.html" class="has-before hover:shine">
+                    <a href="./starters.php" class="has-before hover:shine">
                         <figure class="card-banner img-holder">
                             <img src="./assets/images/garlicBread.jpg" alt="Starters" class="img-cover">
                         </figure>
                     </a>
                     <div class="card-content">
-                        <h3 class="title-4 card-title"><a href="./starters.html">Starters</a></h3>
-                        <a href="./starters.html" class="btn-text hover-underline label-2">View Menu</a>
+                        <h3 class="title-4 card-title"><a href="./starters.php">Starters</a></h3>
+                        <a href="./starters.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
             </li>
             <li class="category-item">
                 <div class="service-card">
-                    <a href="./mains.html" class="has-before hover:shine">
+                    <a href="./mains.php" class="has-before hover:shine">
                         <figure class="card-banner img-holder">
-                            <img src="./assets/images/chicken.jpg" alt="Mains" class="img-cover">
+                            <img src="./assets/images/Chicken.jpg" alt="Mains" class="img-cover">
                         </figure>
                     </a>
                     <div class="card-content">
-                        <h3 class="title-4 card-title"><a href="./mains.html">Mains</a></h3>
-                        <a href="./mains.html" class="btn-text hover-underline label-2">View Menu</a>
+                        <h3 class="title-4 card-title"><a href="./mains.php">Mains</a></h3>
+                        <a href="./mains.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
             </li>
             <li class="category-item">
                 <div class="service-card">
-                    <a href="./sides.html" class="has-before hover:shine">
+                    <a href="./sides.php" class="has-before hover:shine">
                         <figure class="card-banner img-holder">
                             <img src="./assets/images/corn.jpg" alt="Sides" class="img-cover">
                         </figure>
                     </a>
                     <div class="card-content">
-                        <h3 class="title-4 card-title"><a href="./sides.html">Sides</a></h3>
-                        <a href="./sides.html" class="btn-text hover-underline label-2">View Menu</a>
+                        <h3 class="title-4 card-title"><a href="./sides.php">Sides</a></h3>
+                        <a href="./sides.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
             </li>
             <li class="category-item">
                 <div class="service-card">
-                    <a href="./desserts.html" class="has-before hover:shine">
+                    <a href="./desserts.php" class="has-before hover:shine">
                         <figure class="card-banner img-holder">
                             <img src="./assets/images/powder.jpg" alt="Desserts" class="img-cover">
                         </figure>
                     </a>
                     <div class="card-content">
-                        <h3 class="title-4 card-title"><a href="./desserts.html">Desserts</a></h3>
-                        <a href="./desserts.html" class="btn-text hover-underline label-2">View Menu</a>
+                        <h3 class="title-4 card-title"><a href="./desserts.php">Desserts</a></h3>
+                        <a href="./desserts.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
             </li>
             <li class="category-item">
                 <div class="service-card">
-                    <a href="./drinks.html" class="has-before hover:shine">
+                    <a href="./drinks.php" class="has-before hover:shine">
                         <figure class="card-banner img-holder">
                             <img src="./assets/images/lemonDrink.jpg" alt="Drinks" class="img-cover">
                         </figure>
                     </a>
                     <div class="card-content">
-                        <h3 class="title-4 card-title"><a href="./drinks.html">Drinks</a></h3>
-                        <a href="./drinks.html" class="btn-text hover-underline label-2">View Menu</a>
+                        <h3 class="title-4 card-title"><a href="./drinks.php">Drinks</a></h3>
+                        <a href="./drinks.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
             </li>
+            <button id="openModalBtn" class="btn btn-secondary">Add Item</button>
+            <div id="addItemForm" class="form-modal" style="display: none;">
+              <div class="form-modal-content">
+                <span class="close-btn" id="closeFormBtn">&times;</span>
+                <h2 class="headline-1 text-center">Add New Menu Item</h2>
+                <form id="menuItemForm" method="POST" action="addtomenu.php">
+                  <label for="itemName">Item Name</label>
+                  <input type="text" id="itemName" style="background-color:white;" name="itemName" required>
+            
+                  <label for="itemDescription">Item Description</label>
+                  <textarea id="itemDescription" style="background-color:white;" name="itemDescription" required></textarea>
+            
+                  <label for="itemPrice">Item Price (£)</label>
+                  <input type="number" style="background-color:white;" id="itemPrice" name="itemPrice" required>
+            
+                  <label for="itemImage">Item Image URL</label>
+                  <input type="url" style="background-color:white;" id="itemImage" name="itemImage" required>
+            
+                  <!-- Category Dropdown -->
+                  <label for="itemCategory">Category</label>
+                  <select id="itemCategory" style="background-color:white;" name="itemCategory" required>
+                    <option value="dessert">dessert</option>
+                    <option value="starter">starter</option>
+                    <option value="drink">drink</option>
+                    <option value="sides">sides</option>
+                    <option value="main">main</option>
+                  </select>
+            
+                  <button type="submit" class="btn btn-secondary">Submit</button>
+                </form>
+              </div>
+            </div>
+            <script>
+              // Get the modal and the toggle button
+              const toggleFormBtn = document.getElementById("openModalBtn");
+              const addItemForm = document.getElementById("addItemForm");
+              const closeFormBtn = document.getElementById("closeFormBtn");
+            
+              // Show the form when the button is clicked
+              toggleFormBtn.addEventListener("click", function() {
+    // Check if the form is currently visible
+              if (addItemForm.style.display === "block") {
+                addItemForm.style.display = "none"; // Hide the form if it's already visible
+              } else {
+                addItemForm.style.display = "block"; // Show the form if it's hidden
+    }
+  });
+            
+              // Close the form when the close button (X) is clicked
+              closeFormBtn.addEventListener("click", function() {
+                addItemForm.style.display = "none"; // Hide the form modal
+              });
+            
+              // Close the form if the user clicks anywhere outside the form
+              window.addEventListener("click", function(event) {
+                if (event.target === addItemForm) {
+                  addItemForm.style.display = "none"; // Hide the form modal if clicked outside
+                }
+              });
+            
+              // Handle form submission
+              const menuItemForm = document.getElementById("menuItemForm");
+            
+              menuItemForm.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+            
+                // Get form data
+                const itemName = document.getElementById("itemName").value;
+                const itemDescription = document.getElementById("itemDescription").value;
+                const itemPrice = document.getElementById("itemPrice").value;
+                const itemImage = document.getElementById("itemImage").value;
+                const itemCategory = document.getElementById("itemCategory").value; // Capture selected category
+            
+                // Log the data for now (can be sent to a server)
+                console.log("Item Name:", itemName);
+                console.log("Item Description:", itemDescription);
+                console.log("Item Price:", itemPrice);
+                console.log("Item Image:", itemImage);
+                console.log("Item Category:", itemCategory);
+            
+                // Optionally, hide the form or reset it after submission
+                addItemForm.style.display = "none";  // Hide the form after submission
+              });
+            </script>
+            
+           
         </ul>
     </div>
 </section>
@@ -469,5 +555,9 @@
   -->
   <script src="./assets/js/script.js"></script>
   
+
+
+            
+            
 </body>
 </html>
