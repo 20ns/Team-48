@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -10,32 +16,25 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+$user_id = $_SESSION['user_id'];
+
 // Check if an item needs to be removed
 if (isset($_GET['remove_item_id'])) {
   $item_id = $_GET['remove_item_id'];
-
-  $delete_sql = "DELETE FROM items WHERE id = $item_id";
-  if ($conn->query($delete_sql) === TRUE) {
-    // echo "Item removed successfully";
-  } else {
-    // echo "Error: " . $conn->error;
-  }
+  $delete_sql = "DELETE FROM items WHERE id = $item_id AND user_id = $user_id";
+  $conn->query($delete_sql);
 }
 
 // Check if an item quantity needs to be updated
 if (isset($_POST['update_item_id']) && isset($_POST['new_quantity'])) {
   $item_id = $_POST['update_item_id'];
   $new_quantity = $_POST['new_quantity'];
-
-  $update_sql = "UPDATE items SET quantity = $new_quantity WHERE id = $item_id";
-  if ($conn->query($update_sql) === TRUE) {
-    // echo "Item quantity updated successfully";
-  } else {
-    // echo "Error: " . $conn->error;
-  }
+  $update_sql = "UPDATE items SET quantity = $new_quantity WHERE id = $item_id AND user_id = $user_id";
+  $conn->query($update_sql);
 }
 
-$sql = "SELECT id, name, price, quantity FROM items";
+$sql = "SELECT id, name, price, quantity FROM items WHERE user_id = $user_id";
 $result = $conn->query($sql);
 $total_cart = 0;
 ?>

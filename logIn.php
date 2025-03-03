@@ -13,7 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+
 
         if ($stmt === false) {
             $error_message = "Error preparing statement: " . $conn->error;
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->fetch();
 
                 if (password_verify($password, $hashedPassword)) {
-                    $_SESSION["email"] = $email;
+                  $_SESSION["user_id"] = $user_id;
                     header("Location: index.html");
                     exit();
                 } else {

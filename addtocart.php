@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -14,9 +21,10 @@ if(isset($_POST["addtocart"])) {
   $name = $_POST["name"];
   $price = $_POST["price"];
   $quantity = $_POST["quantity"];
+  $user_id = $_SESSION['user_id'];
 
-  $stmt = mysqli_prepare($conn, "INSERT INTO items(id, name, quantity, price) VALUES (?, ?, ?, ?)");
-  mysqli_stmt_bind_param($stmt, 'isdi', $id, $name, $quantity, $price);
+  $stmt = mysqli_prepare($conn, "INSERT INTO items(id, name, quantity, price, user_id) VALUES (?, ?, ?, ?, ?)");
+  mysqli_stmt_bind_param($stmt, 'isdii', $id, $name, $quantity, $price, $_SESSION['user_id']);
 
 
   if (mysqli_stmt_execute($stmt)) {
