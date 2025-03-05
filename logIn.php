@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        // Corrected: Select both id and password
         $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
-
 
         if ($stmt === false) {
             $error_message = "Error preparing statement: " . $conn->error;
@@ -24,11 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                $stmt->bind_result($hashedPassword);
+                // Corrected: Bind both selected fields (id and password)
+                $stmt->bind_result($user_id, $hashedPassword);
                 $stmt->fetch();
 
                 if (password_verify($password, $hashedPassword)) {
-                  $_SESSION["user_id"] = $user_id;
+                    $_SESSION["user_id"] = $user_id;  // Now $user_id is available
                     header("Location: index.html");
                     exit();
                 } else {
@@ -40,13 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         }
     } else {
-        $error_message = "Database connection problem."; // Display user friendly message.
+        $error_message = "Database connection problem.";
     }
 }
 if (isset($conn)){
    $conn->close();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -236,7 +236,7 @@ if (isset($conn)){
               <button type="submit" class="login-button">Login</button>
             </form>
             <div class="signup-section">
-              <p><a href="signUp.html"> Don't have an account? Create one here</a></p>
+              <p><a href="signUp.php"> Don't have an account? Create one here</a></p>
             </div>
           </div>
         </div>
