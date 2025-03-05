@@ -5,6 +5,9 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -13,29 +16,34 @@ $dbname = "cs2team48_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
 $user_id = $_SESSION['user_id'];
 
-// Check if an item needs to be removed
+// Remove item
 if (isset($_GET['remove_item_id'])) {
-  $item_id = $_GET['remove_item_id'];
-  $delete_sql = "DELETE FROM items WHERE id = $item_id AND user_id = $user_id";
-  $conn->query($delete_sql);
+    $stmt = $conn->prepare("DELETE FROM items WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $_GET['remove_item_id'], $user_id);
+    $stmt->execute();
+    $stmt->close();
 }
 
-// Check if an item quantity needs to be updated
+// Update quantity
 if (isset($_POST['update_item_id']) && isset($_POST['new_quantity'])) {
-  $item_id = $_POST['update_item_id'];
-  $new_quantity = $_POST['new_quantity'];
-  $update_sql = "UPDATE items SET quantity = $new_quantity WHERE id = $item_id AND user_id = $user_id";
-  $conn->query($update_sql);
+    $stmt = $conn->prepare("UPDATE items SET quantity = ? WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("iii", $_POST['new_quantity'], $_POST['update_item_id'], $user_id);
+    $stmt->execute();
+    $stmt->close();
 }
 
-$sql = "SELECT id, name, price, quantity FROM items WHERE user_id = $user_id";
-$result = $conn->query($sql);
+// Get items (mysqlnd compatible version)
+$stmt = $conn->prepare("SELECT id, name, price, quantity FROM items WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($id, $name, $price, $quantity);
+
 $total_cart = 0;
 ?>
 
@@ -188,39 +196,38 @@ $total_cart = 0;
 
           <div class="basket-items">
           <?php
-          if ($result->num_rows > 0) {
-            echo '<table class="basket-table">';
-            echo '<thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th><th>Update Quantity</th></tr></thead><tbody>';
-            $total_cart = 0;
-            while ($row = $result->fetch_assoc()) {
-              $total = $row['price'] * $row['quantity'];
-              $total_cart += $total;
-
-              $formatted_total = "£" . number_format($total, 2);
-
-              echo "<tr class='basket-item'>
-                      <td class='item-name'> . $row["name"] . "</td>
-                      <td class='item-price'>Price: £" . number_format($row["price"], 2) . "</td>
-                      <td>" . $row["quantity"] . "</td>
-                      <td>" . $formatted_total . "</td>
-                      <a href='?remove_item_id=" . $row["id"] . "' class='remove-btn btn-danger'>Remove</a>
-                      <td>
-                        <form action='' method='POST'>
-                         <input type='number' name='new_quantity' value='" . $row["quantity"] . "' min='1' class='cart-quantity-input' required>
-                          <input type='hidden' name='update_item_id' value='" . $row["id"] . "'>
-                          <button type='submit' class='update-btn'>Update</button>
-                        </form>
-                      </td>
-                    </tr>";
+            if ($stmt->num_rows > 0) {
+                echo '<table class="basket-table">';
+                echo '<thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th><th>Update Quantity</th></tr></thead><tbody>';
+                
+                while ($stmt->fetch()) {
+                    $total = $price * $quantity;
+                    $total_cart += $total;
+                    echo "<tr class='basket-item'>
+                            <td class='item-name'>" . htmlspecialchars($name) . "</td>
+                            <td class='item-price'>£" . number_format($price, 2) . "</td>
+                            <td>" . $quantity . "</td>
+                            <td>£" . number_format($total, 2) . "</td>
+                            <td>
+                                <a href='?remove_item_id=" . $id . "' class='remove-btn btn-danger'>Remove</a>
+                            </td>
+                            <td>
+                                <form action='' method='POST'>
+                                    <input type='number' name='new_quantity' value='" . $quantity . "' min='1' required>
+                                    <input type='hidden' name='update_item_id' value='" . $id . "'>
+                                    <button type='submit' class='update-btn'>Update</button>
+                                </form>
+                            </td>
+                          </tr>";
+                }
+                
+                echo '</tbody></table>';
+                echo '<p class="total">Total: £' . number_format($total_cart, 2) . '</p>';
+            } else {
+                echo "<p>Your basket is empty.</p>";
             }
-            echo '</tbody></table>';
-
-            echo '<p class="total">Total: £' . number_format($total_cart, 2) . '</p>';
-          } else {
-            echo "<p>Your basket is empty.</p>";
-          }
-
-          $conn->close();
+            $stmt->close();
+            $conn->close();
           ?>
 </div>
 
