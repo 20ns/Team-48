@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if (password_verify($password, $hashedPassword)) {
                     $_SESSION["user_id"] = $user_id;  // Now $user_id is available
-                    header("Location: index.html");
+                    header("Location: AccountInfo.php");
                     exit();
                 } else {
                     $error_message = "Incorrect password";
