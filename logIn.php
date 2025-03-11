@@ -1,19 +1,58 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
-
 require_once 'connection.php';
 
-$error_message = "";
+
+function createShoppingSession($user_id, $conn) {
+    $total = 0.00;  
+    $created_at = date("Y-m-d H:i:s");  
+    $modified_at = $created_at;  
+
+    
+    $stmt = $conn->prepare("INSERT INTO shoppingSession (userID, total, created_at, modified_at) VALUES (?, ?, ?, ?)");
+
+   
+    $stmt->bind_param("idss", $user_id, $total, $created_at, $modified_at);
+
+  
+    $stmt->execute();
+
+   
+    $session_id = $stmt->insert_id;
+
+    
+    $stmt->close();
+
+    return $session_id;  
+}
+
+
+function updateShoppingSession($session_id, $new_total, $conn) {
+    $modified_at = date("Y-m-d H:i:s");  
+
+    
+    $stmt = $conn->prepare("UPDATE shoppingSession SET total = ?, modified_at = ? WHERE id = ?");
+    
+    
+    $stmt->bind_param("dsi", $new_total, $modified_at, $session_id);
+
+    
+    $stmt->execute();
+
+   
+    $stmt->close();
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($conn)) { 
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Corrected: Select both id and password
+        
         $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
 
         if ($stmt === false) {
@@ -24,14 +63,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                // Corrected: Bind both selected fields (id and password)
+               
                 $stmt->bind_result($user_id, $hashedPassword);
                 $stmt->fetch();
 
                 if (password_verify($password, $hashedPassword)) {
-                    $_SESSION["user_id"] = $user_id;  // Now $user_id is available
-                    header("Location: AccountInfo.php");
-                    exit();
+                  
+                  $session_id = createShoppingSession($user_id, $conn);
+                    
+                  
+                  setcookie('session_id', $session_id, time() + 3600, "/");  
+                  
+                  $_SESSION['userID'] = $user_id;  
+                  $_SESSION['loggedin'] = true;
+
+                  echo '<pre>';
+                  print_r($_SESSION);  
+                  echo '</pre>';
+
+                  header("Location: index.php");  
+                  exit();
                 } else {
                     $error_message = "Incorrect password";
                 }
@@ -44,10 +95,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Database connection problem.";
     }
 }
+
 if (isset($conn)){
-   $conn->close();
+    $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,7 +211,6 @@ if (isset($conn)){
     }
   </style>
 </head>
-
 <body id="top" class="loaded">
   <!-- Header -->
   <header class="header" data-header>
@@ -200,7 +252,7 @@ if (isset($conn)){
         </ul>
       </nav>
 
-      <a href="#" class="btn btn-secondary">
+      <a href="reservation.php" class="btn btn-secondary">
         <span class="text text-1">Book A Table</span>
         <span class="text text-2" aria-hidden="true">Book A Table</span>
       </a>
@@ -243,20 +295,4 @@ if (isset($conn)){
       </section>
     </article>
   </main>
-
-  <!-- Footer -->
-  <footer class="footer section has-bg-image text-center">
-    <div class="container">
-      <div class="footer-bottom">
-        <p class="copyright">
-          © 2024 Peri Palace. All Rights Reserved
-        </p>
-      </div>
-    </div>
-  </footer>
-  <!-- Scripts -->
-  <script src="script.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
 </html>
