@@ -1,4 +1,5 @@
 <?php
+session_start();
 $servername = "localhost";
 $username = "cs2team48";
 $password = "9ZReO56gOBkKTcr";
@@ -125,6 +126,14 @@ $result = $conn->query($sql);
           if ($result->num_rows > 0) {
             echo "<ul class='grid-list mains-list'>";
             while ($row = $result->fetch_assoc()) {
+              $stock = $row["stock"];
+              if ($stock == 0) {
+                $stockMessage = "<span class='stock-status out-of-stock'>Out of Stock</span>";
+            } elseif ($stock < 10) {
+                $stockMessage = "<span class='stock-status low-stock'>Low Stock</span>";
+            } else {
+                $stockMessage = "<span class='stock-status in-stock'>In Stock</span>";
+            }
                 echo '<!-- Golden buttered corn -->
           <li class="main-item">
             <div class="main-card">
@@ -144,6 +153,7 @@ $result = $conn->query($sql);
                   <input type="hidden" name="price" value='. $row["price"] . '> <!-- Product Price -->
                   <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
                   <input type="hidden" name="image" value="'. $row["image"] . '">
+                  <input type="hidden" name="url" value="desserts.php">
               
                   <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
               </form>
@@ -152,6 +162,12 @@ $result = $conn->query($sql);
                 <input type="hidden" name="url" value="desserts.php">
                 <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
               </form>
+              <form method="GET" action="editproduct.php">
+                <input type="hidden" name="id" value="' . $row["id"] . '">
+                <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
+                <input type="hidden" name="url" value="desserts.php">
+              </form>
+              <h3 class="title-4 card-title">' . $stockMessage . '</h3>
               </div>
             </div>
           </li>';
