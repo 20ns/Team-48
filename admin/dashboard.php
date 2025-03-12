@@ -1,16 +1,3 @@
-<?php
-session_start();
-require_once '../connection.php';
-
-if (!isset($_SESSION['admin_logged_in'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Fetch all products
-$result = $conn->query("SELECT * FROM product");
-$items = $result->fetch_all(MYSQLI_ASSOC);
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,13 +5,31 @@ $items = $result->fetch_all(MYSQLI_ASSOC);
     <style>
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; border: 1px solid #ddd; }
+        .nav-buttons { margin-bottom: 20px; }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
     <h1>Stock Management</h1>
-    <a href="logout.php">Logout</a>
+    
+    <div class="nav-buttons">
+        <a href="orders.php" class="button">Orders</a>
+        <a href="logout.php" class="button">Logout</a>
+    </div>
     
     <table>
+        <!-- Existing table content remains the same -->
         <tr>
             <th>ID</th>
             <th>Item Name</th>
