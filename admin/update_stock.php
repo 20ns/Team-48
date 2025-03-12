@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = $_POST['item_id'];
     $stock = (int)$_POST['stock'];
 
-    $stmt = $conn->prepare("UPDATE menu_items SET stock = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE product SET stock = ? WHERE id = ?");
     $stmt->bind_param("ii", $stock, $item_id);
     $stmt->execute();
     
