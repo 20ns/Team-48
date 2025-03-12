@@ -25,25 +25,76 @@ $ordersResult = $conn->query($ordersQuery);
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .order-items { margin: 10px 0; padding: 10px; background: #f9f9f9; }
+        .order { border: 1px solid #ddd; margin-bottom: 20px; padding: 15px; }
+        .alert {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            border: 1px solid #d0e9c6;
+            color: #3c763d;
+        }
+
+        .error {
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            color: #a94442;
+        }
+        .order-status-form {
+          display: inline-block;
+        }
+
+        .order-status-form select {
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          margin-right: 5px;
+        }
+
+        .order-status-form button {
+          padding: 5px 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .order-status-form button:hover {
+          background-color: #367c39;
+        }
     </style>
 </head>
 <body>
     <h1>Order Management</h1>
     <a href="dashboard.php">Back to Dashboard</a>
 
+    <?php if (isset($_SESSION['success'])): ?>
+    <div class="alert success"><?= $_SESSION['success'] ?></div>
+    <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert error"><?= $_SESSION['error'] ?></div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
     <?php while($order = $ordersResult->fetch_assoc()): ?>
         <div class="order">
-            <h3>Order #<?= $order['id'] ?></h3>
-            <p>Customer: <?= $order['user_name'] ?> (<?= $order['email'] ?>)</p>
+            <h3>Order #<?= htmlspecialchars($order['id']) ?></h3>
+            <p>Customer: <?= htmlspecialchars($order['user_name']) ?> (<?= htmlspecialchars($order['email']) ?>)</p>
             <p>Total: £<?= number_format($order['total'], 2) ?></p>
             <p>Status: 
-                <form action="update_order.php" method="POST" style="display: inline;">
-                    <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                <form class="order-status-form" action="update_order.php" method="POST">
+                    <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['id']) ?>">
                     <select name="status">
-                        <option value="pending" <?= $order['status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
-                        <option value="processing" <?= $order['status'] == 'processing' ? 'selected' : '' ?>>Processing</option>
-                        <option value="completed" <?= $order['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
-                        <option value="cancelled" <?= $order['status'] == 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
+                        <option value="pending" <?= ($order['status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="processing" <?= ($order['status'] == 'processing') ? 'selected' : '' ?>>Processing</option>
+                        <option value="completed" <?= ($order['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="cancelled" <?= ($order['status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
                     </select>
                     <button type="submit">Update Status</button>
                 </form>
@@ -75,13 +126,16 @@ $ordersResult = $conn->query($ordersQuery);
                     </tr>
                     <?php while($item = $itemsResult->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $item['name'] ?></td>
+                            <td><?= htmlspecialchars($item['name']) ?></td>
                             <td>£<?= number_format($item['price'], 2) ?></td>
-                            <td><?= $item['quantity'] ?></td>
+                            <td><?= htmlspecialchars($item['quantity']) ?></td>
                             <td>£<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </table>
+                <?php
+                $stmt->close();
+                ?>
             </div>
         </div>
     <?php endwhile; ?>
