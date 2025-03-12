@@ -7,8 +7,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit();
 }
 
-// Fetch all menu items
-$result = $conn->query("SELECT * FROM menu_items");
+// Fetch all products
+$result = $conn->query("SELECT * FROM product");
 $items = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>

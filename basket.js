@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (isNaN(quantity) || quantity <=0){
                 quantity = 1;
-                 quantityElement.value = 1;
+                quantityElement.value = 1;
             }
-           
+        
 
             total = total + (price * quantity);
 
@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function quantityChange(event) {
         var input = event.target;
-       if (isNaN(input.value) || input.value <= 0) {
-           input.value = 1;
+    if (isNaN(input.value) || input.value <= 0) {
+        input.value = 1;
             
-       }
+    }
         updateCartTotal();
     }
 
