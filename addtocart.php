@@ -117,6 +117,79 @@ if(isset($_POST["addtocart"])) {
   $quantity = $_POST["quantity"];
   $user_id = $_SESSION['user_id'];
 
+     // Check if the product is out of order
+    $stmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
+    $stmt->bind_param("i", $productID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
+
+    if ($product["stock"] == 0) {
+        echo '
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Item Unavailable</title>
+            <link rel="stylesheet" href="./assets/css/style.css">
+            <style>
+                .popup-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                }
+                .popup-container {
+                    background-color: var(--black-alpha-15);
+                    padding: 20px;
+                    border-radius: 12px;
+                    text-align: center;
+                    max-width: 400px;
+                    box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.2);
+                }
+                .popup-message {
+                    color: var(--white);
+                    font-family: var(--fontFamily-dm_sans);
+                    font-size: var(--fontSize-body-2);
+                    margin-bottom: 15px;
+                }
+                .popup-button {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background: var(--gold-crayola);
+                    color: var(--black);
+                    border-radius: 5px;
+                    font-size: var(--fontSize-label-2);
+                    font-weight: var(--weight-bold);
+                    text-decoration: none;
+                    transition: background 0.3s;
+                    margin-top: 10px;
+                }
+                .popup-button:hover {
+                    background: #c19a2f;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="popup-overlay">
+                <div class="popup-container">
+                    <p class="popup-message">Sorry, this item is currently out of stock.</p>
+                    <a href="javascript:history.back()" class="popup-button">Go Back</a>
+                </div>
+            </div>
+        </body>
+        </html>
+        ';
+        exit();
+    }
+
   $stmt = mysqli_prepare($conn, "INSERT INTO items(id, name, quantity, price, user_id) VALUES (?, ?, ?, ?, ?)");
   mysqli_stmt_bind_param($stmt, 'isdii', $id, $name, $quantity, $price, $_SESSION['user_id']);
 
