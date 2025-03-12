@@ -1,45 +1,3 @@
-<?php
-session_start();
-
-// Database configuration
-$servername = "localhost";
-$username = "cs2team48";
-$password = "9ZReO56gOBkKTcr";
-$dbname = "cs2team48_db";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Sanitize and validate input
-$name = mysqli_real_escape_string($conn, $_POST['name']);
-$email = mysqli_real_escape_string($conn, $_POST['email']);
-$phone = mysqli_real_escape_string($conn, $_POST['phone']);
-$date = mysqli_real_escape_string($conn, $_POST['date']);
-$time = mysqli_real_escape_string($conn, $_POST['time']);
-$party_size = intval($_POST['party-size']);
-$special_requests = mysqli_real_escape_string($conn, $_POST['special-requests']);
-
-// Insert into database
-$stmt = $conn->prepare("INSERT INTO reservations (name, email, phone, date, time, party_size, special_requests) 
-                       VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssis", $name, $email, $phone, $date, $time, $party_size, $special_requests);
-
-if ($stmt->execute()) {
-    $_SESSION['reservation_success'] = true;
-    header("Location: reservation-success.html");
-} else {
-    $_SESSION['reservation_error'] = "Error: " . $stmt->error;
-    header("Location: reservation.php");
-}
-
-$stmt->close();
-$conn->close();
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,8 +10,7 @@ $conn->close();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap" rel="stylesheet">
   <title>Peri Palace - Table Reservation</title>
-  <style>
-    /* Reservation Section Styling */
+ <style>
     .reservation-section {
       padding: 60px 0;
       background-color: var(--eerie-black-1);
@@ -66,17 +23,20 @@ $conn->close();
       padding: 40px;
       background-color: var(--smoky-black-2);
       border-radius: var(--radius-24);
-      box-shadow: 0 4px 10px var(--black-alpha-15);
+      box-shadow: 0 8px 24px var(--black-alpha-20);
+      border: 1px solid var(--gold-crayola-alpha-20);
     }
 
     .reservation-form {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
+      position: relative;
     }
 
     .form-group.full-width {
@@ -85,52 +45,102 @@ $conn->close();
 
     label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       font-family: var(--ff-dm-sans);
       font-weight: var(--fw-700);
       color: var(--gold-crayola);
+      font-size: 1.5rem;
+      letter-spacing: 0.5px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid var(--white-alpha-10);
-      border-radius: var(--radius-24);
+      padding: 14px 18px;
+      border: 2px solid var(--white-alpha-15);
+      border-radius: 12px;
       background-color: var(--eerie-black-2);
       color: var(--white);
       font-family: var(--ff-dm-sans);
       font-size: 1rem;
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
+    }
+
+    input:hover, select:hover, textarea:hover {
+      border-color: var(--gold-crayola-alpha-40);
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--gold-crayola);
+      box-shadow: 0 0 8px var(--gold-crayola-alpha-20);
     }
 
     .reservation-btn {
       grid-column: 1 / -1;
-      background-color: var(--gold-crayola);
+      background: linear-gradient(135deg, var(--gold-crayola) 0%, var(--gold-crayola-dark) 100%);
       color: var(--smoky-black-1);
-      padding: 16px 32px;
+      padding: 18px 40px;
       border: none;
-      border-radius: var(--radius-24);
+      border-radius: 12px;
       font-family: var(--ff-forum);
       font-size: 1.1rem;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-top: 1rem;
     }
 
     .reservation-btn:hover {
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--gold-crayola-alpha-30);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 2px;
+      background: var(--gold-crayola);
     }
 
     @media (max-width: 768px) {
+      .reservation-container {
+        padding: 30px;
+        margin: 0 20px;
+      }
+
       .reservation-form {
         grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
       }
     }
-  </style>
+
+    @media (max-width: 480px) {
+      .reservation-container {
+        padding: 25px;
+      }
+      
+      input, select, textarea {
+        padding: 12px 15px;
+      }
+    }
+</style>
 </head>
 
 <body id="top" class="reservation">
@@ -206,7 +216,7 @@ $conn->close();
 
             <div class="form-group full-width">
               <label for="special-requests">Special Requests</label>
-              <textarea id="special-requests" name="special-requests" rows="4"></textarea>
+              <textarea id="special-requests" name="special-requests" rows="3"></textarea>
             </div>
 
             <button type="submit" class="reservation-btn">Book Table</button>
