@@ -4,63 +4,47 @@ error_reporting(E_ALL);
 
 session_start();
 
-require_once 'connection.php';
+require_once 'connection.php'; 
 
 $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($conn)) {
-        $name = trim($_POST['name']);
-        $phone = trim($_POST['phone']);
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
+    $name = trim($_POST['name']);
+    $phone = trim($_POST['phone']);
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
 
-
-        if (empty($name) || empty($phone) || empty($email) || empty($password)) {
-            $error_message = "All fields are required.";
-        }  elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-             $error_message = "Invalid Email";
-        }
-        else {
-            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-            if ($stmt === false) {
-                $error_message = "Error preparing statement: " . $conn->error;
-            } else {
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $stmt->store_result();
-
-                if ($stmt->num_rows > 0) {
-                    $error_message = "Email already in use. Please try a different email.";
-                } else {
-                    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-                    $stmt = $conn->prepare("INSERT INTO users (name, phone_number, email, password) VALUES (?, ?, ?, ?)");
-                    if ($stmt === false) {
-                        $error_message = "Error preparing statement: " . $conn->error;
-                    } else {
-                        $stmt->bind_param("ssss", $name, $phone, $email, $hashed_password);
-                        if ($stmt->execute()) {
-                            $success_message = "Signup successful! <a href='logIn.php'>Go to Login</a>";
-                             header("Location: logIn.php");
-                             exit;
-                        } else {
-                            $error_message = "Error: " . $stmt->error;
-                        }
-                    }
-                }
-                $stmt->close();
-            }
-        }
+    if (empty($name) || empty($phone) || empty($email) || empty($password)) {
+        $error_message = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error_message = "Invalid Email";
     } else {
-          $error_message = "Database connection problem.";
+        try {
+            // Check if email exists
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->execute([$email]);
 
-    }
-    if (isset($conn)){
-        $conn->close();
-    }
+            if ($stmt->rowCount() > 0) {
+                $error_message = "Email already in use. Please try a different email.";
+            } else {
+                // Hash the password
+                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
+                // Insert the new user
+                $stmt = $pdo->prepare("INSERT INTO users (name, phone_number, email, password) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$name, $phone, $email, $hashed_password]);
+
+                $success_message = "Signup successful! <a href='logIn.php'>Go to Login</a>";
+                header("Location: logIn.php");
+                exit;
+            }
+        } catch (PDOException $e) {
+            $error_message = "Error: " . $e->getMessage();
+             error_log("Signup error: " . $e->getMessage()); // Log the detailed error
+
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
