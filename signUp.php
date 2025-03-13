@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </ul>
       </nav>
 
-      <a href="#" class="btn btn-secondary">
+      <a href="reservation.php" class="btn btn-secondary">
         <span class="text text-1">Book A Table</span>
         <span class="text text-2" aria-hidden="true">Book A Table</span>
       </a>
