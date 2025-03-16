@@ -594,7 +594,7 @@ body {
 .hero .btn { margin-inline: auto; }
 .hero-btn {
   position: absolute;
-  bottom: 150px;
+  bottom: 15px;
   right: 15px;
   z-index: 2;
   background-color: var(--gold-crayola);
