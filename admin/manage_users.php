@@ -1,10 +1,8 @@
 <?php
-// Error reporting at the VERY TOP
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Session must start before any output
 session_start();
 
 if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true) {
@@ -12,15 +10,13 @@ if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true)
     exit;
 }
 
-require 'connection.php'; // Moved after session_start()
+require $_SERVER['DOCUMENT_ROOT'] . '/connection.php';
 
-// Simplified search functionality
 $search = [];
 $queryParams = [];
 $whereClauses = [];
 
 try {
-    // Base query matching your exact table structure
     $sql = "
         SELECT 
             users.id, 
@@ -35,7 +31,6 @@ try {
         LEFT JOIN userinfo ON users.id = userinfo.userID
     ";
 
-    // Add search filters if provided
     if (!empty($_GET['name'])) {
         $sql .= " WHERE users.name LIKE ?";
         $queryParams[] = '%' . $_GET['name'] . '%';
@@ -58,22 +53,87 @@ try {
     <meta charset="UTF-8">
     <title>Manage Users</title>
     <style>
-        /* Simple table styling */
-        table { border-collapse: collapse; width: 100%; }
-        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
+        /* Table styling */
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin-top: 20px;
+        }
+        th, td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd;
+        }
+        th { 
+            background-color: #f2f2f2; 
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
+        
+        /* Search form */
+        .search-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-form button {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-form a {
+            padding: 8px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>User Management</h1>
     
-    <!-- Simple Search Form -->
-    <form method="GET" style="margin-bottom: 20px;">
-        <input type="text" name="name" placeholder="Search by name" 
-               value="<?= htmlspecialchars($_GET['name'] ?? '') ?>">
-        <button type="submit">Search</button>
-        <a href="manage_users.php">Clear</a>
-    </form>
+    <div class="search-form">
+        <form method="GET">
+            <input type="text" name="name" placeholder="Search by name" 
+                   value="<?= htmlspecialchars($_GET['name'] ?? '') ?>">
+            <button type="submit">Search</button>
+            <a href="manage_users.php">Clear Filters</a>
+        </form>
+    </div>
 
     <table>
         <thead>
@@ -84,11 +144,12 @@ try {
                 <th>Phone</th>
                 <th>Address</th>
                 <th>Registered</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($users)): ?>
-                <tr><td colspan="6">No users found</td></tr>
+                <tr><td colspan="7">No users found</td></tr>
             <?php else: ?>
                 <?php foreach ($users as $user): ?>
                 <tr>
@@ -101,7 +162,15 @@ try {
                         <?= htmlspecialchars($user['city']) ?> 
                         <?= htmlspecialchars($user['postalCode']) ?>
                     </td>
-                    <td><?= date('Y-m-d', strtotime($user['created_at'])) ?></td>
+                    <td><?= date('M j, Y', strtotime($user['created_at'])) ?></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="edit_user.php?user_id=<?= $user['id'] ?>" class="edit-btn">Edit</a>
+                            <a href="delete_user.php?user_id=<?= $user['id'] ?>" 
+                               class="delete-btn" 
+                               onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone!')">Delete</a>
+                        </div>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
