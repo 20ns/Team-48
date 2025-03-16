@@ -46,6 +46,7 @@ if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true)
         <li><a href="admin_stock.php" class="button">Manage Stock</a></li>
         <li><a href="orders.php" class="button">View Orders</a></li>
         <li><a href="logout.php" class="button">Logout</a></li>
+        <li><a href="manage_users.php" class="button">Manage Users</a></li>
     </ul>
 </body>
 </html>
