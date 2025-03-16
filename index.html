@@ -409,40 +409,70 @@
   </div>
 </section>
 
-      <!-- 
-        - #CONTACT US PAGE
-      -->
-      <section id="contact" class="contact-us-section">
-        <div class="container">
-          <div class="form contact-form bg-black-10">
-            <form id="contactForm" class="form-left">
-              <h2 class="headline-1 text-center">Contact Us</h2>
-              <p class="form-text text-center">
-                Got a question or feedback? Reach out to us via the form below.
-              </p>
-              <div class="input-wrapper">
-                <input type="text" id="name" name="name" placeholder="Your Name" autocomplete="off" class="input-field" required>
-                <input type="email" id="email" name="email" placeholder="Your Email" autocomplete="off" class="input-field" required>
-              </div>
-              <textarea id="message" name="message" placeholder="Your Message" autocomplete="off" class="input-field" required></textarea>
-        <button type="submit" class="btn btn-secondary">
-                <span class="text text-1">Send Message</span>
-                <span class="text text-2" aria-hidden="true">Send Message</span>
-              </button>
-              <p id="formMessage" class="form-message"></p>
-            </form>
-            <div class="form-right text-center" >
-              <h2 class="headline-1 text-center">Get in Touch</h2>
-              <p class="contact-label">Location</p>
-              <address class="body-4">Corporate Street, Stratford Rd, Liverpool 8976, UK</address>
-              <p class="contact-label">Phone</p>
-              <a href="tel:+29056745321" class="body-1 contact-number hover-underline">+2 905 674 5321</a>
-              <p class="contact-label">Email</p>
-              <a href="mailto:contact@peripalace.com" class="body-4 sidebar-link">contact@peripalace.com</a>
-            </div>
+       <!-- Contact section -->
+  <section id="contact" class="contact-us-section">
+    <div class="container">
+      <div class="form contact-form bg-black-10">
+        <form 
+          id="contactForm" 
+          class="form-left" 
+          action="contact.php"      
+          method="POST"            
+        >
+          <h2 class="headline-1 text-center">Contact Us</h2>
+          <p class="form-text text-center">
+            Got a question or feedback? Reach out to us via the form below.
+          </p>
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              placeholder="Your Name" 
+              class="input-field" 
+              required
+            >
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Your Email" 
+              class="input-field" 
+              required
+            >
           </div>
+          <textarea 
+            id="message" 
+            name="message" 
+            placeholder="Your Message" 
+            class="input-field" 
+            required
+          ></textarea>
+          
+          <button type="submit" class="btn btn-secondary">
+            <span class="text text-1">Send Message</span>
+            <span class="text text-2" aria-hidden="true">Send Message</span>
+          </button>
+        </form>
+
+        <div class="form-right text-center">
+          <h2 class="headline-1 text-center">Get in Touch</h2>
+          <p class="contact-label">Location</p>
+          <address class="body-4">
+            Corporate Street, Stratford Rd, Liverpool 8976, UK
+          </address>
+          <p class="contact-label">Phone</p>
+          <a href="tel:+29056745321" class="body-1 contact-number hover-underline">
+            +2 905 674 5321
+          </a>
+          <p class="contact-label">Email</p>
+          <a href="mailto:contact.peripalace@gmail.com" class="body-4 sidebar-link">
+            contact.peripalace@gmail.com
+          </a>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
       <!-- 
         - #NEW ADDITION
       -->
