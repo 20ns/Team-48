@@ -1,5 +1,10 @@
 <?php
-require 'connection.php';
+// Error reporting at the VERY TOP
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Session must start before any output
 session_start();
 
 if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true) {
@@ -7,55 +12,43 @@ if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true)
     exit;
 }
 
-// Search functionality
+require 'connection.php'; // Moved after session_start()
+
+// Simplified search functionality
 $search = [];
 $queryParams = [];
 $whereClauses = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['search'])) {
-    $search = [
-        'name' => $_GET['name'] ?? '',
-        'email' => $_GET['email'] ?? '',
-        'phone' => $_GET['phone'] ?? ''
-    ];
-    
-    // Build WHERE clauses
-    if (!empty($search['name'])) {
-        $whereClauses[] = "users.name LIKE :name";
-        $queryParams[':name'] = '%' . $search['name'] . '%';
-    }
-    if (!empty($search['email'])) {
-        $whereClauses[] = "users.email LIKE :email";
-        $queryParams[':email'] = '%' . $search['email'] . '%';
-    }
-    if (!empty($search['phone'])) {
-        $whereClauses[] = "users.phone_number LIKE :phone";
-        $queryParams[':phone'] = '%' . $search['phone'] . '%';
-    }
-}
-
 try {
-    // Base query
+    // Base query matching your exact table structure
     $sql = "
-        SELECT users.id, users.name, users.email, users.phone_number, 
-               userinfo.addressLine1, userinfo.city, userinfo.postalCode,
-               users.created_at
-        FROM users 
+        SELECT 
+            users.id, 
+            users.name, 
+            users.email, 
+            users.phone_number, 
+            userinfo.addressLine1, 
+            userinfo.city, 
+            userinfo.postalCode,
+            users.created_at
+        FROM users
         LEFT JOIN userinfo ON users.id = userinfo.userID
     ";
-    
-    // Add WHERE clauses if any
-    if (!empty($whereClauses)) {
-        $sql .= " WHERE " . implode(' AND ', $whereClauses);
+
+    // Add search filters if provided
+    if (!empty($_GET['name'])) {
+        $sql .= " WHERE users.name LIKE ?";
+        $queryParams[] = '%' . $_GET['name'] . '%';
     }
-    
+
     $sql .= " ORDER BY users.created_at DESC";
-    
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute($queryParams);
     $users = $stmt->fetchAll();
+
 } catch (PDOException $e) {
-    die("Error fetching users: " . $e->getMessage());
+    die("Database Error: " . $e->getMessage());
 }
 ?>
 
@@ -65,17 +58,21 @@ try {
     <meta charset="UTF-8">
     <title>Manage Users</title>
     <style>
-        /* Existing styles remain */
-        .danger-btn { background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; }
-        .actions { display: flex; gap: 10px; }
+        /* Simple table styling */
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
     <h1>User Management</h1>
     
-    <!-- Search Form -->
-    <form class="search-form" method="GET">
-        <!-- Existing search fields -->
+    <!-- Simple Search Form -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="name" placeholder="Search by name" 
+               value="<?= htmlspecialchars($_GET['name'] ?? '') ?>">
+        <button type="submit">Search</button>
+        <a href="manage_users.php">Clear</a>
     </form>
 
     <table>
@@ -87,38 +84,27 @@ try {
                 <th>Phone</th>
                 <th>Address</th>
                 <th>Registered</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($users)): ?>
-            <tr>
-                <td colspan="7">No users found</td>
-            </tr>
+                <tr><td colspan="6">No users found</td></tr>
+            <?php else: ?>
+                <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['id']) ?></td>
+                    <td><?= htmlspecialchars($user['name']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td><?= htmlspecialchars($user['phone_number']) ?></td>
+                    <td>
+                        <?= htmlspecialchars($user['addressLine1']) ?><br>
+                        <?= htmlspecialchars($user['city']) ?> 
+                        <?= htmlspecialchars($user['postalCode']) ?>
+                    </td>
+                    <td><?= date('Y-m-d', strtotime($user['created_at'])) ?></td>
+                </tr>
+                <?php endforeach; ?>
             <?php endif; ?>
-            
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['id']) ?></td>
-                <td><?= htmlspecialchars($user['name']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><?= htmlspecialchars($user['phone_number']) ?></td>
-                <td>
-                    <?= htmlspecialchars($user['addressLine1']) ?><br>
-                    <?= htmlspecialchars($user['city']) ?> 
-                    <?= htmlspecialchars($user['postalCode']) ?>
-                </td>
-                <td><?= date('M j, Y', strtotime($user['created_at'])) ?></td>
-                <td>
-                    <div class="actions">
-                        <a href="edit_user.php?user_id=<?= $user['id'] ?>" class="edit-btn">Edit</a>
-                        <a href="delete_user.php?user_id=<?= $user['id'] ?>" 
-                        class="danger-btn" 
-                        nclick="return confirm('Are you sure? This cannot be undone!')">Delete</a>
-                    </div>
-                </td>
-            </tr>
-            <?php endforeach; ?>
         </tbody>
     </table>
 </body>
