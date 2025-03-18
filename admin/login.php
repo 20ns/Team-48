@@ -3,18 +3,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
-// If already logged in, redirect to dashboard.php
 if (isset($_SESSION['admin_loggedin']) && $_SESSION['admin_loggedin'] === true) {
     header("Location: dashboard.php");
     exit();
 }
 
-require_once '../connection.php'; // Correct path
+require_once '../connection.php'; 
 
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']); // Trim whitespace
+    $username = trim($_POST['username']); 
     $password = trim($_POST['password']);
 
     if (empty($username) || empty($password)) {
@@ -23,18 +22,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $stmt = $pdo->prepare("SELECT id, password FROM admins WHERE username = ?");
             $stmt->execute([$username]);
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC); 
 
             if ($user && password_verify($password, $user['password'])) {
                 // Successful login!
                 $_SESSION['admin_loggedin'] = true;
-                header("Location: dashboard.php"); // Redirect to dashboard.php
+                $_SESSION['admin_id'] = $user['id']; 
+                header("Location: dashboard.php"); 
                 exit();
             } else {
+                sleep(1); 
                 $error = "Invalid credentials.";
             }
         } catch (PDOException $e) {
-            $error = "Database error: " . $e->getMessage();
+            error_log("Database error: " . $e->getMessage());
+            $error = "An error occurred.  Please try again later.";
         }
     }
 }
