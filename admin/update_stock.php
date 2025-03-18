@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':id', $itemID, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Redirect back to the dashboard page AFTER successful update
         header('Location: dashboard.php');
         exit;
 
@@ -45,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Database Error: " . $e->getMessage());
     }
 } else {
-    // Handle non-POST requests
     header('Location: dashboard.php');
     exit;
 }

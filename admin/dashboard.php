@@ -148,6 +148,10 @@ if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true)
                     <span class="material-symbols-outlined">group</span>
                     Manage Users
                 </a></li>
+                <li><a href="add_product.php" class="button">
+                    <span class="material-symbols-outlined">add_box</span>
+                    Add Product
+                </a></li>
                 <li><a href="logout.php" class="button">
                     <span class="material-symbols-outlined">logout</span>
                     Logout
