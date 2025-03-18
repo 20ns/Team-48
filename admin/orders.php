@@ -30,65 +30,168 @@ try {
 <html>
 <head>
     <title>Order Management</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
     <style>
-        /* Your existing CSS */
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        .order-items { margin: 10px 0; padding: 10px; background: #f9f9f9; }
-        .order { border: 1px solid #ddd; margin-bottom: 20px; padding: 15px; }
-        .alert {
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
+    :root {
+        --gold-crayola: #e4c590;
+        --smoky-black-1: #0A0A0A;
+        --smoky-black-2: #1A1A1A;
+        --smoky-black-3: #2A2A2A;
+        --eerie-black-1: #121212;
+        --eerie-black-2: #1E1E1E;
+        --quick-silver: #A0A0A0;
+        --white: #ffffff;
+        --radius-24: 24px;
+        --transition-1: 0.25s ease;
+    }
 
-        .success {
-            background-color: #dff0d8;
-            border: 1px solid #d0e9c6;
-            color: #3c763d;
-        }
+    body {
+        font-family: 'DM Sans', sans-serif;
+        background-color: var(--eerie-black-1);
+        color: var(--white);
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
 
-        .error {
-            background-color: #f2dede;
-            border: 1px solid #ebccd1;
-            color: #a94442;
-        }
-        .order-status-form {
-          display: inline-block;
-        }
+    h1 {
+        color: var(--gold-crayola);
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-        .order-status-form select {
-          padding: 5px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          margin-right: 5px;
-        }
+    .order {
+        background-color: var(--smoky-black-2);
+        border-radius: var(--radius-24);
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid var(--smoky-black-3);
+    }
 
-        .order-status-form button {
-          padding: 5px 10px;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
+    .order h3 {
+        color: var(--gold-crayola);
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
 
-        .order-status-form button:hover {
-          background-color: #367c39;
-        }
-        .back-to-dashboard {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #007bff; /* Blue color */
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-        .back-to-dashboard:hover {
-           background-color: #0056b3; /* Darker blue on hover */
-         }
+    .order p {
+        color: var(--quick-silver);
+        margin: 10px 0;
+    }
 
+    .order-items {
+        background-color: var(--smoky-black-3);
+        border-radius: var(--radius-24);
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--smoky-black-2);
+        border-radius: var(--radius-24);
+        overflow: hidden;
+        margin: 20px 0;
+    }
+
+    th, td {
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--eerie-black-2);
+        text-align: left;
+    }
+
+    th {
+        background-color: var(--smoky-black-3);
+        color: var(--gold-crayola);
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    tr:hover {
+        background-color: var(--smoky-black-3);
+    }
+
+    .alert {
+        padding: 15px 25px;
+        border-radius: var(--radius-24);
+        margin: 25px 0;
+        font-weight: 700;
+    }
+
+    .success {
+        background-color: #2a4d2e;
+        color: var(--gold-crayola);
+        border: 1px solid #3c763d;
+    }
+
+    .error {
+        background-color: #4d2a2a;
+        color: #ff6b6b;
+        border: 1px solid #a94442;
+    }
+
+    .back-to-dashboard {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background-color: var(--smoky-black-3);
+        color: var(--gold-crayola);
+        text-decoration: none;
+        border-radius: var(--radius-24);
+        transition: all var(--transition-1);
+        border: 1px solid var(--gold-crayola);
+        margin-bottom: 30px;
+    }
+
+    .back-to-dashboard:hover {
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+        transform: translateY(-2px);
+    }
+
+    .order-status-form {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .order-status-form select {
+        padding: 8px 16px;
+        background-color: var(--eerie-black-2);
+        border: 1px solid var(--smoky-black-3);
+        border-radius: var(--radius-24);
+        color: var(--white);
+        font-family: inherit;
+    }
+
+    .order-status-form button {
+        padding: 8px 16px;
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+        border: none;
+        border-radius: var(--radius-24);
+        cursor: pointer;
+        font-weight: 700;
+        transition: all var(--transition-1);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .order-status-form button:hover {
+        background-color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    .material-symbols-outlined {
+        font-size: 18px;
+        vertical-align: middle;
+    }
     </style>
 </head>
 <body>

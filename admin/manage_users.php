@@ -51,80 +51,202 @@ try {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Manage Users</title>
-    <style>
-        /* Table styling */
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
-            margin-top: 20px;
-        }
-        th, td { 
-            padding: 12px; 
-            text-align: left; 
-            border-bottom: 1px solid #ddd;
-        }
-        th { 
-            background-color: #f2f2f2; 
-        }
-        
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .edit-btn, .delete-btn {
-            padding: 6px 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: opacity 0.3s;
-        }
-        .edit-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        .edit-btn:hover, .delete-btn:hover {
-            opacity: 0.8;
-        }
-        
-        /* Search form */
-        .search-form {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        .search-form input[type="text"] {
-            padding: 8px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .search-form button {
-            padding: 8px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-form a {
-            padding: 8px 20px;
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-left: 10px;
-        }
+     <style>
+    :root {
+        --gold-crayola: #e4c590;
+        --smoky-black-1: #0A0A0A;
+        --smoky-black-2: #1A1A1A;
+        --smoky-black-3: #2A2A2A;
+        --eerie-black-1: #121212;
+        --eerie-black-2: #1E1E1E;
+        --quick-silver: #A0A0A0;
+        --white: #ffffff;
+        --radius-24: 24px;
+        --transition-1: 0.25s ease;
+    }
+
+    body {
+        font-family: 'DM Sans', sans-serif;
+        background-color: var(--eerie-black-1);
+        color: var(--white);
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+
+    h1 {
+        color: var(--gold-crayola);
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .search-form {
+        background-color: var(--smoky-black-2);
+        padding: 25px;
+        border-radius: var(--radius-24);
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid var(--smoky-black-3);
+    }
+
+    .search-form input[type="text"] {
+        padding: 12px 18px;
+        background-color: var(--eerie-black-2);
+        border: 1px solid var(--smoky-black-3);
+        border-radius: var(--radius-24);
+        color: var(--white);
+        width: 300px;
+        transition: all var(--transition-1);
+    }
+
+    .search-form input[type="text"]:focus {
+        border-color: var(--gold-crayola);
+        box-shadow: 0 0 0 2px var(--gold-crayola);
+        outline: none;
+    }
+
+    .search-form button {
+        padding: 12px 24px;
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+        border: none;
+        border-radius: var(--radius-24);
+        cursor: pointer;
+        font-weight: 700;
+        transition: all var(--transition-1);
+        margin-left: 10px;
+    }
+
+    .search-form button:hover {
+        background-color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    .search-form a {
+        padding: 12px 24px;
+        background-color: var(--smoky-black-3);
+        color: var(--quick-silver);
+        border-radius: var(--radius-24);
+        margin-left: 10px;
+        text-decoration: none;
+        transition: all var(--transition-1);
+    }
+
+    .search-form a:hover {
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--smoky-black-2);
+        border-radius: var(--radius-24);
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    th, td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid var(--eerie-black-2);
+    }
+
+    th {
+        background-color: var(--smoky-black-3);
+        color: var(--gold-crayola);
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    tr:hover {
+        background-color: var(--smoky-black-3);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .edit-btn, .delete-btn {
+        padding: 8px 16px;
+        border-radius: var(--radius-24);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all var(--transition-1);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .edit-btn {
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+        color: var(--white);
+    }
+
+    .edit-btn:hover {
+        background-color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    .delete-btn:hover {
+        background-color: #bb2d3b;
+        transform: translateY(-2px);
+    }
+
+    .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    td[colspan="7"] {
+        text-align: center;
+        padding: 30px;
+        color: var(--quick-silver);
+        background-color: var(--smoky-black-3);
+    }
+
+     .admin-btn {
+        display: inline-flex;
+        padding: 12px 24px;
+        background-color: var(--smoky-black-3);
+        color: var(--gold-crayola);
+        font-weight: 700;
+        text-transform: uppercase;
+        border-radius: var(--radius-24);
+        text-decoration: none;
+        transition: all var(--transition-1);
+        border: 2px solid var(--gold-crayola);
+        align-items: center;
+        gap: 8px;
+    }
+
+    .admin-btn:hover {
+        background-color: var(--gold-crayola);
+        color: var(--smoky-black-1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(228, 197, 144, 0.3);
+    }
     </style>
 </head>
 <body>
     <h1>User Management</h1>
+    
+    <div class="nav-buttons" style="margin-bottom: 20px; text-align: center;">
+        <a href="dashboard.php" class="admin-btn">
+            <span class="material-symbols-outlined"></span>
+            Back to Dashboard
+        </a>
+    </div>
     
     <div class="search-form">
         <form method="GET">
