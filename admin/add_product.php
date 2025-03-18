@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_loggedin']) || $_SESSION['admin_loggedin'] !== true)
     exit;
 }
 
-require_once 'db_connection.php'; // Your database connection file
+require_once '../connection.php';
 
 $error = '';
 $success = '';
