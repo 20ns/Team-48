@@ -1,29 +1,29 @@
 <?php
-session_start(); 
+session_start(); // Start the session to access the current user's session ID
 
-
+// Check if user is logged in (assuming userID is stored in session)
 if (isset($_SESSION['userID'])) {
-   
+    // Connect to your database
     $servername = "localhost";
     $username = "cs2team48";
     $password = "9ZReO56gOBkKTcr";
     $dbname = "cs2team48_db";
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-   
+    // Check if the connection was successful
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-   
+    // Check if there's a session for this user in the shoppingSession table
     $userID = $_SESSION['userID'];
-    $query = "SELECT * FROM shoppingSession WHERE userID = ? AND modified_at > NOW() - INTERVAL 30 MINUTE"; // assuming session timeout is 30 mins
+    $query = "SELECT * FROM shoppingSession WHERE userID = ?"; // This was initially timing out after 30 minutes and causing issues so removed timer for now
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $userID);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    
+    // If session exists, show account info button
     if ($result->num_rows > 0) {
         $loggedIn = true;
     } else {
@@ -109,7 +109,7 @@ if (isset($_SESSION['userID'])) {
         <button class="close-btn" aria-label="close menu" data-nav-toggler>
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
-   <a href="#index.html" class="logo">
+   <a href="#index.php" class="logo">
           <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
         </a>
         <ul class="navbar-list">
@@ -160,14 +160,14 @@ if (isset($_SESSION['userID'])) {
         </div>
       </nav>
       <?php if ($loggedIn): ?>
-    
-    <a href="profile.php" class="btn btn-primary">
-        <span class="text text-1">Profile</span>
-        <span class="text text-2" aria-hidden="true">Profile</span>
+    <!-- Account Info Button (show when logged in) -->
+    <a href="AccountInfo.php" class="btn btn-primary">
+        <span class="text text-1">Account Info</span>
+        <span class="text text-2" aria-hidden="true">Account Info</span>
     </a>
 
 <?php else: ?>
-    
+    <!-- Log In Button (show when not logged in) -->
     <a href="logIn.php" class="btn btn-secondary">
         <span class="text text-1">Log In</span>
         <span class="text text-2" aria-hidden="true">Log In</span>
@@ -231,7 +231,7 @@ if (isset($_SESSION['userID'])) {
           <ion-icon name="chevron-forward"></ion-icon>
         </button>
         <?php if ($loggedIn): ?>
-    
+    <!-- Account Info Button (show when logged in) -->
     
     <?php else: ?>
         <a href="logIn.php" class="hero-btn has-after">
@@ -316,72 +316,6 @@ if (isset($_SESSION['userID'])) {
                         <a href="./drinks.php" class="btn-text hover-underline label-2">View Menu</a>
                     </div>
                 </div>
-            </li>
-            <button id="openModalBtn" class="btn btn-secondary">Add Item</button>
-            <div id="addItemForm" class="form-modal" style="display: none;">
-              <div class="form-modal-content">
-                <span class="close-btn" id="closeFormBtn">&times;</span>
-                <h2 class="headline-1 text-center">Add New Menu Item</h2>
-                <form id="menuItemForm" enctype="multipart/form-data" method="POST" action="addtomenu.php">
-                  <label for="itemName">Item Name</label>
-                  <input type="text" id="itemName" style="background-color:white;" name="itemName" required>
-            
-                  <label for="itemDescription">Item Description</label>
-                  <textarea id="itemDescription" style="background-color:white;" name="itemDescription" required></textarea>
-            
-                  <label for="itemPrice">Item Price (£)</label>
-                  <input type="number" style="background-color:white;" id="itemPrice" name="itemPrice" required>
-            
-                  <label for="itemImage">Item Image</label>
-                  <input type="file" id="itemImage" name="itemImage" accept="image/*" required>
-            
-                  
-                  <label for="itemCategory">Category</label>
-                  <select id="itemCategory" style="background-color:white;" name="itemCategory" required>
-                    <option value="dessert">dessert</option>
-                    <option value="starter">starter</option>
-                    <option value="drink">drink</option>
-                    <option value="sides">sides</option>
-                    <option value="main">main</option>
-                  </select>
-            
-                  <button type="submit"  name="addtomenu" class="btn btn-secondary">Submit</button>
-                </form>
-              </div>
-            </div>
-            <script>
-              const toggleFormBtn = document.getElementById("openModalBtn");
-              const addItemForm = document.getElementById("addItemForm");
-              const closeFormBtn = document.getElementById("closeFormBtn");
-            
-              toggleFormBtn.addEventListener("click", function() {
-              if (addItemForm.style.display === "block") {
-                addItemForm.style.display = "none"; 
-              } else {
-                addItemForm.style.display = "block"; 
-    }
-  });
-            
-             
-              closeFormBtn.addEventListener("click", function() {
-                addItemForm.style.display = "none"; 
-              });
-            
-              
-              window.addEventListener("click", function(event) {
-                if (event.target === addItemForm) {
-                  addItemForm.style.display = "none"; 
-                }
-              });
-            
-              
-              const menuItemForm = document.getElementById("menuItemForm");
-            
-              ;
-            </script>
-            
-           
-        </ul>
     </div>
 </section>
       <!-- 
