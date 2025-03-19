@@ -142,7 +142,7 @@ $conn->close();
   <!-- Header -->
   <header class="header" data-header>
     <div class="container">
-      <a href="index.html" class="logo">
+      <a href="index.php" class="logo">
         <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
       </a>
 
@@ -151,13 +151,13 @@ $conn->close();
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
 
-        <a href="index.html" class="logo">
+        <a href="index.php" class="logo">
           <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
         </a>
 
         <ul class="navbar-list">
           <li class="navbar-item">
-            <a href="index.html" class="navbar-link hover-underline">
+            <a href="index.php" class="navbar-link hover-underline">
               <div class="separator"></div>
               <span class="span">Home</span>
             </a>
