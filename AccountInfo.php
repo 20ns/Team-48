@@ -3,7 +3,17 @@
 session_start();
 
 if (isset($_SESSION['userID'])) {
-    require_once 'connection.php';
+    
+    $servername = "localhost";
+    $username = "cs2team48";
+    $password = "9ZReO56gOBkKTcr";
+    $dbname = "cs2team48_db";
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+   
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
     $userID = $_SESSION['userID'];
 
@@ -40,21 +50,31 @@ if (isset($_SESSION['userID'])) {
     $name = $email = $phone_number = $addressLine1 = $city = $postalCode = null;
 }
 
-if (isset($_POST['logout']) && isset($_SESSION['userID'])) { 
-  require_once 'connection.php';
+if (isset($_POST['logout']) && isset($_SESSION['userID'])) {
+    
+    $servername = "localhost";
+    $username = "cs2team48";
+    $password = "9ZReO56gOBkKTcr";
+    $dbname = "cs2team48_db";
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-  $userID = $_SESSION['userID'];
+   
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-  $deleteSessionQuery = "DELETE FROM shoppingSession WHERE userID = ?";
-  $deleteSessionStmt = $conn->prepare($deleteSessionQuery);
-  $deleteSessionStmt->bind_param('i', $userID);
-  $deleteSessionStmt->execute();
-  $deleteSessionStmt->close();
+    $userID = $_SESSION['userID'];
+    
+    $deleteSessionQuery = "DELETE FROM shoppingSession WHERE userID = ?";
+    $deleteSessionStmt = $conn->prepare($deleteSessionQuery);
+    $deleteSessionStmt->bind_param('i', $userID);
+    $deleteSessionStmt->execute();
+    $deleteSessionStmt->close();
 
-  session_destroy();
-  setcookie('session_id', '', time() - 3600, '/');
-  header("Location: logIn.php"); 
-  exit();
+    session_destroy();
+    setcookie('session_id', '', time() - 3600, '/');
+    header("Location: logIn.php"); 
+    exit();
 }
 
 $conn->close();
