@@ -2,7 +2,7 @@
 session_start();
 require_once '../connection.php';
 
-if (!isset($_SESSION['admin_logged_in'])) {
+if (!isset($_SESSION['admin_loggedin'])) {  // Corrected session variable name
     header("Location: login.php");
     exit();
 }
@@ -12,57 +12,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
 
     // Start transaction
-    $conn->begin_transaction();
+    $pdo->beginTransaction();  // Use $pdo for PDO transactions
 
     try {
-        // Get current status first
-        $currentStatusStmt = $conn->prepare("SELECT status FROM orderDetails WHERE id = ?");
-        $currentStatusStmt->bind_param("i", $order_id);
-        $currentStatusStmt->execute();
-        $currentStatus = $currentStatusStmt->get_result()->fetch_assoc()['status'];
-        $currentStatusStmt->close();
+        // Get current status first using PDO
+        $currentStatusStmt = $pdo->prepare("SELECT status FROM orderDetails WHERE id = ?");
+        $currentStatusStmt->execute([$order_id]);
+        $currentStatus = $currentStatusStmt->fetchColumn();  // Fetch single value
 
-        // Update order status
-        $updateStmt = $conn->prepare("UPDATE orderDetails SET status = ? WHERE id = ?");
-        $updateStmt->bind_param("si", $status, $order_id);
-        $updateStmt->execute();
-        $updateStmt->close();
+        // Update order status using PDO
+        $updateStmt = $pdo->prepare("UPDATE orderDetails SET status = ? WHERE id = ?");
+        $updateStmt->execute([$status, $order_id]);
 
-        // Restore stock if changing to cancelled
+
+        // Restore stock if changing to cancelled using PDO
         if ($status === 'cancelled' && $currentStatus !== 'cancelled') {
-            $itemsStmt = $conn->prepare("
+            $itemsStmt = $pdo->prepare("
                 SELECT productID, quantity 
                 FROM orderItems 
                 WHERE orderID = ?
             ");
-            $itemsStmt->bind_param("i", $order_id);
-            $itemsStmt->execute();
-            $itemsResult = $itemsStmt->get_result();
-            
-            while ($item = $itemsResult->fetch_assoc()) {
-                // Update product stock
-                $restoreStmt = $conn->prepare("
+            $itemsStmt->execute([$order_id]);
+            $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all items
+
+            foreach ($items as $item) {
+                // Update product stock using PDO
+                $restoreStmt = $pdo->prepare("
                     UPDATE product 
                     SET stock = stock + ? 
                     WHERE id = ?
                 ");
-                $restoreStmt->bind_param("ii", $item['quantity'], $item['productID']);
-                $restoreStmt->execute();
-                $restoreStmt->close();
+                $restoreStmt->execute([$item['quantity'], $item['productID']]);
             }
-            $itemsStmt->close();
         }
 
-        $conn->commit();
-    } catch (Exception $e) {
-        $conn->rollback();
+        $pdo->commit();
+        $_SESSION['success'] = "Order status updated successfully";
+
+    } catch (PDOException $e) {  // Catch PDOException
+        $pdo->rollBack();
         error_log("Order update failed: " . $e->getMessage());
         $_SESSION['error'] = "Failed to update order status";
-        header("Location: orders.php");
-        exit();
+
     }
 
-    $_SESSION['success'] = "Order status updated successfully";
     header("Location: orders.php");
     exit();
 }
