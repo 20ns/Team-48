@@ -33,6 +33,43 @@ function updateShoppingSession($session_id, $new_total, $pdo) {
         error_log("Error updating shopping session: " . $e->getMessage());
         return false;
     }
+<<<<<<< HEAD
+=======
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (empty($email) || empty($password)) {
+        $error_message = "Please enter both email and password.";
+    } else {
+        try {
+            $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                $session_id = createShoppingSession($user['id'], $pdo);
+                if ($session_id !== false) {
+                   setcookie('session_id', $session_id, time() + 3600, "/", "", false, true);
+                    $_SESSION['userID'] = $user['id'];
+                    $_SESSION['loggedin'] = true;
+
+                    header("Location: index.php");
+                    exit();
+                } else {
+                     $error_message = "Failed to create shopping session";
+                }
+
+            } else {
+                $error_message = "Invalid credentials.";
+            }
+        } catch (PDOException $e) {
+            $error_message = "Database error: " . $e->getMessage();
+        }
+    }
+>>>>>>> admin
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
