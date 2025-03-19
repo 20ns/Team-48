@@ -1,9 +1,8 @@
-<?php
+<?php 
 
 session_start();
 
 if (isset($_SESSION['userID'])) {
-    
     require_once 'connection.php';
 
     $userID = $_SESSION['userID'];
@@ -41,8 +40,24 @@ if (isset($_SESSION['userID'])) {
     $name = $email = $phone_number = $addressLine1 = $city = $postalCode = null;
 }
 
-$conn->close();
+if (isset($_POST['logout']) && isset($_SESSION['userID'])) { 
+  require_once 'connection.php';
 
+  $userID = $_SESSION['userID'];
+
+  $deleteSessionQuery = "DELETE FROM shoppingSession WHERE userID = ?";
+  $deleteSessionStmt = $conn->prepare($deleteSessionQuery);
+  $deleteSessionStmt->bind_param('i', $userID);
+  $deleteSessionStmt->execute();
+  $deleteSessionStmt->close();
+
+  session_destroy();
+  setcookie('session_id', '', time() - 3600, '/');
+  header("Location: logIn.php"); 
+  exit();
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -114,7 +129,7 @@ $conn->close();
       color: red;
     }
 
-    .edit-btn {
+    .edit-btn, .logout-btn {
       display: inline-block;
       padding: 10px 20px;
       background-color: var(--gold-fusion);
@@ -127,14 +142,14 @@ $conn->close();
       transition: background-color 0.3s ease;
     }
     
-    .edit-btn:hover {
+    .edit-btn:hover, .logout-btn:hover {
       background-color: darkorange;
     }
-    
-    .edit-btn:focus {
+
+    .edit-btn:focus, .logout-btn:focus {
       outline: none;
       border-color: darkorange;
-}
+    }
   </style>
 </head>
 
@@ -219,7 +234,12 @@ $conn->close();
                 </div>
 
                 <!-- Edit Button -->
-                <a href="profile.php" class="edit-btn">Edit Profile</a>
+                <a href="profile.php" class="edit-btn">Edit Information</a>
+
+                <!-- Logout Button -->
+                <form method="post" action="">
+                  <button type="submit" name="logout" class="logout-btn">Logout</button>
+                </form>
             <?php endif; ?>
           </div>
         </div>
