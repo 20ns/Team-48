@@ -2,13 +2,14 @@
 
 session_start();
 
-require_once 'connection.php';
+if (isset($_SESSION['userID'])) {
+    
+    require_once 'connection.php';
 
-if (isset($_SESSION["user_id"])) {
-    $user_id = $_SESSION["user_id"];
+    $userID = $_SESSION['userID'];
 
     $stmt = $conn->prepare("SELECT name, email, phone_number FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("i", $userID);
     $stmt->execute();
     $stmt->store_result();
 
@@ -21,13 +22,26 @@ if (isset($_SESSION["user_id"])) {
         $phone_number = "Unknown";
     }
 
+    $stmt = $conn->prepare("SELECT addressLine1, city, postalCode FROM userinfo WHERE userID = ?");
+    $stmt->bind_param("i", $userID);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($addressLine1, $city, $postalCode);
+        $stmt->fetch();
+    } else {
+        $addressLine1 = "Unknown";
+        $city = "Unknown";
+        $postalCode = "Unknown";
+    }
+
     $stmt->close();
 } else {
-    $name = $email = $phone_number = null;
+    $name = $email = $phone_number = $addressLine1 = $city = $postalCode = null;
 }
 
 $conn->close();
-
 
 ?>
 
@@ -38,12 +52,6 @@ $conn->close();
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Information - Peri Palace</title>
-
-  <!-- Font Links -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 
   <!-- Link to existing CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -105,6 +113,28 @@ $conn->close();
       font-size: 18px;
       color: red;
     }
+
+    .edit-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--gold-fusion);
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      border: 2px solid var(--gold-fusion);
+      transition: background-color 0.3s ease;
+    }
+    
+    .edit-btn:hover {
+      background-color: darkorange;
+    }
+    
+    .edit-btn:focus {
+      outline: none;
+      border-color: darkorange;
+}
   </style>
 </head>
 
@@ -176,6 +206,9 @@ $conn->close();
                     <p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
                     <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($phone_number); ?></p>
                     <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+                    <p><strong>Address:</strong> <?php echo htmlspecialchars($addressLine1); ?></p>
+                    <p><strong>City:</strong> <?php echo htmlspecialchars($city); ?></p>
+                    <p><strong>Postal Code:</strong> <?php echo htmlspecialchars($postalCode); ?></p>
                 </div>
                 <div class="orders-section">
                     <h2 class="orders-title">Previous Orders</h2>
@@ -184,6 +217,9 @@ $conn->close();
                     <div class="order-item">Order #2: Garlic Bread - £3.99 </div>
                     <div class="order-item">Order #3: Brownie-Cream Explosion - £4.99</div>
                 </div>
+
+                <!-- Edit Button -->
+                <a href="profile.php" class="edit-btn">Edit Profile</a>
             <?php endif; ?>
           </div>
         </div>
