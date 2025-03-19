@@ -161,9 +161,9 @@ if (isset($_SESSION['userID'])) {
       </nav>
       <?php if ($loggedIn): ?>
     
-    <a href="profile.php" class="btn btn-primary">
-        <span class="text text-1">Profile</span>
-        <span class="text text-2" aria-hidden="true">Profile</span>
+    <a href="AccountInfo.php" class="btn btn-primary">
+        <span class="text text-1">Account Info</span>
+        <span class="text text-2" aria-hidden="true">Account Info</span>
     </a>
 
 <?php else: ?>
