@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connection.php';
+require_once 'connection.php'; // Uses PDO, not MySQLi
 
 if (!isset($_SESSION['userID'])) {
     header("Location: logIn.php");
@@ -13,25 +13,35 @@ $userID = $_SESSION['userID'];
 if (isset($_POST['cancel_order_id'])) {
     $orderID = $_POST['cancel_order_id'];
 
-    $stmt = $conn->prepare("SELECT total FROM orderDetails WHERE id = ? AND userid = ? AND status != 'completed'");
-    $stmt->bind_param("ii", $orderID, $userID);
-    $stmt->execute();
-    $stmt->bind_result($orderTotal);
-    if ($stmt->fetch()) {
-        $stmt->close();
-
-        // Delete the order and associated items
-        $conn->query("DELETE FROM orderItems WHERE orderID = $orderID");
-        $conn->query("DELETE FROM orderDetails WHERE id = $orderID");
-        $message = "Order #$orderID has been canceled.";
-    } else {
-        $message = "Unable to cancel the order.";
+    try {
+        $pdo->beginTransaction();
+        
+        // Check if order can be canceled
+        $stmt = $pdo->prepare("SELECT total FROM orderDetails WHERE id = ? AND userid = ? AND status != 'completed'");
+        $stmt->execute([$orderID, $userID]);
+        
+        if ($stmt->rowCount() > 0) {
+            // Delete order items
+            $deleteItems = $pdo->prepare("DELETE FROM orderItems WHERE orderID = ?");
+            $deleteItems->execute([$orderID]);
+            
+            // Delete order
+            $deleteOrder = $pdo->prepare("DELETE FROM orderDetails WHERE id = ?");
+            $deleteOrder->execute([$orderID]);
+            
+            $pdo->commit();
+            $message = "Order #$orderID has been canceled.";
+        } else {
+            $message = "Unable to cancel the order.";
+        }
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        $message = "Error canceling order: " . $e->getMessage();
     }
-    $stmt->close();
 }
 
-// Fetch user's orders
-$stmt = $conn->prepare("
+// Get orders
+$stmt = $pdo->prepare("
     SELECT od.id, od.total, od.status, od.created_at, oi.productID, oi.quantity, oi.price, p.name 
     FROM orderDetails od
     JOIN orderItems oi ON od.id = oi.orderID
@@ -39,12 +49,10 @@ $stmt = $conn->prepare("
     WHERE od.userid = ?
     ORDER BY od.created_at DESC
 ");
-$stmt->bind_param("i", $userID);
-$stmt->execute();
-$result = $stmt->get_result();
-
+$stmt->execute([$userID]);
 $orders = [];
-while ($row = $result->fetch_assoc()) {
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $orders[$row['id']]['details'] = [
         'total' => $row['total'],
         'status' => $row['status'],
@@ -56,7 +64,6 @@ while ($row = $result->fetch_assoc()) {
         'price' => $row['price']
     ];
 }
-$stmt->close();
 ?>
 
 <!DOCTYPE html>

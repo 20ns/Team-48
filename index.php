@@ -143,6 +143,10 @@ if (isset($_SESSION['userID'])) {
               <span class="span">Contact</span>
             </a>
           </li>
+          <?php if (isset($_SESSION['userID'])): ?>
+            <a href="my_orders.php" class="navbar-link">My Orders</a>
+
+            <?php endif; ?>
         </ul>
         <div class="text-center">
           <p class="headline-1 navbar-title">Visit Us</p>
