@@ -8,29 +8,29 @@ if (!isset($_SESSION['userID'])) {
 }
 
 $userID = $_SESSION['userID'];
-
-// Handle order cancellation
 if (isset($_POST['cancel_order_id'])) {
     $orderID = $_POST['cancel_order_id'];
 
     try {
         $pdo->beginTransaction();
-        
-        // Check if order can be canceled
+
         $stmt = $pdo->prepare("SELECT total FROM orderDetails WHERE id = ? AND userid = ? AND status != 'completed'");
         $stmt->execute([$orderID, $userID]);
-        
+
         if ($stmt->rowCount() > 0) {
-            // Delete order items
+            $getItems = $pdo->prepare("SELECT productID, quantity FROM orderItems WHERE orderID = ?");
+            $getItems->execute([$orderID]);
+            $itemsToRestore = $getItems->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($itemsToRestore as $item) {
+                $updateStock = $pdo->prepare("UPDATE product SET stock = stock + ? WHERE id = ?");
+                $updateStock->execute([$item['quantity'], $item['productID']]);
+            }
             $deleteItems = $pdo->prepare("DELETE FROM orderItems WHERE orderID = ?");
             $deleteItems->execute([$orderID]);
-            
-            // Delete order
             $deleteOrder = $pdo->prepare("DELETE FROM orderDetails WHERE id = ?");
             $deleteOrder->execute([$orderID]);
-            
             $pdo->commit();
-            $_SESSION['message'] = "Order #$orderID has been canceled.";
+            $_SESSION['message'] = "Order #$orderID has been canceled and stock restored.";
         } else {
             $_SESSION['message'] = "Unable to cancel the order.";
         }
@@ -197,7 +197,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     }
     </style>
 </head>
-<body>    
+<body>
     <div class="container">
         <h1>My Orders</h1>
 
@@ -207,7 +207,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             </div>
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
-
+            <!-- Fetch orders and display them -->
         <?php if (!empty($orders)): ?>
             <?php foreach ($orders as $orderID => $order): ?>
                 <div class="order">
@@ -215,7 +215,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     <p>Total: £<?= number_format($order['details']['total'], 2) ?></p>
                     <p>Status: <span class="status"><?= htmlspecialchars($order['details']['status']) ?></span></p>
                     <p>Placed on: <?= date('d/m/Y H:i', strtotime($order['details']['created_at'])) ?></p>
-                    
+
                     <h3>Items:</h3>
                     <ul>
                         <?php foreach ($order['items'] as $item): ?>
@@ -226,14 +226,12 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             </li>
                         <?php endforeach; ?>
                     </ul>
-
                     <?php if ($order['details']['status'] != 'completed'): ?>
                         <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this order? This action cannot be undone.');">
                             <input type="hidden" name="cancel_order_id" value="<?= htmlspecialchars($orderID) ?>">
                             <button type="submit">Cancel Order</button>
                         </form>
                     <?php endif; ?>
-
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
