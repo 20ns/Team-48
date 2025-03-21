@@ -71,7 +71,7 @@
         <button class="close-btn" aria-label="close menu" data-nav-toggler>
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </button>
-   <a href="#index.html" class="logo">
+        <a href="#index.html" class="logo">
           <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
         </a>
         <ul class="navbar-list">
@@ -105,6 +105,15 @@
               <span class="span">Contact</span>
             </a>
           </li>
+          <!-- Add the "My Orders" link here -->
+          <?php if (isset($_SESSION['userID'])): ?>
+            <li class="navbar-item">
+              <a href="my_orders.php" class="navbar-link hover-underline">
+                <div class="separator"></div>
+                <span class="span">My Orders</span>
+              </a>
+            </li>
+          <?php endif; ?>
         </ul>
         <div class="text-center">
           <p class="headline-1 navbar-title">Visit Us</p>

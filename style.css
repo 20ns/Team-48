@@ -1257,3 +1257,20 @@ margin: 0;
     left: 0;
   }
 }
+.order {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.order h2 {
+  margin-bottom: 10px;
+}
+.order ul {
+  list-style: none;
+  padding: 0;
+}
+.order ul li {
+  margin-bottom: 5px;
+}
