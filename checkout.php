@@ -298,7 +298,7 @@ $conn->close();
     </article>
   </main>
 
-  <footer class="footer section has-bg-image text-center">
+ <footer class="footer section has-bg-image text-center">
     <div class="container">
       <div class="footer-bottom">
         <p class="copyright">
@@ -308,25 +308,31 @@ $conn->close();
     </div>
   </footer>
 
-  <!-- Ionicons (same as your old file) -->
+  <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <!-- Same auto-formatting & validation JS as old checkout.html -->
+ 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const checkoutForm = document.getElementById('checkoutForm');
+      const checkoutForm    = document.getElementById('checkoutForm');
       const cardNumberInput = document.getElementById('cardNumber');
-      const expiryInput = document.getElementById('expiry');
+      const expiryInput     = document.getElementById('expiry');
+      const cvcInput        = document.getElementById('cvc');
 
-      // Auto-format card number
+      const applyPromoBtn   = document.getElementById('applyPromoBtn');
+      const promoCodeInput  = document.getElementById('promoCode');
+      const promoMessage    = document.getElementById('promoMessage');
+      const totalAmountEl   = document.getElementById('totalAmount');
+
+      // ==========================================
+      // AUTO-FORMAT CARD NUMBER & EXPIRY
+      // ==========================================
       cardNumberInput.addEventListener('input', function(e) {
         let input = e.target.value.replace(/\D/g, '');
         if (input.length > 16) input = input.slice(0, 16);
         e.target.value = input.match(/.{1,4}/g)?.join(' ') || input;
       });
-
-      // Auto-format expiry (MM/YY)
       expiryInput.addEventListener('input', function(e) {
         let input = e.target.value.replace(/[^\d]/g, '');
         if (input.length > 2) {
@@ -335,7 +341,9 @@ $conn->close();
         e.target.value = input;
       });
 
-      // Validate before submit
+      // ==========================================
+      // VALIDATION (Full Name, Address, Postcode, etc.)
+      // ==========================================
       checkoutForm.addEventListener('submit', function(event) {
         if (!validateCheckoutForm()) {
           event.preventDefault();
@@ -343,50 +351,44 @@ $conn->close();
       });
 
       function validateCheckoutForm() {
-        const fullName = document.getElementById('fullName').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const post = document.getElementById('post').value.trim();
-        const cardNumberRaw = document.getElementById('cardNumber').value.trim();
-        const cardNumber = cardNumberRaw.replace(/\s+/g, '');
-        const expiry = document.getElementById('expiry').value.trim();
-        const cvc = document.getElementById('cvc').value.trim();
+        const fullName  = document.getElementById('fullName').value.trim();
+        const address   = document.getElementById('address').value.trim();
+        const post      = document.getElementById('post').value.trim();
+        const cardRaw   = cardNumberInput.value.trim();
+        const cardNum   = cardRaw.replace(/\s+/g, '');
+        const expiry    = expiryInput.value.trim();
+        const cvc       = cvcInput.value.trim();
 
         // Full Name: 2+ letters only
         if (!/^[A-Za-z\s]{2,50}$/.test(fullName)) {
           alert('Full Name must be at least 2 letters (only letters & spaces).');
           return false;
         }
-
         // Address: at least 5 chars
         if (address.length < 5) {
           alert('Address must be at least 5 characters.');
           return false;
         }
-
-        // Postcode: must match "Lxx xxx" type (Liverpool)
-        // E.g. L1 1AA, L12 3AB, etc.
+        // Postcode: must match "Lxx xxx"
         if (!/^L[0-9]{1,2}\s?[0-9][A-Za-z]{2}$/.test(post)) {
           alert('Enter a valid Liverpool postcode (e.g. L1 1AA, L12 3AB).');
           return false;
         }
-
         // Card number: exactly 16 digits
-        if (!/^\d{16}$/.test(cardNumber)) {
+        if (!/^\d{16}$/.test(cardNum)) {
           alert('Enter a valid 16-digit card number.');
           return false;
         }
-
         // Expiry: MM/YY
         if (!/^\d{2}\/\d{2}$/.test(expiry)) {
           alert('Expiry must be in MM/YY format.');
           return false;
         } else {
-          const [mm, yy] = expiry.split('/');
-          const expMonth = parseInt(mm, 10);
-          const expYear = parseInt(yy, 10);
-          const currentYear = new Date().getFullYear() % 100;
+          const [mm, yy]     = expiry.split('/');
+          const expMonth     = parseInt(mm, 10);
+          const expYear      = parseInt(yy, 10);
+          const currentYear  = new Date().getFullYear() % 100;
           const currentMonth = new Date().getMonth() + 1;
-
           if (expMonth < 1 || expMonth > 12) {
             alert('Expiry month must be between 01 and 12.');
             return false;
@@ -396,17 +398,64 @@ $conn->close();
             return false;
           }
         }
-
         // CVC: exactly 3 digits
         if (!/^\d{3}$/.test(cvc)) {
           alert('Enter a valid 3-digit CVC.');
           return false;
         }
-
         return true;
       }
+
+      // ==========================================
+      // PROMO CODES
+      // ==========================================
+      applyPromoBtn.addEventListener('click', function() {
+        const code = promoCodeInput.value.trim().toUpperCase();
+        if (!code) {
+          promoMessage.style.color = "red";
+          promoMessage.textContent = "Please enter a promo code.";
+          return;
+        }
+
+       
+        const match = totalAmountEl.textContent.match(/([\d\.]+)/);
+        if (!match) return;
+        let currentTotal = parseFloat(match[1]); 
+
+        
+        let discountRate = 0;
+        const now = Date.now();
+        const spicyExpiry = new Date("2025-04-21").getTime();
+
+        if (code === "SPICY10") {
+          
+          if (now > spicyExpiry) {
+            promoMessage.style.color = "red";
+            promoMessage.textContent = "SPICY10 is expired.";
+            return;
+          } else {
+            discountRate = 0.10; 
+            promoMessage.style.color = "var(--gold-crayola)";
+            promoMessage.textContent = "SPICY10 applied! 10% discount.";
+          }
+        } else if (code === "PERI25") {
+          discountRate = 0.08;
+          promoMessage.style.color = "var(--gold-crayola)";
+          promoMessage.textContent = "PERI25 applied! 8% discount.";
+        } else {
+          promoMessage.style.color = "red";
+          promoMessage.textContent = "Invalid promo code.";
+          return;
+        }
+
+        // Recalculate total
+        const newTotal = (currentTotal * (1 - discountRate)).toFixed(2);
+        totalAmountEl.textContent = "Total: £" + newTotal;
+      });
+
     });
   </script>
 
 </body>
 </html>
+
