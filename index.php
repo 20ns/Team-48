@@ -403,7 +403,7 @@ if (isset($_SESSION['userID'])) {
   </div>
 </section>
 
-      <!-- 
+     <!-- 
         - #CONTACT US PAGE
       -->
       <section id="contact" class="contact-us-section">
@@ -433,6 +433,18 @@ if (isset($_SESSION['userID'])) {
               <a href="tel:+29056745321" class="body-1 contact-number hover-underline">+2 905 674 5321</a>
               <p class="contact-label">Email</p>
               <a href="mailto:contact@peripalace.com" class="body-4 sidebar-link">contact@peripalace.com</a>
+              
+               <div class="social-links" style="margin-top: 20px; text-align:center;"> 
+          <a href="https://x.com/Peri_Palace"
+             target="_blank"
+             aria-label="Follow Peri Palace on X (Twitter)">
+            <img src="./assets/images/Twitter.png"
+                 alt="Twitter icon"
+                 width="45"
+                 height="40"
+                 style="object-fit: cover; display:inline-block;">
+              </a>
+              
             </div>
           </div>
         </div>
@@ -483,53 +495,88 @@ if (isset($_SESSION['userID'])) {
             </li>
           </ul>
           
-        </div>
-      </section>
-  <!-- 
-    - #FOOTER SECTION
-  -->
-  <footer class="footer section has-bg-image text-center"
-    style="background-image: url('./assets/images/newBackSpice.jpg')">
-    <div class="container">
-  <div class="footer-top grid-list">
- <div class="footer-brand has-before has-after">
-    <a href="#" class="logo">
-            <img src="./assets/images/logoWhite.png" width="160" height="50" loading="lazy" alt="Peri Palace home">
-          </a>
-          <address class="body-4">
-            Corporate Sreet, Stratford Rd, Liverpool 8976, UK
-          </address>
-          <a href="mailto:Peri-booking@palace.com" class="body-4 contact-link">Peri-booking@palace.com</a>
-          <a href="tel:+29056745321" class="body-4 contact-link">Booking Request : +2 905 674 5321</a>
-          <p class="body-4">
-            Open : 11 am - 11 pm
-          </p>
-          <div class="wrapper">
-            <div class="separator"></div>
-            <div class="separator"></div>
-            <div class="separator"></div>
-          </div>
-        </div>
-        <ul class="footer-list">
-          <li>
-            <a href="#contact" class="label-2 footer-link hover-underline">Contact</a>
-          </li>
-       
-      <div class="footer-bottom">
-        <p class="copyright">
-          &copy; 2024 Peri Place. All Rights Reserved |
-        </p>
-      </div>
-    </div>
-  </footer>
-  <!-- 
-    - custom js link
-  -->
-  <script src="./assets/js/script.js"></script>
+       <!-- 
+  - #CONTACT US PAGE
+-->
+
+<section id="contact" class="contact-us-section">
   
+</section>
+
+<!-- 
+  - #NEW ADDITION
+-->
+<section class="section features text-center" aria-label="features">
+  <!-- (Features code above remains unchanged) -->
+</section>
 
 
-            
-            
+<!-- 
+  - #FOOTER SECTION
+-->
+<footer class="footer section has-bg-image text-center"
+  style="background-image: url('./assets/images/newBackSpice.jpg')">
+  <div class="container">
+
+    <div class="footer-top grid-list">
+
+      <div class="footer-brand has-before has-after">
+        <a href="#" class="logo">
+          <img src="./assets/images/logoWhite.png" width="160" height="50" loading="lazy" alt="Peri Palace home">
+        </a>
+        <address class="body-4">
+          Corporate Street, Stratford Rd, Liverpool 8976, UK
+        </address>
+        <a href="mailto:Peri-booking@palace.com" class="body-4 contact-link">
+          Peri-booking@palace.com
+        </a>
+        <a href="tel:+29056745321" class="body-4 contact-link">
+          Booking Request : +2 905 674 5321
+        </a>
+        <p class="body-4">
+          Open : 11 am - 11 pm
+        </p>
+
+        
+        <div class="social-links" style="margin-top: 20px;">
+          <a href="https://x.com/Peri_Palace"
+             target="_blank"
+             aria-label="Follow Peri Palace on X (Twitter)">
+            <img src="./assets/images/Twitter.png"
+                 alt="Twitter"
+                 width="24"
+                 height="24"
+                 style="object-fit: cover;">
+          </a>
+        </div>
+
+        <div class="wrapper">
+          <div class="separator"></div>
+          <div class="separator"></div>
+          <div class="separator"></div>
+        </div>
+      </div>
+
+      <ul class="footer-list">
+        <li>
+          <a href="#contact" class="label-2 footer-link hover-underline">Contact</a>
+        </li>
+       
+      </ul>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; 2024 Peri Place. All Rights Reserved |
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+
+<script src="./assets/js/script.js"></script>
+
 </body>
 </html>
