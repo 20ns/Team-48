@@ -594,7 +594,8 @@ body {
 .hero .btn { margin-inline: auto; }
 .hero-btn {
   position: absolute;
-  bottom: 15px;
+  top: 50 px;
+  bottom: 1000 px;
   right: 15px;
   z-index: 2;
   background-color: var(--gold-crayola);
@@ -1256,21 +1257,149 @@ margin: 0;
     bottom: 80px;
     left: 0;
   }
+
+.reviews-section {
+  background-color: var(--bg-black-10);
+  padding: 60px 0;
 }
-.order {
-  border: 1px solid #ccc;
+
+.review-form {
+  max-width: 600px;
+  margin: 0 auto 40px;
   padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-black-5);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-.order h2 {
+
+.review-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background-color: var(--bg-black-5);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
-.order ul {
-  list-style: none;
-  padding: 0;
+
+.review-author {
+  font-weight: bold;
+  color: var(--gold);
 }
-.order ul li {
-  margin-bottom: 5px;
+
+.review-rating {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.review-date {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 10px;
+  display: block;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.star-rating input[type="radio"] {
+    display: none !important;
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.star-rating label.star {
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #ccc;
+    transition: color 0.2s;
+    line-height: 1;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.star-rating label.star:hover,
+.star-rating label.star:hover ~ label.star,
+.star-rating input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+/* Reverse the visual order while maintaining DOM order */
+.star-rating {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input[type="radio"]:checked ~ label.star {
+    color: #ffd700;
+}
+
+.star-rating input[type="radio"]:checked ~ label.star,
+.star-rating label.star:hover,
+.star-rating label.star:hover ~ label.star {
+  color: #ffd700;
+}
+
+/* Trick to handle checked stars in row-reverse */
+.star-rating input[type="radio"]:checked + label.star,
+.star-rating input[type="radio"]:checked + label.star ~ label.star {
+  color: #ffd700;
+}
+.star-rating-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.star-rating label.star::selection {
+    background: transparent;
 }

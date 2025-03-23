@@ -1,29 +1,32 @@
 <?php
 session_start(); // Start the session to access the current user's session ID
 
-// Check if user is logged in (assuming userID is stored in session)
+// Database connection details
+$servername = "localhost";
+$username = "cs2team48";
+$password = "9ZReO56gOBkKTcr";
+$dbname = "cs2team48_db";
+
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
 if (isset($_SESSION['userID'])) {
-    // Connect to your database
-    $servername = "localhost";
-    $username = "cs2team48";
-    $password = "9ZReO56gOBkKTcr";
-    $dbname = "cs2team48_db";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check if the connection was successful
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Check if there's a session for this user in the shoppingSession table
     $userID = $_SESSION['userID'];
-    $query = "SELECT * FROM shoppingSession WHERE userID = ?"; // This was initially timing out after 30 minutes and causing issues so removed timer for now
+
+    
+    $query = "SELECT * FROM shoppingSession WHERE userID = ?"; 
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $userID);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // If session exists, show account info button
+    
     if ($result->num_rows > 0) {
         $loggedIn = true;
     } else {
@@ -31,11 +34,41 @@ if (isset($_SESSION['userID'])) {
     }
 
     $stmt->close();
-    $conn->close();
 } else {
     $loggedIn = false;
 }
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
+    if (!isset($_SESSION['userID'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+
+    $userId = $_SESSION['userID'];
+    $rating = (int)$_POST['rating'];
+    $comment = htmlspecialchars($_POST['comment']);
+    $isAnonymous = isset($_POST['is_anonymous']) ? 1 : 0;
+    $productId = null; 
+
+    $stmt = $conn->prepare("INSERT INTO reviews (user_id, rating, comment, is_anonymous) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iisi", $userId, $rating, $comment, $isAnonymous);
+    $stmt->execute();
+    $stmt->close();
+}
+
+$reviews = $conn->query("
+    SELECT r.*, u.name 
+    FROM reviews r
+    LEFT JOIN users u ON r.user_id = u.id
+    ORDER BY r.created_at DESC
+    LIMIT 5
+");
+
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +92,8 @@ if (isset($_SESSION['userID'])) {
   <link rel="preload" as="image" href="./assets/images/BEEFhome.jpg">
   <link rel="preload" as="image" href="./assets/images/FLAVOUR.jpg">
   <link rel="preload" as="image" href="./assets/images/chefNoodles.jpg">
+
+
 </head>
 <body id="top">
 <div class="preload" data-preaload>
@@ -331,7 +366,8 @@ if (isset($_SESSION['userID'])) {
             <p class="label-2 section-subtitle" id="about-label">Our Story</p>
             <h2 class="headline-1 section-title">Where Bold Flavors Ignite Tradition</h2>
             <p class="section-text">
-              Welcome to Peri Palace, where bold flavors and rich traditions come together! Every bite is crafted to perfection, delivering a unique blend of zest and warmth. At Peri Palace, we don’t just serve food—we serve an unforgettable journey of flavor.
+              Welcome to Peri Palace, where bold flavors and rich traditions come together! Inspired by the fiery peri peri spice, originating from the African Bird’s Eye Chili native to Mozambique and Angola, our dishes bring this vibrant heritage to life. 
+              Paired with the smoky charm of charcoal-grilled cooking, every bite is crafted to perfection, delivering a unique blend of zest and warmth. At Peri Palace, we don’t just serve food—we serve an unforgettable journey of flavor.
             </p>
             <div class="contact-label">Book Through Call</div>
             <a href="tel;+29056745321" class="body-1 contact-number hover-underline">+2 905 674 5321</a>
@@ -347,61 +383,64 @@ if (isset($_SESSION['userID'])) {
           </figure>
          </div>
       </section>
-      <!-- 
-        - #REVIEW
-      -->
+
 <!-- 
     - #REVIEW SECTION
 -->
-<section class="section testi text-center has-bg-image" style="background-image: url('./assets/images/oldfriends.jpg')" aria-label="testimonials">
+<section class="section reviews-section text-center" aria-label="reviews">
   <div class="container">
-      <!-- Review 1 -->
-      <div class="review" >
-      <div class="quote">”</div>
-          <p class="headline-2 testi-text">
-              I wanted to thank you for inviting me to that incredible birthday dinner the other night. The food and service were impeccable from start to finish. It made the celebration truly unforgettable! I’ll definitely be back with friends and family to experience it all over again!
-          </p>
-          <div class="wrapper">
-              <div class="separator"></div>
-              <div class="separator"></div>
-              <div class="separator"></div>
+    <h2 class="headline-1 section-title">Customer Reviews</h2>
+
+    <?php if (isset($_SESSION['userID'])): ?>
+    <div class="review-form">
+      <h3 class="label-2">Write a Review</h3>
+      <form method="POST" class="review-form-content">
+        <div class="form-group">
+          <div class="star-rating">
+            <?php for ($i = 5; $i >= 1; $i--): ?>
+            <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
+            <label for="star<?= $i ?>" class="star">&#9733;</label>
+            <?php endfor; ?>
           </div>
-          <div class="profile">
-               <p class="label-2 profile-name">Helena Garfield</p>
+        </div>
+
+        <div class="form-group">
+          <textarea name="comment" class="input-field" placeholder="Your review..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="is_anonymous"> Post Anonymously
+          </label>
+        </div>
+
+        <button type="submit" name="submit_review" class="btn btn-primary">
+          <span class="text text-1">Submit Review</span>
+          <span class="text text-2">Submit Review</span>
+        </button>
+      </form>
+    </div>
+    <?php endif; ?>
+
+    <div class="reviews-list">
+      <?php while ($review = $reviews->fetch_assoc()): ?>
+      <div class="review-card">
+        <div class="review-header">
+          <span class="review-author">
+            <?= $review['is_anonymous'] ? 'Anonymous' : htmlspecialchars($review['name']) ?>
+          </span>
+          <div class="review-rating">
+            <?= str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']) ?>
           </div>
+        </div>
+        <p class="review-text"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+        <time class="review-date"><?= date('M j, Y', strtotime($review['created_at'])) ?></time>
       </div>
-      <!-- Review 2 -->
-      <div class="review">
-          <div class="quote">”</div>
-          <p class="headline-2 testi-text">
-              The ambiance was absolutely perfect, and the flavors of every dish left me speechless. I’m a big fan of spicy food, and your peri-peri chicken was divine. The friendly staff made the experience even better. Can’t wait to come back!
-          </p>
-          <div class="wrapper">
-              <div class="separator"></div>
-              <div class="separator"></div>
-              <div class="separator"></div>
-          </div>
-          <div class="profile">
-             <p class="label-2 profile-name">Michael Stevenson</p>
-          </div>
-      </div>
-      <div class="review">
-          <div class="quote">”</div>
-          <p class="headline-2 testi-text">
-              What a fantastic experience! The presentation of every dish was a piece of art. The staff went above and beyond to accommodate us. From appetizers to dessert, everything was perfect. A must-visit place for food lovers!
-          </p>
-          <div class="wrapper">
-              <div class="separator"></div>
-              <div class="separator"></div>
-              <div class="separator"></div>
-          </div>
-          <div class="profile">
-               <p class="label-2 profile-name">Sofia Martinez</p>
-          </div>
-      </div>
+      <?php endwhile; ?>
+    </div>
   </div>
 </section>
-
+              
      <!-- 
         - #CONTACT US PAGE
       -->
