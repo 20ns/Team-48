@@ -327,8 +327,7 @@ if (isset($_SESSION['userID'])) {
             <p class="label-2 section-subtitle" id="about-label">Our Story</p>
             <h2 class="headline-1 section-title">Where Bold Flavors Ignite Tradition</h2>
             <p class="section-text">
-              Welcome to Peri Palace, where bold flavors and rich traditions come together! Inspired by the fiery peri peri spice, originating from the African Bird’s Eye Chili native to Mozambique and Angola, our dishes bring this vibrant heritage to life. 
-              Paired with the smoky charm of charcoal-grilled cooking, every bite is crafted to perfection, delivering a unique blend of zest and warmth. At Peri Palace, we don’t just serve food—we serve an unforgettable journey of flavor.
+              Welcome to Peri Palace, where bold flavors and rich traditions come together! Every bite is crafted to perfection, delivering a unique blend of zest and warmth. At Peri Palace, we don’t just serve food—we serve an unforgettable journey of flavor.
             </p>
             <div class="contact-label">Book Through Call</div>
             <a href="tel;+29056745321" class="body-1 contact-number hover-underline">+2 905 674 5321</a>
