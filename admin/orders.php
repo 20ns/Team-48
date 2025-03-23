@@ -210,28 +210,29 @@ try {
     <?php endif; ?>
 
     <?php while($order = $ordersResult->fetch(PDO::FETCH_ASSOC)): ?>
-        <div class="order">
-            <h3>Order #<?= htmlspecialchars($order['id']) ?></h3>
-            <p>Customer: <?= htmlspecialchars($order['user_name']) ?> (<?= htmlspecialchars($order['email']) ?>)</p>
-            <p>Total: £<?= number_format($order['total'], 2) ?></p>
-            <p>Status:
-                <form class="order-status-form" action="update_order.php" method="POST">
-                    <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['id']) ?>">
-                    <select name="status">
-                        <option value="pending" <?= ($order['status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
-                        <option value="processing" <?= ($order['status'] == 'processing') ? 'selected' : '' ?>>Processing</option>
-                        <option value="completed" <?= ($order['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
-                        <option value="cancelled" <?= ($order['status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
-                    </select>
-                    <button type="submit">Update Status</button>
-                </form>
-            </p>
-            <p>Order Date: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
+    <div class="order">
+        <h3>Order #<?= htmlspecialchars($order['id']) ?></h3>
+        <p>Customer: <?= htmlspecialchars($order['user_name']) ?> (<?= htmlspecialchars($order['email']) ?>)</p>
+        <p>Total: £<?= number_format($order['total'], 2) ?></p>
+        <p>Status:
+            <form class="order-status-form" action="update_order.php" method="POST">
+                <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['id']) ?>">
+                <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+                
+                <select name="status">
+                    <option value="pending" <?= ($order['status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                    <option value="processing" <?= ($order['status'] == 'processing') ? 'selected' : '' ?>>Processing</option>
+                    <option value="completed" <?= ($order['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
+                    <option value="cancelled" <?= ($order['status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+                </select>
+                <button type="submit">Update Status</button>
+            </form>
+        </p>
+        <p>Order Date: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
 
             <div class="order-items">
                 <h4>Items:</h4>
                 <?php
-                // Get order items using PDO
                 try{
                     $itemsQuery = "
                         SELECT p.name, p.price, oi.quantity 
