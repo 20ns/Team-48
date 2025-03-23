@@ -184,6 +184,23 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         margin-top: 20px;
     }
 
+        .home-btn {
+    display: inline-block;
+    margin-bottom: 30px;
+    background-color: var(--gold-crayola);
+    color: var(--smoky-black-1);
+    padding: 12px 20px;
+    border-radius: var(--radius-24);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all var(--transition-1);
+}
+.home-btn:hover {
+    background-color: var(--white);
+    transform: translateY(-2px);
+}
+
+
     button[type="submit"]:hover {
         background-color: var(--white);
         transform: translateY(-2px);
@@ -200,6 +217,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 <body>
     <div class="container">
         <h1>My Orders</h1>
+         <a href="index.php" class="home-btn">← Back to Home</a>
 
         <?php if (isset($_SESSION['message'])): ?>
             <div class="alert <?= strpos($_SESSION['message'], 'canceled') !== false ? 'success' : 'error' ?>">
