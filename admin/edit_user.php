@@ -21,7 +21,7 @@ if (isset($_GET['user_id'])) {
     try {
         $stmt = $pdo->prepare("
             SELECT users.id, users.name, users.email, users.phone_number, 
-                   userinfo.addressLine1, userinfo.city, userinfo.postalCode 
+                userinfo.addressLine1, userinfo.city, userinfo.postalCode 
             FROM users 
             LEFT JOIN userinfo ON users.id = userinfo.userID 
             WHERE users.id = ?

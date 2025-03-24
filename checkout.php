@@ -177,7 +177,6 @@ $conn->close();
 
 <body id="top" class="loaded">
 
-  <!-- Header (copied from your original checkout.html) -->
   <header class="header" data-header>
     <div class="container">
       <a href="index.php" class="logo">
@@ -258,9 +257,8 @@ $conn->close();
             </p>
           </div>
 
-          <!-- Billing/Payment Form (same as your old checkout.html) -->
-          <!-- The form goes to paymentconfirmed.html -->
-          <form id="checkoutForm" action="paymentconfirmed.html" method="POST">
+        
+          <form id="checkoutForm" action="processOrder.php" method="POST">
             <h2 style="font-size: var(--fontSize-title-3); color: var(--white); margin-bottom:10px;">
               Billing & Shipping
             </h2>

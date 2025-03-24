@@ -110,7 +110,7 @@ $result = $conn->query($sql);
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN CONTENT --> // main content
   <main>
     <section class="section desserts text-center" id="desserts">
       <div class="container">

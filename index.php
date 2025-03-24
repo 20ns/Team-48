@@ -387,19 +387,25 @@ $conn->close();
 <!-- 
     - #REVIEW SECTION
 -->
+
+$review_sql = "SELECT reviews.*, users.name 
+              FROM reviews 
+              LEFT JOIN users ON reviews.user_id = users.id 
+              ORDER BY reviews.created_at DESC 
+              LIMIT 5";
+$reviews = $conn->query($review_sql);
+?>
 <section class="section reviews-section text-center" aria-label="reviews">
   <div class="container">
     <h2 class="headline-1 section-title">Customer Reviews</h2>
 
     <?php if (isset($_SESSION['userID'])): ?>
-    <div class="review-form">
-      <h3 class="label-2">Write a Review</h3>
-      <form method="POST" class="review-form-content">
-        <div class="form-group">
-          <div class="star-rating">
+      <form method="post" action="">
+        <div class="star-rating">
+          <div class="star-group">
             <?php for ($i = 5; $i >= 1; $i--): ?>
-            <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
-            <label for="star<?= $i ?>" class="star">&#9733;</label>
+              <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required />
+              <label for="star<?= $i ?>" class="star">&#9733;</label>
             <?php endfor; ?>
           </div>
         </div>
@@ -419,74 +425,36 @@ $conn->close();
           <span class="text text-2">Submit Review</span>
         </button>
       </form>
-    </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['review_message'])): ?>
+      <div class="alert alert-<?= $_SESSION['review_status'] ?>">
+        <?= $_SESSION['review_message'] ?>
+      </div>
+      <?php
+      unset($_SESSION['review_message']);
+      unset($_SESSION['review_status']);
+      ?>
     <?php endif; ?>
 
     <div class="reviews-list">
       <?php while ($review = $reviews->fetch_assoc()): ?>
-      <div class="review-card">
-        <div class="review-header">
-          <span class="review-author">
-            <?= $review['is_anonymous'] ? 'Anonymous' : htmlspecialchars($review['name']) ?>
-          </span>
-          <div class="review-rating">
-            <?= str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']) ?>
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-author">
+              <?= $review['is_anonymous'] ? 'Anonymous' : htmlspecialchars($review['name']) ?>
+            </span>
+            <div class="review-rating">
+              <?= str_repeat('★', $review['rating']) . str_repeat('☆', 5 - $review['rating']) ?>
+            </div>
           </div>
+          <p class="review-text"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+          <time class="review-date"><?= date('M j, Y', strtotime($review['created_at'])) ?></time>
         </div>
-        <p class="review-text"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
-        <time class="review-date"><?= date('M j, Y', strtotime($review['created_at'])) ?></time>
-      </div>
       <?php endwhile; ?>
     </div>
   </div>
 </section>
-              
-     <!-- 
-        - #CONTACT US PAGE
-      -->
-      <section id="contact" class="contact-us-section">
-        <div class="container">
-          <div class="form contact-form bg-black-10">
-            <form id="contactForm" class="form-left">
-              <h2 class="headline-1 text-center">Contact Us</h2>
-              <p class="form-text text-center">
-                Got a question or feedback? Reach out to us via the form below.
-              </p>
-              <div class="input-wrapper">
-                <input type="text" id="name" name="name" placeholder="Your Name" autocomplete="off" class="input-field" required>
-                <input type="email" id="email" name="email" placeholder="Your Email" autocomplete="off" class="input-field" required>
-              </div>
-              <textarea id="message" name="message" placeholder="Your Message" autocomplete="off" class="input-field" required></textarea>
-        <button type="submit" class="btn btn-secondary">
-                <span class="text text-1">Send Message</span>
-                <span class="text text-2" aria-hidden="true">Send Message</span>
-              </button>
-              <p id="formMessage" class="form-message"></p>
-            </form>
-            <div class="form-right text-center" >
-              <h2 class="headline-1 text-center">Get in Touch</h2>
-              <p class="contact-label">Location</p>
-              <address class="body-4">Corporate Street, Stratford Rd, Liverpool 8976, UK</address>
-              <p class="contact-label">Phone</p>
-              <a href="tel:+29056745321" class="body-1 contact-number hover-underline">+2 905 674 5321</a>
-              <p class="contact-label">Email</p>
-              <a href="mailto:contact@peripalace.com" class="body-4 sidebar-link">contact@peripalace.com</a>
-              
-               <div class="social-links" style="margin-top: 20px; text-align:center;"> 
-          <a href="https://x.com/Peri_Palace"
-             target="_blank"
-             aria-label="Follow Peri Palace on X (Twitter)">
-            <img src="./assets/images/Twitter.png"
-                 alt="Twitter icon"
-                 width="45"
-                 height="40"
-                 style="object-fit: cover; display:inline-block;">
-              </a>
-              
-            </div>
-          </div>
-        </div>
-      </section>
       <!-- 
         - #NEW ADDITION
       -->
@@ -618,3 +586,33 @@ $conn->close();
 
 </body>
 </html>
+<style>
+/* Star Rating System */
+.star-rating {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.star-group {
+  display: inline-block;
+}
+
+.star-rating input[type="radio"] {
+  display: none; /* Hide the radio buttons */
+}
+
+.star-rating label.star {
+  font-size: 2.4rem;
+  color: #ccc; /* Default color for unselected stars */
+  cursor: pointer;
+  transition: color 0.2s ease;
+  float: right;
+  padding: 0 2px;
+}
+
+.star-rating label.star:hover,
+.star-rating label.star:hover ~ label.star,
+.star-rating input[type="radio"]:checked ~ label.star {
+  color: #ffd700; /* Highlight color for selected and hovered stars */
+}
+</style>

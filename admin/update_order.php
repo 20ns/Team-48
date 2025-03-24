@@ -2,7 +2,7 @@
 session_start();
 require_once '../connection.php';
 
-if (!isset($_SESSION['admin_loggedin'])) {  // Corrected session variable name
+if (!isset($_SESSION['admin_loggedin'])) { 
     header("Location: login.php");
     exit();
 }
@@ -12,13 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
 
     // Start transaction
-    $pdo->beginTransaction();  // Use $pdo for PDO transactions
+    $pdo->beginTransaction();
 
     try {
         // Get current status first using PDO
         $currentStatusStmt = $pdo->prepare("SELECT status FROM orderDetails WHERE id = ?");
         $currentStatusStmt->execute([$order_id]);
-        $currentStatus = $currentStatusStmt->fetchColumn();  // Fetch single value
+        $currentStatus = $currentStatusStmt->fetchColumn(); 
 
         // Update order status using PDO
         $updateStmt = $pdo->prepare("UPDATE orderDetails SET status = ? WHERE id = ?");
@@ -33,10 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 WHERE orderID = ?
             ");
             $itemsStmt->execute([$order_id]);
-            $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all items
+            $items = $itemsStmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($items as $item) {
-                // Update product stock using PDO
                 $restoreStmt = $pdo->prepare("
                     UPDATE product 
                     SET stock = stock + ? 
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
         $_SESSION['success'] = "Order status updated successfully";
 
-    } catch (PDOException $e) {  // Catch PDOException
+    } catch (PDOException $e) { 
         $pdo->rollBack();
         error_log("Order update failed: " . $e->getMessage());
         $_SESSION['error'] = "Failed to update order status";
