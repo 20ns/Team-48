@@ -1341,11 +1341,10 @@ margin: 0;
 }
 
 .star-rating {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
+  display: flex; /* Use flexbox for horizontal alignment */
+  flex-direction: row-reverse; /* Reverse the order for proper star alignment */
+  justify-content: flex-end; /* Align stars to the right */
+  gap: 5px; /* Add spacing between stars */
 }
 
 .star-rating input[type="radio"] {
@@ -1357,31 +1356,32 @@ margin: 0;
 }
 
 .star-rating label.star {
-    cursor: pointer;
-    font-size: 2.5rem;
-    color: #ccc;
-    transition: color 0.2s;
-    line-height: 1;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
+  display: inline-block; /* Ensure labels are inline */
+  cursor: pointer;
+  font-size: 2.5rem;
+  color: #ccc; /* Default color for unselected stars */
+  transition: color 0.2s;
+  border: 1px solid blue; /* Debugging border */
 }
 
 .star-rating label.star:hover,
 .star-rating label.star:hover ~ label.star,
 .star-rating input[type="radio"]:checked ~ label.star {
-    color: #ffd700;
+  color: #ffd700;
 }
 
-/* Reverse the visual order while maintaining DOM order */
 .star-rating {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+  display: flex; /* Ensure horizontal alignment */
+  flex-direction: row-reverse; /* Reverse the order for proper star alignment */
+  justify-content: flex-end; /* Align stars to the right */
+  gap: 5px; /* Add spacing between stars */
+  border: 1px solid red; /* Debugging border */
 }
 
-.star-rating input[type="radio"]:checked ~ label.star {
-    color: #ffd700;
+.star-rating input[type="radio"] {
+  display: none; /* Hide the radio buttons */
 }
+
 
 .star-rating input[type="radio"]:checked ~ label.star,
 .star-rating label.star:hover,
@@ -1402,4 +1402,5 @@ margin: 0;
 
 .star-rating label.star::selection {
     background: transparent;
+}
 }
