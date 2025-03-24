@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: Missing item ID or stock value.");
     }
 
-    // Validate input (VERY important to prevent SQL injection)
     $itemID = (int)$itemID;  // Force to integer
     $newStock = (int)$newStock; // Force to integer
 

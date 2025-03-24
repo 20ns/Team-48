@@ -289,8 +289,8 @@ try {
                         <div class="action-buttons">
                             <a href="edit_user.php?user_id=<?= $user['id'] ?>" class="edit-btn">Edit</a>
                             <a href="delete_user.php?user_id=<?= $user['id'] ?>" 
-                               class="delete-btn" 
-                               onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone!')">Delete</a>
+                            class="delete-btn" 
+                            onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone!')">Delete</a>
                         </div>
                     </td>
                 </tr>
