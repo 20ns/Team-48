@@ -1,212 +1,101 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-$servername = "localhost";
-$username = "cs2team48";
-$password = "9ZReO56gOBkKTcr";
-$dbname = "cs2team48_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
 if (!isset($_SESSION['userID'])) {
-    echo '
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Required</title>
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <style>
-            .login-message-container {
-                width: 100%;
-                max-width: 400px;
-                margin: 10% auto;
-                background-color: var(--black-alpha-15);
-                padding: 30px;
-                border-radius: 12px;
-                box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.2);
-                text-align: center;
-            }
-            .login-message {
-                color: var(--white);
-                font-family: var(--fontFamily-dm_sans);
-                font-size: var(--fontSize-body-2);
-                font-weight: var(--weight-bold);
-                margin-bottom: 15px;
-            }
-            .button-container {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-            }
-            .action-button {
-                display: inline-block;
-                padding: 10px 20px;
-                background: var(--gold-crayola);
-                color: var(--black);
-                border-radius: 5px;
-                font-size: var(--fontSize-label-2);
-                font-weight: var(--weight-bold);
-                text-decoration: none;
-                transition: background 0.3s;
-            }
-            .action-button:hover {
-                background: #c19a2f;
-            }
-        </style>
-    </head>
-    <body id="top" class="loaded">
-
-        <!-- Header -->
-        <header class="header" data-header>
-            <div class="container">
-                <a href="index.html" class="logo">
-                    <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
-                </a>
-                <nav class="navbar" data-navbar>
-                    <button class="close-btn" aria-label="close menu" data-nav-toggler>
-                        <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
-                    </button>
-                    <a href="index.html" class="logo">
-                        <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
-                    </a>
-                    <ul class="navbar-list">
-                        <li class="navbar-item"><a href="index.html" class="navbar-link hover-underline"><div class="separator"></div><span class="span">Home</span></a></li>
-                        <li class="navbar-item"><a href="index.html#menu" class="navbar-link hover-underline"><div class="separator"></div><span class="span">Menus</span></a></li>
-                        <li class="navbar-item"><a href="index.html#about" class="navbar-link hover-underline"><div class="separator"></div><span class="span">About Us</span></a></li>
-                    </ul>
-                </nav>
-                <a href="#" class="btn btn-secondary">
-                    <span class="text text-1">Book A Table</span>
-                    <span class="text text-2" aria-hidden="true">Book A Table</span>
-                </a>
-                <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
-                    <span class="line line-1"></span><span class="line line-2"></span><span class="line line-3"></span>
-                </button>
-            </div>
-        </header>
-
-        <!-- Login Required Message -->
-        <div class="login-message-container">
-            <p class="login-message">You must be logged in to add items to the cart.</p>
-            <div class="button-container">
-                <a href="logIn.php" class="action-button">Login Here</a>
-                <a href="javascript:history.back()" class="action-button">Go Back</a>
-            </div>
-        </div>
-
-    </body>
-    </html>
-    ';
+    header("Location: logIn.php");
     exit();
 }
+
+require_once 'connection.php';
 
 if(isset($_POST["addtocart"])) {
-  $id = $_POST["id"];
-  $name = $_POST["name"];
-  $price = $_POST["price"];
-  $quantity = $_POST["quantity"];
-  $user_id = $_SESSION['user_id'];
+    $productID = $_POST["id"];
+    $name = $_POST["name"];
+    $price = $_POST["price"];
+    $quantity = $_POST["quantity"];
+    $userID = $_SESSION['userID'];
 
-     // Check if the product is out of order
-    $stmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
-    $stmt->bind_param("i", $productID);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $product = $result->fetch_assoc();
+    try {
+        // Check if product exists and has stock
+        $stmt = $pdo->prepare("SELECT stock FROM product WHERE id = ?");
+        $stmt->execute([$productID]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($product["stock"] == 0) {
-        echo '
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Item Unavailable</title>
-            <link rel="stylesheet" href="./assets/css/style.css">
-            <style>
-                .popup-overlay {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 1000;
-                }
-                .popup-container {
-                    background-color: var(--black-alpha-15);
-                    padding: 20px;
-                    border-radius: 12px;
-                    text-align: center;
-                    max-width: 400px;
-                    box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.2);
-                }
-                .popup-message {
-                    color: var(--white);
-                    font-family: var(--fontFamily-dm_sans);
-                    font-size: var(--fontSize-body-2);
-                    margin-bottom: 15px;
-                }
-                .popup-button {
-                    display: inline-block;
-                    padding: 10px 20px;
-                    background: var(--gold-crayola);
-                    color: var(--black);
-                    border-radius: 5px;
-                    font-size: var(--fontSize-label-2);
-                    font-weight: var(--weight-bold);
-                    text-decoration: none;
-                    transition: background 0.3s;
-                    margin-top: 10px;
-                }
-                .popup-button:hover {
-                    background: #c19a2f;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="popup-overlay">
-                <div class="popup-container">
-                    <p class="popup-message">Sorry, this item is currently out of stock.</p>
-                    <a href="javascript:history.back()" class="popup-button">Go Back</a>
+        if (!$product || $product["stock"] < 1) {
+            echo '
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Item Unavailable</title>
+                <link rel="stylesheet" href="./assets/css/style.css">
+                <style>
+                    .popup-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 1000;
+                    }
+                    .popup-container {
+                        background-color: var(--black-alpha-15);
+                        padding: 20px;
+                        border-radius: 12px;
+                        text-align: center;
+                        max-width: 400px;
+                        box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.2);
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="popup-overlay">
+                    <div class="popup-container">
+                        <p class="popup-message">Sorry, this item is currently out of stock.</p>
+                        <a href="javascript:history.back()" class="popup-button">Go Back</a>
+                    </div>
                 </div>
-            </div>
-        </body>
-        </html>
-        ';
+            </body>
+            </html>';
+            exit();
+        }
+
+        // Get or create shopping session
+        $sessionStmt = $pdo->prepare("SELECT id FROM shoppingSession WHERE userID = ?");
+        $sessionStmt->execute([$userID]);
+        $session = $sessionStmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$session) {
+            $sessionStmt = $pdo->prepare("INSERT INTO shoppingSession (userID, total, created_at, modified_at) VALUES (?, 0, NOW(), NOW())");
+            $sessionStmt->execute([$userID]);
+            $sessionID = $pdo->lastInsertId();
+        } else {
+            $sessionID = $session['id'];
+        }
+
+        // Add item to cart
+        $cartStmt = $pdo->prepare("INSERT INTO cartItem (sessionID, productID, quantity) VALUES (?, ?, ?)");
+        $cartStmt->execute([$sessionID, $productID, $quantity]);
+
+        // Update product stock
+        $updateStmt = $pdo->prepare("UPDATE product SET stock = stock - ? WHERE id = ?");
+        $updateStmt->execute([$quantity, $productID]);
+
+        header("Location: basket.php");
+        exit();
+
+    } catch(PDOException $e) {
+        error_log("Error adding to cart: " . $e->getMessage());
+        echo "Error adding item to cart. Please try again.";
         exit();
     }
-
-  $stmt = mysqli_prepare($conn, "INSERT INTO items(id, name, quantity, price, user_id) VALUES (?, ?, ?, ?, ?)");
-  mysqli_stmt_bind_param($stmt, 'isdii', $id, $name, $quantity, $price, $_SESSION['user_id']);
-
-
-  if (mysqli_stmt_execute($stmt)) {
-    echo "Item added to cart successfully.";
-    // Right now I just made the add to cart redirect you to the basket after you add something.
-    // In the future if you want to implement it going back to the right page, each category of item starts with a different number on the id
-    // Main = 1
-    // Starters = 2
-    // Drinks = 3
-    // Sides = 4
-    // Desserts = 5
-    header("Location: basket.php");
-    exit();
-  } else {
-    echo "Error: " . mysqli_error($conn);
-  }
 }
+
+header("Location: index.php");
+exit();
 ?>
