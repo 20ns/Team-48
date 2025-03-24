@@ -348,7 +348,7 @@ $conn->close();
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer section-->
   <footer class="footer section has-bg-image text-center">
     <div class="container">
       <div class="footer-bottom">
