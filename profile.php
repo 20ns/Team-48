@@ -229,7 +229,7 @@ if (isset($_SESSION['userID'])) {
 </head>
 
 <body id="top" class="loaded">
-  <!-- Header -->
+  <!-- Header for Navigation Bar -->
   <header class="header" data-header>
     <div class="container">
       <a href="index.php" class="logo">
