@@ -90,7 +90,7 @@ $result = $conn->query($sql);
   <!-- HEADER SECTION -->
   <header class="header" data-header>
     <div class="container">
-      <a href="./index.html" class="logo">
+      <a href="./index.php" class="logo">
         <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
       </a>
       <nav class="navbar" data-navbar>
@@ -189,7 +189,7 @@ $result = $conn->query($sql);
     <div class="container">
       <div class="footer-top grid-list">
         <div class="footer-brand has-before has-after">
-          <a href="./index.html" class="logo">
+          <a href="./index.php" class="logo">
             <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace home">
           </a>
           <address class="body-4">Corporate Street, Stratford Rd, Liverpool 8976, UK</address>
