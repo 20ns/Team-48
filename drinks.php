@@ -115,6 +115,8 @@ $result = $conn->query($sql);
     <section class="section mains text-center" id="#drinks">
       <div class="container">
         <div class="search-container">
+        <?php include 'filters.php'; ?>
+        <?php renderFilters(); ?>
           <input id="searchInput" type="text" placeholder="Search for Drinks..." class="search-input">
         </div>
         <h2 class="headline-1 section-title">Our Drinks Selection</h2>
@@ -212,6 +214,7 @@ $result = $conn->query($sql);
   <!-- Ionicon Link -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="./assets/js/filters.js"></script>
 </body>
 
 </html>
