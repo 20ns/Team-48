@@ -33,8 +33,6 @@ function updateShoppingSession($session_id, $new_total, $pdo) {
         error_log("Error updating shopping session: " . $e->getMessage());
         return false;
     }
-<<<<<<< HEAD
-=======
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -69,7 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Database error: " . $e->getMessage();
         }
     }
->>>>>>> admin
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
