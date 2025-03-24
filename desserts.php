@@ -110,7 +110,7 @@ $result = $conn->query($sql);
     </div>
   </header>
 
-  <!-- MAIN CONTENT --> // main content
+  <!--Main comment asfa-->
   <main>
     <section class="section desserts text-center" id="desserts">
       <div class="container">
@@ -121,7 +121,7 @@ $result = $conn->query($sql);
         <p class="section-subtitle label-2">
             Take pleasure in our luxurious dessert offerings - each creation is a sweet masterpiece, crafted to delight and impress.
         </p>
-
+<!---->
         <?php
           if ($result->num_rows > 0) {
             echo "<ul class='grid-list mains-list'>";
