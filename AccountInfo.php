@@ -229,7 +229,7 @@ $conn->close();
 </head>
 
 <body id="top" class="loaded">
-  <!-- Header -->
+  <!-- Header section -->
   <header class="header" data-header>
     <div class="container">
       <a href="index.php" class="logo">
