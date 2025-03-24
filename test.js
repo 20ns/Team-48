@@ -102,13 +102,6 @@ describe('Filters Integration & Unit Tests', () => {
       const item1 = document.getElementById('item1');
       const item2 = document.getElementById('item2');
   
-      // In our basic test example, we expect filterItems to be re-run,
-      // so items should// filepath: tests/filters.test.js
-  /**
-   * To run these tests, ensure you have Jest installed.
-   * You may add "test": "jest" to your package.json scripts.
-   */
-  
   describe('Filters Integration & Unit Tests', () => {
     // Set up DOM elements before each test
     beforeEach(() => {

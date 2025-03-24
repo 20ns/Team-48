@@ -11,11 +11,9 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-
-$sql = "SELECT id, image, name,  description, stock, category, price FROM product WHERE category = 'starter'";
+$sql = "SELECT id, image, name, description, stock, category, price FROM product WHERE category = 'starter'";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,6 +81,18 @@ $result = $conn->query($sql);
       font-size: 1rem;
       color: var(--text-color);
     }
+    
+    /* Optional: Styles for stock status if needed */
+    .stock-status {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+    .in-stock { background: #d4edda; color: #155724; }
+    .low-stock { background: #fff3cd; color: #856404; }
+    .out-of-stock { background: #f8d7da; color: #721c24; }
   </style>
 </head>
 
@@ -116,73 +126,71 @@ $result = $conn->query($sql);
     <section class="section starters text-center" id="starters">
       <div class="container">
         <div class="search-container">
+          <?php include 'filters.php'; ?>
+          <?php renderFilters(); ?>
           <input id="searchInput" type="text" placeholder="Search for starters..." class="search-input">
         </div>
         <h2 class="headline-1 section-title">Our Starters Selection</h2>
         <p class="section-subtitle label-2">
-            Discover the art of delightful beginnings - each starter is crafted to bring you a taste of luxury, full of flavor and elegance.
+          Discover the art of delightful beginnings - each starter is crafted to bring you a taste of luxury, full of flavor and elegance.
         </p>
 
         <?php
-          if ($result->num_rows > 0) {
-            echo "<ul class='grid-list mains-list'>";
-            while ($row = $result->fetch_assoc()) {
-              $stock = $row["stock"];
-              if ($stock == 0) {
-                $stockMessage = "<span class='stock-status out-of-stock'>Out of Stock</span>";
+        if ($result->num_rows > 0) {
+          echo "<ul class='grid-list mains-list'>";
+          while ($row = $result->fetch_assoc()) {
+            $stock = $row["stock"];
+            if ($stock == 0) {
+              $stockMessage = "<span class='stock-status out-of-stock'>Out of Stock</span>";
             } elseif ($stock < 10) {
-                $stockMessage = "<span class='stock-status low-stock'>Low Stock</span>";
+              $stockMessage = "<span class='stock-status low-stock'>Low Stock</span>";
             } else {
-                $stockMessage = "<span class='stock-status in-stock'>In Stock</span>";
+              $stockMessage = "<span class='stock-status in-stock'>In Stock</span>";
             }
-                echo '<!-- Golden buttered corn -->
-          <li class="main-item">
-            <div class="main-card">
-              <figure class="card-banner img-holder">
-                <img src="' . $row["image"] . '" alt="'. $row["name"] . '" class="img-cover">
-              </figure>
-              <div class="card-content">
-                <h3 class="title-4 card-title">'. $row["name"] . '</h3>
-                <p class="card-description label-1">
-                    '. $row["description"] . '
-                </p>
-                </p>
-                <span class="price">£' .$row["price"] .'</span>
-                <form method="POST" action="addtocart.php">
-                  <input type="hidden" name="id" value='. $row["id"] . ' > <!-- Product ID -->
-                  <input type="hidden" name="name" value="'. $row["name"] . '"> <!-- Product Name -->
-                  <input type="hidden" name="price" value='. $row["price"] . '> <!-- Product Price -->
-                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
-                  <input type="hidden" name="image" value="'. $row["image"] . '">
-                  <input type="hidden" name="url" value="starters.php">
-              
-                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
-              </form>
-              <form method="POST" action="removefrommenu.php">
-                <input type="hidden" name="name" value="'. $row["name"] . '"> <!-- Product Name -->
-                <input type="hidden" name="url" value="starters.php">
-                <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
-              </form>
-              <form method="GET" action="editproduct.php">
-                <input type="hidden" name="id" value="' . $row["id"] . '">
-                <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
-                <input type="hidden" name="url" value="starters.php">
-              </form>
-              <h3 class="title-4 card-title">' . $stockMessage . '</h3>
+            echo '<li class="main-item">
+              <div class="main-card">
+                <figure class="card-banner img-holder">
+                  <img src="' . htmlspecialchars($row["image"]) . '" alt="' . htmlspecialchars($row["name"]) . '" class="img-cover">
+                </figure>
+                <div class="card-content">
+                  <h3 class="title-4 card-title">' . htmlspecialchars($row["name"]) . '</h3>
+                  <p class="card-description label-1">' . htmlspecialchars($row["description"]) . '</p>
+                  <span class="price">£' . number_format($row["price"], 2) . '</span>
+                  ' . $stockMessage . '
+                  <div class="btn-group">
+                    <form method="POST" action="addtocart.php">
+                      <input type="hidden" name="id" value="' . $row["id"] . '">
+                      <input type="hidden" name="name" value="' . htmlspecialchars($row["name"]) . '">
+                      <input type="hidden" name="price" value="' . $row["price"] . '">
+                      <input type="hidden" name="quantity" value="1">
+                      <input type="hidden" name="image" value="' . htmlspecialchars($row["image"]) . '">
+                      <input type="hidden" name="url" value="starters.php">
+                      <button class="btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+                    </form>
+                    <form method="POST" action="removefrommenu.php">
+                      <input type="hidden" name="name" value="' . htmlspecialchars($row["name"]) . '">
+                      <input type="hidden" name="url" value="starters.php">
+                      <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
+                    </form>
+                    <form method="GET" action="editproduct.php">
+                      <input type="hidden" name="id" value="' . $row["id"] . '">
+                      <input type="hidden" name="url" value="starters.php">
+                      <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </div>
-          </li>';
-            } 
-          }  else {
-            echo "<p>No items found.</p>"; }
-            
-
-          $conn->close();
-          ?>
-</ul>
-</div>
-</section>
-</main>
+            </li>';
+          }
+          echo "</ul>";
+        } else {
+          echo "<p>No items found.</p>";
+        }
+        $conn->close();
+        ?>
+      </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer section has-bg-image text-center" style="background-image: url('./assets/images/newBackSpice.jpg')">
@@ -208,12 +216,11 @@ $result = $conn->query($sql);
   <!-- Custom JS -->
   <script src="./assets/js/script.js"></script>
   <script src="./assets/js/search-bar.js"></script>
+  <script src="./filters.js"></script>
 
   <!-- Ionicon Link -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-
 </body>
 
 </html>

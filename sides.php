@@ -11,12 +11,9 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-
-$sql = "SELECT id, image, name,  description, stock, category, price FROM product WHERE category = 'sides'";
+$sql = "SELECT id, image, name, description, stock, category, price FROM product WHERE category = 'sides'";
 $result = $conn->query($sql);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +34,6 @@ $result = $conn->query($sql);
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       justify-items: center;
     }
-
     .main-card {
       background-color: var(--gray-100);
       border-radius: 10px;
@@ -46,41 +42,34 @@ $result = $conn->query($sql);
       width: 100%;
       max-width: 350px;
     }
-
     .main-card:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-
     .card-banner {
       --width: 320px;
       --height: 200px;
       margin-bottom: 1rem;
     }
-
     .img-cover {
       border-radius: 10px 10px 0 0;
       width: 100%;
       height: auto;
     }
-
     .card-content {
       padding: 1rem;
       text-align: left;
     }
-
     .card-title {
       color: var(--yellow);
       margin-bottom: 0.5rem;
     }
-
     .price {
       display: block;
       margin-top: 0.5rem;
       font-size: 1.2rem;
       color: var(--primary-color);
     }
-
     .label-1 {
       font-size: 1rem;
       color: var(--text-color);
@@ -93,15 +82,15 @@ $result = $conn->query($sql);
   <!-- HEADER SECTION -->
   <header class="header" data-header>
     <div class="container">
-      <a href="./index.html" class="logo">
+      <a href="./index.php" class="logo">
         <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
       </a>
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-          <li class="navbar-item"><a href="./index.html#home" class="navbar-link hover-underline">Home</a></li>
-          <li class="navbar-item"><a href="./index.html#menu" class="navbar-link hover-underline">Menus</a></li>
-          <li class="navbar-item"><a href="./index.html#about" class="navbar-link hover-underline">About Us</a></li>
-          <li class="navbar-item"><a href="./index.html#contact" class="navbar-link hover-underline">Contact</a></li>
+          <li class="navbar-item"><a href="./index.php#home" class="navbar-link hover-underline">Home</a></li>
+          <li class="navbar-item"><a href="./index.php#menu" class="navbar-link hover-underline">Menus</a></li>
+          <li class="navbar-item"><a href="./index.php#about" class="navbar-link hover-underline">About Us</a></li>
+          <li class="navbar-item"><a href="./index.php#contact" class="navbar-link hover-underline">Contact</a></li>
           <li class="navbar-item"><a href="basket.php" class="navbar-link hover-underline">Basket</a></li>
         </ul>
       </nav>
@@ -115,14 +104,16 @@ $result = $conn->query($sql);
 
   <!-- MAIN CONTENT -->
   <main>
-    <section class="section starters text-center" id="sides">
+    <section class="section sides text-center" id="sides">
       <div class="container">
         <div class="search-container">
+          <?php include 'filters.php'; ?>
+          <?php renderFilters(); ?>
           <input id="searchInput" type="text" placeholder="Search for sides..." class="search-input">
         </div>
         <h2 class="headline-1 section-title">Our Sides Selection</h2>
         <p class="section-subtitle label-2">
-            Savor the Perfect Additions - Our Yummy Sides Are the Ultimate Taste Bud Tease!
+          Savor the Perfect Additions - Our Yummy Sides Are the Ultimate Taste Bud Tease!
         </p>
         <?php
           if ($result->num_rows > 0) {
@@ -131,67 +122,63 @@ $result = $conn->query($sql);
               $stock = $row["stock"];
               if ($stock == 0) {
                 $stockMessage = "<span class='stock-status out-of-stock'>Out of Stock</span>";
-            } elseif ($stock < 10) {
+              } elseif ($stock < 10) {
                 $stockMessage = "<span class='stock-status low-stock'>Low Stock</span>";
-            } else {
+              } else {
                 $stockMessage = "<span class='stock-status in-stock'>In Stock</span>";
+              }
+              echo '<li class="main-item">
+                <div class="main-card">
+                  <figure class="card-banner img-holder">
+                    <img src="' . htmlspecialchars($row["image"]) . '" alt="' . htmlspecialchars($row["name"]) . '" class="img-cover">
+                  </figure>
+                  <div class="card-content">
+                    <h3 class="title-4 card-title">' . htmlspecialchars($row["name"]) . '</h3>
+                    <p class="card-description label-1">' . htmlspecialchars($row["description"]) . '</p>
+                    <span class="price">£' . number_format($row["price"], 2) . '</span>
+                    ' . $stockMessage . '
+                    <div class="btn-group">
+                      <form method="POST" action="addtocart.php">
+                        <input type="hidden" name="id" value="' . $row["id"] . '">
+                        <input type="hidden" name="name" value="' . htmlspecialchars($row["name"]) . '">
+                        <input type="hidden" name="price" value="' . $row["price"] . '">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="image" value="' . htmlspecialchars($row["image"]) . '">
+                        <input type="hidden" name="url" value="sides.php">
+                        <button class="btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
+                      </form>
+                      <form method="POST" action="removefrommenu.php">
+                        <input type="hidden" name="name" value="' . htmlspecialchars($row["name"]) . '">
+                        <input type="hidden" name="url" value="sides.php">
+                        <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
+                      </form>
+                      <form method="GET" action="editproduct.php">
+                        <input type="hidden" name="id" value="' . $row["id"] . '">
+                        <input type="hidden" name="url" value="sides.php">
+                        <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
+                      </form>
+                      <h3 class="title-4 card-title">' . $stockMessage . '</h3>
+                    </div>
+                  </div>
+                </div>
+              </li>';
             }
-                echo '<!-- Golden buttered corn -->
-          <li class="main-item">
-            <div class="main-card">
-              <figure class="card-banner img-holder">
-                <img src="' . $row["image"] . '" alt="'. $row["name"] . '" class="img-cover">
-              </figure>
-              <div class="card-content">
-                <h3 class="title-4 card-title">'. $row["name"] . '</h3>
-                <p class="card-description label-1">
-                    '. $row["description"] . '
-                </p>
-                </p>
-                <span class="price">£' .$row["price"] .'</span>
-                <form method="POST" action="addtocart.php">
-                  <input type="hidden" name="id" value='. $row["id"] . ' > <!-- Product ID -->
-                  <input type="hidden" name="name" value="'. $row["name"] . '"> <!-- Product Name -->
-                  <input type="hidden" name="price" value='. $row["price"] . '> <!-- Product Price -->
-                  <input type="hidden" name="quantity" value=1> <!-- Quantity to add (default 1) -->
-                  <input type="hidden" name="image" value="'. $row["image"] . '">
-                  <input type="hidden" name="url" value="sides.php">
-              
-                  <button class = "btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
-              </form>
-              <form method="POST" action="removefrommenu.php">
-                <input type="hidden" name="name" value="'. $row["name"] . '"> <!-- Product Name -->
-                <input type="hidden" name="url" value="sides.php">
-                <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
-              </form>
-              <form method="GET" action="editproduct.php">
-                <input type="hidden" name="id" value="' . $row["id"] . '">
-                <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
-                <input type="hidden" name="url" value="sides.php">
-              </form>
-              <h3 class="title-4 card-title">' . $stockMessage . '</h3>
-              </div>
-            </div>
-          </li>';
-            } 
-          }  else {
-            echo "<p>No items found.</p>"; }
-            
-
+            echo "</ul>";
+          } else {
+            echo "<p>No items found.</p>";
+          }
           $conn->close();
-          ?>
-        
-</ul>
-</div>
-</section>
-</main>
+        ?>
+      </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer section has-bg-image text-center" style="background-image: url('./assets/images/newBackSpice.jpg')">
     <div class="container">
       <div class="footer-top grid-list">
         <div class="footer-brand has-before has-after">
-          <a href="./index.html" class="logo">
+          <a href="./index.php" class="logo">
             <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace home">
           </a>
           <address class="body-4">Corporate Street, Stratford Rd, Liverpool 8976, UK</address>
@@ -210,11 +197,11 @@ $result = $conn->query($sql);
   <!-- Custom JS -->
   <script src="./assets/js/script.js"></script>
   <script src="./assets/js/search-bar.js"></script>
+  <script src="./filters.js"></script>
 
   <!-- Ionicon Link -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  
 </body>
 
 </html>
