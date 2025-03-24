@@ -32,28 +32,39 @@ A full-featured restaurant website for Peri Palace, offering online menu browsin
 - Client-side form validation
 - Dynamic content loading
 - Cross-browser compatibility with IonIcons integration
+### 🌟 **Navigation & Menu**
+- Interactive menu sections for:
+  - [Starters](starters.php)
+  - [Mains](mains.php)
+  - [Desserts](desserts.php)
+  - [Drinks](drinks.php)
+  - [Sides](sides.php)
+- Search functionality for menu items.
+- Responsive navigation with mobile support.
 
-## Project Structure
+### 🛒 **Shopping & Checkout**
+- Add items to a shopping basket ([`basket.php`](basket.php)).
+- Checkout process with order summary and promo code support ([`checkout.php`](checkout.php)).
+- Order confirmation system with unique reference numbers ([`paymentconfirmed.html`](paymentconfirmed.html)).
 
-```text
-├── assets/
-│   ├── css/
-│   │   └── style.css
-│   ├── images/
-│   └── js/
-│       └── search-bar.js
-├── html pages (menu sections)
-│   ├── starters.html
-│   ├── mains.html
-│   ├── desserts.html
-│   ├── drinks.html
-│   └── sides.html
-├── user management
-│   ├── logIn.html/php
-│   └── signUp.html/php
-└── order processing
-    ├── basket.html/php
-    ├── Checkout.html
-    └── paymentconfirmed.html
+### 👤 **User Management**
+- User account creation and login system ([`logIn.php`](logIn.php), [`signUp.php`](signUp.php)).
+- Account information display ([`AccountInfo.php`](AccountInfo.php)).
+- Order history tracking.
+- Profile editing for personal details ([`profile.php`](profile.php)).
 
-    
+### 💬 **Customer Reviews**
+- Submit reviews with star ratings ([`index.php`](index.php)).
+- Option to post reviews anonymously.
+- Display of recent customer reviews.
+
+### 🎨 **Design & UI**
+- Modern, responsive design using CSS and custom styles ([`style.css`](assets/css/style.css)).
+- Interactive UI elements like sliders, hover effects, and a back-to-top button.
+- Professional restaurant imagery and branding.
+
+### 🔧 **Technical Implementation**
+- PHP backend for dynamic content and database interactions.
+- MySQL database for storing user data, orders, and reviews.
+- Secure session management for user authentication.
+- Integration with IonIcons for consistent iconography.
