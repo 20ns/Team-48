@@ -110,7 +110,7 @@ $result = $conn->query($sql);
     </div>
   </header>
 
-  <!--Main comment asfa-->
+  <!--Main comment-->
   <main>
     <section class="section desserts text-center" id="desserts">
       <div class="container">
