@@ -98,7 +98,7 @@ $result = $conn->query($sql);
 
 <body id="top" class="desserts">
 
-  <!-- HEADER SECTION -->
+  <!-- HEADER SECTION FOR NAVBAR -->
   <header class="header" data-header>
     <div class="container">
       <a href="./index.php" class="logo">
@@ -121,7 +121,7 @@ $result = $conn->query($sql);
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN CONTENT FOR DESSERTS-->
   <main>
     <section class="section desserts text-center" id="desserts">
       <div class="container">
