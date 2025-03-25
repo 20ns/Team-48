@@ -184,7 +184,7 @@ $result = $conn->query($sql);
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER SECTION -->
   <footer class="footer section has-bg-image text-center" style="background-image: url('./assets/images/newBackSpice.jpg')">
     <div class="container">
       <div class="footer-top grid-list">
