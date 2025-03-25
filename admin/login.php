@@ -182,6 +182,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             
             <button type="submit" class="btn-primary">Login</button>
+
+           
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="../index.php" 
+               style="display: inline-block; 
+                      background-color: var(--quick-silver); 
+                      color: var(--smoky-black-1);
+                      padding: 8px 16px; 
+                      border-radius: var(--radius-24); 
+                      font-weight: 700; 
+                      text-transform: uppercase; 
+                      cursor: pointer; 
+                      transition: all var(--transition-1); 
+                      text-decoration: none;
+                      font-size: 0.875rem;">
+           
+            </a>
+        </div>
+    </div>
+</body>
+</html>
         
         </form>
     </div>
