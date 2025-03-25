@@ -200,7 +200,7 @@ $result = $conn->query($sql);
     </div>
   </footer>
 
-  <!-- BACK TO TOP -->
+  <!-- BACK TO THE TOP -->
   <a href="#top" class="back-top-btn active" aria-label="back to top" data-back-top-btn>
     <ion-icon name="chevron-up" aria-hidden="true"></ion-icon>
   </a>
