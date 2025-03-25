@@ -146,17 +146,6 @@ $result = $conn->query($sql);
                         <input type="hidden" name="image" value="' . htmlspecialchars($row["image"]) . '">
                         <input type="hidden" name="url" value="sides.php">
                         <button class="btn btn-primary" type="submit" name="addtocart">Add to Cart</button>
-                      </form>
-                      <form method="POST" action="removefrommenu.php">
-                        <input type="hidden" name="name" value="' . htmlspecialchars($row["name"]) . '">
-                        <input type="hidden" name="url" value="sides.php">
-                        <button class="btn btn-primary" type="submit" name="removefrommenu">Remove From Menu</button>
-                      </form>
-                      <form method="GET" action="editproduct.php">
-                        <input type="hidden" name="id" value="' . $row["id"] . '">
-                        <input type="hidden" name="url" value="sides.php">
-                        <button class="btn btn-primary" type="submit" name="editproduct">Edit</button>
-                      </form>
                       <h3 class="title-4 card-title">' . $stockMessage . '</h3>
                     </div>
                   </div>
