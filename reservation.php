@@ -1,3 +1,68 @@
+<?php
+session_start();
+
+// Database configuration
+$servername = "localhost";
+$username = "cs2team48";
+$password = "9ZReO56gOBkKTcr";
+$dbname = "cs2team48_db";
+
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Sanitize and validate input
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
+    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);
+    $time = filter_input(INPUT_POST, 'time', FILTER_SANITIZE_STRING);
+    $party_size = filter_input(INPUT_POST, 'party_size', FILTER_VALIDATE_INT);
+    $special_requests = filter_input(INPUT_POST, 'special_requests', FILTER_SANITIZE_STRING);
+
+    // Validation
+    $errors = [];
+    if (!$name) $errors[] = 'Name is required';
+    if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required';
+    if (!$phone) $errors[] = 'Phone number is required';
+    if (!$date) $errors[] = 'Date is required';
+    if (!$time) $errors[] = 'Time is required';
+    if (!$party_size || $party_size < 1) $errors[] = 'Party size is required';
+
+    if (empty($errors)) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO reservations (name, email, phone, date, time, party_size, special_requests) 
+                                 VALUES (:name, :email, :phone, :date, :time, :party_size, :special_requests)");
+            
+            $stmt->execute([
+                ':name' => $name,
+                ':email' => $email,
+                ':phone' => $phone,
+                ':date' => $date,
+                ':time' => $time,
+                ':party_size' => $party_size,
+                ':special_requests' => $special_requests
+            ]);
+
+            $_SESSION['success'] = 'Reservation successfully submitted! We look forward to seeing you.';
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        } catch (PDOException $e) {
+            $errors[] = 'Database error: ' . $e->getMessage();
+        }
+    }
+
+    if (!empty($errors)) {
+        $_SESSION['error'] = implode('<br>', $errors);
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +75,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap" rel="stylesheet">
   <title>Peri Palace - Table Reservation</title>
- <style>
+  <style>
     .reservation-section {
       padding: 60px 0;
       background-color: var(--eerie-black-1);
@@ -78,7 +143,7 @@
     .reservation-btn {
       grid-column: 1 / -1;
       background: linear-gradient(135deg, var(--gold-crayola) 0%, var(--gold-crayola-dark) 100%);
-      color: var(--smoky-black-1);
+      color: var(--gold-crayola-dark);
       padding: 18px 40px;
       border: none;
       border-radius: 12px;
@@ -115,6 +180,24 @@
       background: var(--gold-crayola);
     }
 
+    .alert {
+        padding: 15px;
+        margin: 20px auto;
+        max-width: 800px;
+        border-radius: 8px;
+        font-family: var(--ff-dm-sans);
+    }
+    .alert.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .alert.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
     @media (max-width: 768px) {
       .reservation-container {
         padding: 30px;
@@ -140,23 +223,21 @@
         padding: 12px 15px;
       }
     }
-</style>
+  </style>
 </head>
 
 <body id="top" class="reservation">
-
-  <!-- HEADER SECTION -->
   <header class="header" data-header>
     <div class="container">
-      <a href="./index.html" class="logo">
+      <a href="./index.php" class="logo">
         <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace - Home">
       </a>
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-          <li class="navbar-item"><a href="./index.html#home" class="navbar-link hover-underline">Home</a></li>
-          <li class="navbar-item"><a href="./index.html#menu" class="navbar-link hover-underline">Menus</a></li>
-          <li class="navbar-item"><a href="./index.html#about" class="navbar-link hover-underline">About Us</a></li>
-          <li class="navbar-item"><a href="./index.html#contact" class="navbar-link hover-underline">Contact</a></li>
+          <li class="navbar-item"><a href="./index.php#home" class="navbar-link hover-underline">Home</a></li>
+          <li class="navbar-item"><a href="./index.php#menu" class="navbar-link hover-underline">Menus</a></li>
+          <li class="navbar-item"><a href="./index.php#about" class="navbar-link hover-underline">About Us</a></li>
+          <li class="navbar-item"><a href="./index.php#contact" class="navbar-link hover-underline">Contact</a></li>
           <li class="navbar-item"><a href="basket.php" class="navbar-link hover-underline">Basket</a></li>
         </ul>
       </nav>
@@ -168,55 +249,65 @@
     </div>
   </header>
 
-  <!-- RESERVATION SECTION -->
   <main>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert error"><?= $_SESSION['error'] ?></div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert success"><?= $_SESSION['success'] ?></div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
     <section class="section reservation-section">
       <div class="container">
         <div class="reservation-container">
           <h2 class="headline-1 section-title text-center">Table Reservation</h2>
-          <form class="reservation-form" action="reservation.php" method="POST">
+          <form class="reservation-form" method="POST">
             <div class="form-group">
               <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" required>
+              <input type="text" id="name" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
             </div>
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              <input type="email" id="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
             </div>
 
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" required>
+              <input type="tel" id="phone" name="phone" required value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
             </div>
 
             <div class="form-group">
               <label for="date">Reservation Date</label>
-              <input type="date" id="date" name="date" required>
+              <input type="date" id="date" name="date" required value="<?= htmlspecialchars($_POST['date'] ?? '') ?>">
             </div>
 
             <div class="form-group">
               <label for="time">Reservation Time</label>
-              <input type="time" id="time" name="time" required>
+              <input type="time" id="time" name="time" required value="<?= htmlspecialchars($_POST['time'] ?? '') ?>">
             </div>
 
             <div class="form-group">
               <label for="party-size">Party Size</label>
-              <select id="party-size" name="party-size" required>
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-                <option value="3">3 People</option>
-                <option value="4">4 People</option>
-                <option value="5">5 People</option>
-                <option value="6">6 People</option>
-                <option value="7">7 People</option>
-                <option value="8">8+ People</option>
+              <select id="party-size" name="party_size" required>
+                <?php $selected = $_POST['party_size'] ?? ''; ?>
+                <option value="1" <?= $selected == 1 ? 'selected' : '' ?>>1 Person</option>
+                <option value="2" <?= $selected == 2 ? 'selected' : '' ?>>2 People</option>
+                <option value="3" <?= $selected == 3 ? 'selected' : '' ?>>3 People</option>
+                <option value="4" <?= $selected == 4 ? 'selected' : '' ?>>4 People</option>
+                <option value="5" <?= $selected == 5 ? 'selected' : '' ?>>5 People</option>
+                <option value="6" <?= $selected == 6 ? 'selected' : '' ?>>6 People</option>
+                <option value="7" <?= $selected == 7 ? 'selected' : '' ?>>7 People</option>
+                <option value="8" <?= $selected == 8 ? 'selected' : '' ?>>8+ People</option>
               </select>
             </div>
 
             <div class="form-group full-width">
               <label for="special-requests">Special Requests</label>
-              <textarea id="special-requests" name="special-requests" rows="3"></textarea>
+              <textarea id="special-requests" name="special_requests" rows="3"><?= htmlspecialchars($_POST['special_requests'] ?? '') ?></textarea>
             </div>
 
             <button type="submit" class="reservation-btn">Book Table</button>
@@ -226,12 +317,11 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer section has-bg-image text-center" style="background-image: url('./assets/images/newBackSpice.jpg')">
     <div class="container">
       <div class="footer-top grid-list">
         <div class="footer-brand has-before has-after">
-          <a href="./index.html" class="logo">
+          <a href="./index.php" class="logo">
             <img src="./assets/images/logoWhite.png" width="160" height="50" alt="Peri Palace home">
           </a>
           <address class="body-4">Corporate Street, Stratford Rd, Liverpool 8976, UK</address>
@@ -242,7 +332,6 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="./assets/js/script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
